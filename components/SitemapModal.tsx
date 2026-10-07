@@ -29,7 +29,7 @@ export const SitemapModal: React.FC<SitemapModalProps> = ({ isOpen, onClose }) =
   </url>
 ${TOOLS_LIST.map(
   tool => `  <url>
-    <loc>${baseUrl}/#/${tool.id}</loc>
+    <loc>${baseUrl}/${tool.id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${tool.featured ? '0.9' : '0.8'}</priority>
@@ -56,7 +56,7 @@ ${TOOLS_LIST.map(
       name: tool.name,
       description: tool.description,
       applicationCategory: tool.category,
-      url: `${baseUrl}/#/${tool.id}`,
+      url: `${baseUrl}/${tool.id}`,
     })),
   };
 

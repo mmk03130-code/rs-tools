@@ -4,6 +4,58 @@
 /favicon.svg    /favicon.svg    200
 /404.html       /404.html       200
 
-# Error 404 response for non-existent server paths (fixes soft 404 warnings)
-/*              /404.html       404
+# All 51 verified tool routes rewrite to index.html with 200 OK for Googlebot & users
+/image-compressor         /index.html    200
+/image-converter          /index.html    200
+/background-remover       /index.html    200
+/image-resizer            /index.html    200
+/crop-tool                /index.html    200
+/watermark-generator      /index.html    200
+/svg-to-raster            /index.html    200
+/palette-extractor        /index.html    200
+/metadata-remover         /index.html    200
+/image-filters            /index.html    200
+/meme-generator           /index.html    200
+/gif-converter            /index.html    200
+/qr-generator             /index.html    200
+/favicon-generator        /index.html    200
+/image-base64             /index.html    200
+/merge-pdf                /index.html    200
+/split-pdf                /index.html    200
+/compress-pdf             /index.html    200
+/pdf-to-images            /index.html    200
+/images-to-pdf            /index.html    200
+/protect-pdf              /index.html    200
+/unlock-pdf               /index.html    200
+/rotate-pdf               /index.html    200
+/reorder-pdf              /index.html    200
+/extract-text-pdf         /index.html    200
+/watermark-pdf            /index.html    200
+/organize-pdf             /index.html    200
+/page-numbers-pdf         /index.html    200
+/pdf-to-word              /index.html    200
+/markdown-to-pdf          /index.html    200
+/resume-builder           /index.html    200
+/json-formatter           /index.html    200
+/regex-tester             /index.html    200
+/base64-tool              /index.html    200
+/hash-generator           /index.html    200
+/word-counter             /index.html    200
+/case-converter           /index.html    200
+/diff-checker             /index.html    200
+/url-encoder              /index.html    200
+/css-minifier             /index.html    200
+/js-minifier              /index.html    200
+/markdown-previewer       /index.html    200
+/password-generator       /index.html    200
+/lorem-ipsum              /index.html    200
+/jwt-decoder              /index.html    200
+/sql-formatter            /index.html    200
+/html-entity              /index.html    200
+/color-converter          /index.html    200
+/unit-converter           /index.html    200
+/timezone-calculator      /index.html    200
+/uuid-generator           /index.html    200
 
+# Genuine 404 response for unknown routes (prevents soft 404 errors)
+/*                        /404.html       404

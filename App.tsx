@@ -78,6 +78,18 @@ export const App: React.FC = () => {
   // FAQ accordion state
   const [openFaqIndices, setOpenFaqIndices] = useState<number[]>([0]);
 
+  // Clean Navigation Handlers (support clean URLs without reloads)
+  const selectTool = useCallback((tool: ToolItem) => {
+    setActiveTool(tool);
+    window.history.pushState(null, '', `/${tool.id}`);
+  }, []);
+
+  const clearActiveTool = useCallback(() => {
+    setActiveTool(null);
+    window.history.pushState(null, '', '/');
+    window.location.hash = '';
+  }, []);
+
   // Reset open FAQ when tool changes
   useEffect(() => {
     setOpenFaqIndices([0]);
@@ -108,12 +120,14 @@ export const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
-  // Sync Hash with active tool for direct URL routing & SEO canonical links
+  // Sync URL route (supporting both clean pathname and legacy hash) with active tool
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       const hash = window.location.hash.replace('#/', '').replace('#', '');
-      if (hash) {
-        const found = TOOLS_LIST.find(t => t.id === hash);
+      const pathname = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
+      const toolSlug = hash || pathname;
+      if (toolSlug) {
+        const found = TOOLS_LIST.find(t => t.id === toolSlug);
         if (found) {
           setActiveTool(found);
           return;
@@ -122,9 +136,13 @@ export const App: React.FC = () => {
       setActiveTool(null);
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handleRouteChange();
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, []);
 
   // Update SEO Document Title, Meta, and JSON-LD on Active Tool Change
@@ -143,9 +161,8 @@ export const App: React.FC = () => {
         metaDesc.setAttribute('content', activeTool.seo.description);
       }
       if (canonicalTag) {
-        canonicalTag.setAttribute('href', 'https://rsutilitytools.netlify.app/');
+        canonicalTag.setAttribute('href', `https://rsutilitytools.netlify.app/${activeTool.id}`);
       }
-      window.location.hash = `#/${activeTool.id}`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       // Dynamic JSON-LD structured data injection for Google search indexing
@@ -279,8 +296,7 @@ export const App: React.FC = () => {
         activeCategory={activeCategory}
         onSelectCategory={(cat) => {
           setActiveCategory(cat);
-          setActiveTool(null);
-          window.location.hash = '';
+          clearActiveTool();
         }}
         onOpenSearch={() => setIsSearchOpen(true)}
         isDarkMode={isDarkMode}
@@ -298,10 +314,7 @@ export const App: React.FC = () => {
             {/* Breadcrumb & Navigation Back */}
             <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80 light:border-slate-200">
               <button
-                onClick={() => {
-                  setActiveTool(null);
-                  window.location.hash = '';
-                }}
+                onClick={clearActiveTool}
                 className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors p-1"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -591,7 +604,7 @@ export const App: React.FC = () => {
                     <ToolCard
                       key={tool.id}
                       tool={tool}
-                      onClick={(t) => setActiveTool(t)}
+                      onClick={(t) => selectTool(t)}
                       isFavorite={favorites.includes(tool.id)}
                       onToggleFavorite={toggleFavorite}
                     />
@@ -632,7 +645,7 @@ export const App: React.FC = () => {
                     <ToolCard
                       key={tool.id}
                       tool={tool}
-                      onClick={(t) => setActiveTool(t)}
+                      onClick={(t) => selectTool(t)}
                       isFavorite={favorites.includes(tool.id)}
                       onToggleFavorite={toggleFavorite}
                     />
@@ -757,7 +770,7 @@ export const App: React.FC = () => {
 
       {/* Footer */}
       <Footer
-        onSelectTool={(tool) => setActiveTool(tool)}
+        onSelectTool={(tool) => selectTool(tool)}
         onOpenDeployGuide={() => setIsDeployGuideOpen(true)}
         onOpenSitemap={() => setIsSitemapOpen(true)}
         onOpenPrivacy={() => {
@@ -775,7 +788,7 @@ export const App: React.FC = () => {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         tools={TOOLS_LIST}
-        onSelectTool={(tool) => setActiveTool(tool)}
+        onSelectTool={(tool) => selectTool(tool)}
       />
 
       <React.Suspense fallback={null}>
