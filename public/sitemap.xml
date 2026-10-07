@@ -1,313 +1,313 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rs-tools.app/</loc>
+    <loc>https://rsutilitytools.netlify.app/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/image-compressor</loc>
+    <loc>https://rsutilitytools.netlify.app/#/image-compressor</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/image-converter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/image-converter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/background-remover</loc>
+    <loc>https://rsutilitytools.netlify.app/#/background-remover</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/image-resizer</loc>
+    <loc>https://rsutilitytools.netlify.app/#/image-resizer</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/crop-tool</loc>
+    <loc>https://rsutilitytools.netlify.app/#/crop-tool</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/watermark-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/watermark-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/svg-to-raster</loc>
+    <loc>https://rsutilitytools.netlify.app/#/svg-to-raster</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/palette-extractor</loc>
+    <loc>https://rsutilitytools.netlify.app/#/palette-extractor</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/metadata-remover</loc>
+    <loc>https://rsutilitytools.netlify.app/#/metadata-remover</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/image-filters</loc>
+    <loc>https://rsutilitytools.netlify.app/#/image-filters</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/meme-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/meme-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/gif-converter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/gif-converter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/qr-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/qr-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/favicon-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/favicon-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/image-base64</loc>
+    <loc>https://rsutilitytools.netlify.app/#/image-base64</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/merge-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/merge-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/split-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/split-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/compress-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/compress-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/pdf-to-images</loc>
+    <loc>https://rsutilitytools.netlify.app/#/pdf-to-images</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/images-to-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/images-to-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/protect-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/protect-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/unlock-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/unlock-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/rotate-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/rotate-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/reorder-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/reorder-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/extract-text-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/extract-text-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/watermark-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/watermark-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/organize-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/organize-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/page-numbers-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/page-numbers-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/pdf-to-word</loc>
+    <loc>https://rsutilitytools.netlify.app/#/pdf-to-word</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/markdown-to-pdf</loc>
+    <loc>https://rsutilitytools.netlify.app/#/markdown-to-pdf</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/resume-builder</loc>
+    <loc>https://rsutilitytools.netlify.app/#/resume-builder</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/json-formatter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/json-formatter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/regex-tester</loc>
+    <loc>https://rsutilitytools.netlify.app/#/regex-tester</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/base64-tool</loc>
+    <loc>https://rsutilitytools.netlify.app/#/base64-tool</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/hash-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/hash-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/word-counter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/word-counter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/case-converter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/case-converter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/diff-checker</loc>
+    <loc>https://rsutilitytools.netlify.app/#/diff-checker</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/url-encoder</loc>
+    <loc>https://rsutilitytools.netlify.app/#/url-encoder</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/css-minifier</loc>
+    <loc>https://rsutilitytools.netlify.app/#/css-minifier</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/js-minifier</loc>
+    <loc>https://rsutilitytools.netlify.app/#/js-minifier</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/markdown-previewer</loc>
+    <loc>https://rsutilitytools.netlify.app/#/markdown-previewer</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/password-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/password-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/lorem-ipsum</loc>
+    <loc>https://rsutilitytools.netlify.app/#/lorem-ipsum</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/jwt-decoder</loc>
+    <loc>https://rsutilitytools.netlify.app/#/jwt-decoder</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/sql-formatter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/sql-formatter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/html-entity</loc>
+    <loc>https://rsutilitytools.netlify.app/#/html-entity</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/color-converter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/color-converter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/unit-converter</loc>
+    <loc>https://rsutilitytools.netlify.app/#/unit-converter</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/timezone-calculator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/timezone-calculator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rs-tools.app/#/uuid-generator</loc>
+    <loc>https://rsutilitytools.netlify.app/#/uuid-generator</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

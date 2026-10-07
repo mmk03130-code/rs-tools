@@ -1,3 +1,15 @@
+# Force WWW and HTTP to canonical non-WWW HTTPS
+https://www.rsutilitytools.netlify.app/* https://rsutilitytools.netlify.app/:splat 301!
+http://www.rsutilitytools.netlify.app/*  https://rsutilitytools.netlify.app/:splat 301!
+http://rsutilitytools.netlify.app/*       https://rsutilitytools.netlify.app/:splat 301!
+
+# Explicit static resources
 /sitemap.xml    /sitemap.xml    200
 /robots.txt     /robots.txt     200
-/*              /index.html     200
+
+# Root homepage
+/               /index.html     200
+/index.html     /index.html     200
+
+# Error 404 response for non-existent server paths
+/*              /404.html       404

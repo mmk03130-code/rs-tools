@@ -13,6 +13,33 @@
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# WWW and HTTP redirects to canonical non-WWW HTTPS
+[[redirects]]
+  from = "https://www.rsutilitytools.netlify.app/*"
+  to = "https://rsutilitytools.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.rsutilitytools.netlify.app/*"
+  to = "https://rsutilitytools.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://rsutilitytools.netlify.app/*"
+  to = "https://rsutilitytools.netlify.app/:splat"
+  status = 301
+  force = true
+
+# Static assets & routes
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap.xml"
@@ -24,6 +51,17 @@
   status = 200
 
 [[redirects]]
-  from = "/*"
+  from = "/index.html"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+# Return genuine HTTP 404 for unknown routes
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

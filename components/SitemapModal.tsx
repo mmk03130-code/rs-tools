@@ -13,7 +13,9 @@ export const SitemapModal: React.FC<SitemapModalProps> = ({ isOpen, onClose }) =
 
   if (!isOpen) return null;
 
-  const baseUrl = window.location.origin || 'https://rs-tools.app';
+  const baseUrl = typeof window !== 'undefined' && window.location.origin && !window.location.origin.includes('localhost')
+    ? window.location.origin
+    : 'https://rsutilitytools.netlify.app';
   const currentDate = new Date().toISOString().split('T')[0];
 
   // Generate XML Sitemap dynamically

@@ -107,11 +107,19 @@ export const App: React.FC = () => {
   useEffect(() => {
     let toolLdJson = document.getElementById('tool-schema-jsonld') as HTMLScriptElement | null;
 
+    const currentOrigin = typeof window !== 'undefined' && window.location.origin && !window.location.origin.includes('localhost')
+      ? window.location.origin
+      : 'https://rsutilitytools.netlify.app';
+    const canonicalTag = document.querySelector('link[rel="canonical"]');
+
     if (activeTool) {
       document.title = `${activeTool.seo.title} – RS tools`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         metaDesc.setAttribute('content', activeTool.seo.description);
+      }
+      if (canonicalTag) {
+        canonicalTag.setAttribute('href', `${currentOrigin}/#/${activeTool.id}`);
       }
       window.location.hash = `#/${activeTool.id}`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -162,6 +170,9 @@ export const App: React.FC = () => {
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         metaDesc.setAttribute('content', '50+ free online web utilities: Client-side Image Processing, PDF Tools, ATS Resume Builder, and Developer Tools with zero server uploads.');
+      }
+      if (canonicalTag) {
+        canonicalTag.setAttribute('href', `${currentOrigin}/`);
       }
       if (toolLdJson) {
         toolLdJson.remove();
