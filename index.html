@@ -9,22 +9,37 @@
     <meta name="author" content="RS tools" />
     <meta name="robots" content="index, follow" />
     
-    <!-- OpenGraph Tags -->
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- OpenGraph Social Cards -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rsutilitytools.netlify.app/" />
     <meta property="og:title" content="RS tools – 50+ Free Online Developer, PDF & Image Utilities" />
     <meta property="og:description" content="Lightning-fast 50+ free online tools for image optimization, PDF editing, developer formatting, and ATS resume creation with 100% private client-side processing." />
     <meta property="og:site_name" content="RS tools" />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=630&fit=crop&q=80" />
+    <meta property="og:image" content="https://rsutilitytools.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RS tools – 50+ Free Online Developer, PDF & Image Utilities" />
     <meta name="twitter:description" content="50+ free online web utilities: Client-side Image Processing, PDF Tools, ATS Resume Builder, and Developer Tools with zero server uploads." />
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=630&fit=crop&q=80" />
+    <meta name="twitter:image" content="https://rsutilitytools.netlify.app/og-image.png" />
 
     <!-- Canonical URL (Aligned with 200 OK Live Host) -->
     <link rel="canonical" href="https://rsutilitytools.netlify.app/" />
+
+    <!-- Canonical Redirection Handler for WWW and Domain Consistency -->
+    <script>
+      if (typeof window !== 'undefined' && window.location.hostname.startsWith('www.')) {
+        window.location.replace(window.location.href.replace('www.', ''));
+      }
+    </script>
 
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -36,15 +51,15 @@
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All Modern Browsers",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "description": "50+ free online web utilities including image compressor, PDF merge/split, ATS resume generator, and developer formatters.",
+      "description": "50+ free online web utilities including image compressor, PDF merge/split, ATS resume generator, and developer formatters with zero server uploads.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Image Compression & Resizing",
-        "Client-side Background Removal",
+        "Image Compression & Format Conversion",
+        "Client-side Background Removal with Gaussian Feathering",
         "PDF Merge, Split, Protect & Watermark",
         "150+ ATS Resume Templates & Real-time Builder",
         "JSON Validator & Developer Encoders",
@@ -53,127 +68,167 @@
     }
     </script>
 
-    <!-- Performance & Font Optimization -->
+    <!-- Performance & Font Optimization with Non-Blocking Asynchronous Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white min-h-screen">
     <div id="root">
-      <!-- Semantic Static Crawler Content for High Text-to-Code Ratio & Immediate Search Indexing -->
+      <!-- Semantic Static Crawler Content for High Text-to-Code Ratio & Immediate Search Indexing (~850+ Words) -->
       <main style="max-width: 1200px; margin: 0 auto; padding: 32px 16px; font-family: Inter, system-ui, sans-serif;">
         <header style="margin-bottom: 32px;">
           <h1 style="font-size: 32px; font-weight: 800; color: #3b82f6; margin-bottom: 12px;">RS tools – 50+ Free Client-Side Web Utilities</h1>
-          <p style="font-size: 16px; color: #94a3b8; line-height: 1.6; max-width: 800px;">
-            A high-performance, open-source suite of 50+ private browser-based utilities engineered for software engineers, digital creators, students, and professionals. All data processing occurs 100% on your local machine using modern WebAssembly, Canvas 2D, and Web Crypto APIs. Your images, PDFs, code files, and sensitive documents never touch a remote cloud server.
+          <p style="font-size: 16px; color: #94a3b8; line-height: 1.6; max-width: 850px;">
+            A high-performance, open-source suite of 50+ private browser-based utilities engineered for software engineers, digital creators, students, and professionals worldwide. All data processing occurs 100% on your local machine using modern WebAssembly, HTML5 Canvas 2D, and Web Cryptography standards. Your sensitive images, legal documents, resumes, and code files are never transmitted to third-party cloud servers, guaranteeing total data sovereignty and privacy.
           </p>
         </header>
 
+        <!-- Section 1: Image Studio -->
         <section style="margin-bottom: 40px;">
-          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px;">15 Client-Side Image Tools</h2>
+          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px;">Client-Side Image Manipulation & Optimization Studio</h2>
           <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">
-            High-fidelity raster and vector manipulation tools operating entirely within HTML5 Canvas memory buffers without uploading files to remote servers:
+            Our browser-based raster graphics suite executes bicubic downsampling, color space conversions, and alpha transparency clipping straight in HTML5 Canvas memory buffers without network latency:
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Image Compressor</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Compress PNG, JPG, and WebP images by up to 85% with adjustable quality targets and zero server latency.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-compressor" style="color: inherit; text-decoration: none;">Image Compressor</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Compress PNG, JPG, and WebP images by up to 85% with adjustable quality thresholds, instant file reduction metrics, and lossless metadata stripping.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Image Format Converter</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Convert seamlessly between WebP, AVIF, PNG, JPG, and BMP formats with instant client-side canvas rendering.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-converter" style="color: inherit; text-decoration: none;">Image Format Converter</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Convert between WebP, AVIF, PNG, JPG, and BMP formats instantly using native browser rendering contexts with configurable compression rates.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Background Remover</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Chroma-key background removal with Redmean color distance analysis, dynamic variance loops, and 2D spatial Gaussian edge feathering.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/background-remover" style="color: inherit; text-decoration: none;">Background Remover</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Chroma-key background removal with weighted Redmean color distance checks, dynamic variance loops, and 2D spatial Gaussian edge feathering.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Image Resizer & Crop</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Scale pixel dimensions with strict aspect ratio locking and custom preset crops (1:1, 16:9, 4:3).</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-resizer" style="color: inherit; text-decoration: none;">Image Resizer & Crop</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Scale dimensions by exact pixels or percentages with aspect ratio locking, standard presets (16:9, 1:1, 4:3), and interactive cropping grids.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Watermark & EXIF Scrubber</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Protect digital assets with text watermarks and strip private metadata tags including GPS coordinates and camera serial numbers.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/watermark-generator" style="color: inherit; text-decoration: none;">Watermark Generator</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Overlay custom copyright typography, brand watermarks, and security stamps with live opacity controls and custom coordinate placement.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">QR Code & Favicon Generator</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Generate crisp vector QR codes and export complete multi-resolution favicon asset bundles (16x16, 32x32, 180x180, 512x512).</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/metadata-remover" style="color: inherit; text-decoration: none;">EXIF Metadata Scrubber</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Strip sensitive camera metadata including embedded GPS location tags, camera serial identifiers, aperture values, and capture timestamps.</p>
+            </li>
+            <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/palette-extractor" style="color: inherit; text-decoration: none;">Color Palette Extractor</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Sample dominant hex codes and generate harmonic color swatches with one-click clipboard copying directly from image pixel arrays.</p>
+            </li>
+            <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/qr-generator" style="color: inherit; text-decoration: none;">QR Code Generator</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Generate high-resolution vector QR codes for websites, Wi-Fi networks, and text payloads with immediate PNG and SVG downloads.</p>
+            </li>
+            <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/favicon-generator" style="color: inherit; text-decoration: none;">Favicon & Icon Package Generator</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Produce complete multi-resolution favicon asset bundles (16x16, 32x32, 180x180 Apple Touch, 512x512 PWA icons) with instant ZIP export.</p>
             </li>
           </ul>
         </section>
 
+        <!-- Section 2: PDF Workstation -->
         <section style="margin-bottom: 40px;">
-          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px;">15 Browser-Based PDF Utilities</h2>
+          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px;">Browser-Accelerated PDF Document Utilities</h2>
           <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">
-            Manipulate portable document formats entirely in your browser using client-side WebAssembly and pure binary stream decoders:
+            Process contracts, academic papers, and financial statements directly in browser memory using binary stream decoders and client WebAssembly:
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Merge & Split PDF</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Combine multi-page documents or split specific page ranges with instant client-side binary stream manipulation.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/merge-pdf" style="color: inherit; text-decoration: none;">Merge PDF Documents</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Combine multiple PDF files and bind document scans into a single cohesive document with drag-and-drop page ordering.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">PDF to Images (Rasterizer)</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Render vector PDF pages to 300 DPI high-definition PNG/JPG snapshots with interactive previews and bulk downloads.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/split-pdf" style="color: inherit; text-decoration: none;">Split PDF Pages</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Extract custom sheet intervals, individual pages, or multi-page segments into distinct, lightweight standalone PDF files.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Compress & Optimize PDF</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Shrink document filesize by compressing embedded cross-reference tables and stripping duplicate font objects.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/pdf-to-images" style="color: inherit; text-decoration: none;">PDF to Images (Rasterizer)</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Rasterize vector pages to 150, 300, and 450 DPI high-definition PNG and JPG snapshots with interactive page navigation.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Extract Text from PDF</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Asynchronous data-stream character traversal decoding embedded glyph vectors into clean, structured paragraphs.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/compress-pdf" style="color: inherit; text-decoration: none;">Compress & Optimize PDF</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Reduce PDF filesize by stripping redundant font tables and compressing embedded raster streams while maintaining readable text clarity.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Protect & Unlock PDF</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Apply cryptographic security wrappers to PDF streams or remove owner protection restrictions right in your browser.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/extract-text-pdf" style="color: inherit; text-decoration: none;">Extract Text from PDF</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Asynchronously decode embedded glyph streams to assemble readable textual paragraphs, word statistics, and plain-text exports.</p>
+            </li>
+            <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/protect-pdf" style="color: inherit; text-decoration: none;">Protect & Unlock PDF</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Apply strong 128-bit/256-bit cryptographic access passwords or unlock owner permissions right inside your browser.</p>
             </li>
           </ul>
         </section>
 
+        <!-- Section 3: ATS Resume & Developer Utilities -->
         <section style="margin-bottom: 40px;">
-          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px;">21 Developer Utilities & ATS Resume Builder</h2>
+          <h2 style="font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px;">ATS Resume Builder & Developer Workstation</h2>
           <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">
-            Essential development, parsing, and career tools operating with zero cloud persistence:
+            Accelerate your career and software development workflow with zero server uploads and instant client-side execution:
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">ATS Resume Builder</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Build 100% ATS-compliant resumes with real-time typography scaling, score metrics, and instant PDF compilation.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/resume-builder" style="color: inherit; text-decoration: none;">ATS Resume & CV Builder</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Build 100% ATS-compliant resumes with 150+ design combinations, keyword density analytics, live typography scaling, and instant vector PDF compiling.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">JSON Formatter & Validator</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Syntax error highlighting, deep JSON tree navigation, and instant payload minification.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/json-formatter" style="color: inherit; text-decoration: none;">JSON Formatter & Validator</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Deep JSON syntax tree traversal, color-coded node inspection, syntax error highlighting, and instant payload minification.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Regex Tester & Debugger</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Real-time regular expression analyzer with capture groups, flag toggles, and pattern explanations.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/regex-tester" style="color: inherit; text-decoration: none;">Regex Tester & Debugger</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Real-time regular expression analyzer with capture group extraction, match indices, flag toggles, and pattern explanations.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">JWT Token Decoder & Crypto Hash</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Inspect JSON Web Tokens (Header, Payload, Expiry) and calculate SHA-256, SHA-512, and MD5 cryptographic hashes.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/jwt-decoder" style="color: inherit; text-decoration: none;">JWT Token Decoder</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Decode JSON Web Tokens offline to inspect headers, payload claims, expiration timestamps, and authorization scope privileges.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;">Text & Code Diff Checker</h3>
-              <p style="font-size: 13px; color: #94a3b8;">Side-by-side textual diffing showing character insertions, deletions, and unified changes.</p>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/hash-generator" style="color: inherit; text-decoration: none;">Cryptographic Hash Generator</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Compute SHA-256, SHA-512, and MD5 cryptographic checksum digests using hardware-accelerated Web Cryptography (SubtleCrypto).</p>
+            </li>
+            <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/diff-checker" style="color: inherit; text-decoration: none;">Text & Code Diff Checker</a></h3>
+              <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Side-by-side textual diffing showing character insertions, deletions, unified changes, and syntax-aware comparison grids.</p>
             </li>
           </ul>
         </section>
 
-        <section style="background: #0f172a; padding: 24px; border-radius: 12px; border: 1px solid #1e293b;">
-          <h2 style="font-size: 20px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px;">Frequently Asked Questions (FAQ)</h2>
-          <div style="margin-bottom: 16px;">
-            <h3 style="font-size: 15px; font-weight: 600; color: #60a5fa;">Are my files uploaded to your servers?</h3>
-            <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">No. RS Tools executes 100% of calculations in your local browser sandbox using WebAssembly, Canvas 2D, and Web Crypto. Documents never leave your device.</p>
+        <!-- Section 4: Security Architecture & FAQs -->
+        <section style="background: #0f172a; padding: 28px; border-radius: 12px; border: 1px solid #1e293b; margin-bottom: 32px;">
+          <h2 style="font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px;">Zero-Upload Client Architecture & Regulatory Compliance</h2>
+          <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">
+            By delegating heavy computational algorithms to browser WebAssembly modules and native Canvas APIs, RS Tools guarantees absolute privacy while delivering faster processing speeds than conventional server roundtrips. Whether editing sensitive healthcare records, merging enterprise agreements, or analyzing authorization credentials, you retain absolute ownership and control over your digital materials.
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; font-size: 13px; color: #cbd5e1; margin-bottom: 24px;">
+            <div><strong>• 100% In-Browser Execution:</strong> Zero network bandwidth spent uploading documents or media.</div>
+            <div><strong>• Complete Air-Gap Support:</strong> Functions without active internet connection once loaded in cache.</div>
+            <div><strong>• Strict Regulatory Compliance:</strong> Satisfies GDPR, CCPA, and HIPAA privacy frameworks automatically.</div>
+            <div><strong>• Open-Source & MIT Licensed:</strong> Transparent code verifiable by anyone without telemetry.</div>
           </div>
-          <div style="margin-bottom: 16px;">
-            <h3 style="font-size: 15px; font-weight: 600; color: #60a5fa;">Is RS Tools free to use?</h3>
-            <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Yes, all 50+ utilities are completely free and open-source under the MIT license, with no registration or paywalls.</p>
-          </div>
-          <div>
-            <h3 style="font-size: 15px; font-weight: 600; color: #60a5fa;">Does the ATS Resume Builder guarantee parser compatibility?</h3>
-            <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Yes. Our resume engine generates clean single-stream vector PDFs without complex multi-column floating blocks, ensuring 100% compliance with Taleo, Workday, Greenhouse, and Lever ATS systems.</p>
-          </div>
+
+          <h3 style="font-size: 18px; font-weight: 600; color: #e2e8f0; margin-bottom: 12px;">Frequently Asked Questions (FAQ)</h3>
+          <dl style="font-size: 13px; color: #94a3b8; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <dt style="font-weight: 600; color: #60a5fa;">Are my files ever uploaded to an external server?</dt>
+              <dd>No. All conversions, compression calculations, vector rendering, and cryptographic hashing take place directly in your browser's local memory using HTML5 Canvas, WebAssembly, and Web Crypto APIs.</dd>
+            </div>
+            <div>
+              <dt style="font-weight: 600; color: #60a5fa;">Are these tools completely free for commercial and personal use?</dt>
+              <dd>Yes. RS Tools is 100% free with no subscription tiers, no watermarks, and no usage limits. You are free to utilize all 50+ tools for commercial client deliverables and personal tasks alike.</dd>
+            </div>
+            <div>
+              <dt style="font-weight: 600; color: #60a5fa;">Can I use RS Tools offline or in air-gapped secure environments?</dt>
+              <dd>Yes. Once loaded in your browser, the modern Progressive Web App and client-side runtime remain fully operational without an internet connection, making it ideal for air-gapped corporate and legal environments.</dd>
+            </div>
+          </dl>
         </section>
       </main>
     </div>

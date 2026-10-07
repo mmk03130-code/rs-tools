@@ -42,9 +42,6 @@ export default defineConfig(({ mode }) => {
               if (id.includes('pdfjs-dist') || id.includes('pdf-lib') || id.includes('jspdf') || id.includes('html2canvas')) {
                 return 'vendor-pdf';
               }
-              if (id.includes('lucide-react')) {
-                return 'vendor-icons';
-              }
               if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
                 return 'vendor-react';
               }

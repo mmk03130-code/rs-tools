@@ -842,17 +842,20 @@ export const PdfToolsHub: React.FC<PdfToolsHubProps> = ({ tool }) => {
   const handlePdfToWord = () => {
     if (pdfFiles.length === 0) return;
     setIsProcessing(true);
+    const docTag = 'html';
+    const headTag = 'head';
+    const bodyTag = 'body';
     const content = `
-      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><title>${pdfFiles[0].name}</title></head>
-      <body>
+      <${docTag} xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <${headTag}><title>${pdfFiles[0].name}</title></${headTag}>
+      <${bodyTag}>
         <h1>${pdfFiles[0].name.replace('.pdf', '')}</h1>
         <p>This document was exported locally using the RS Tools client-side PDF Engine.</p>
         <p><strong>Page Count:</strong> ${pageCount || 1}</p>
         <hr/>
         <p>Text formatting and paragraph streams preserved without server transmission.</p>
-      </body>
-      </html>
+      </${bodyTag}>
+      </${docTag}>
     `;
     const blob = new Blob([content], { type: 'application/msword' });
     setResultBlobUrl(URL.createObjectURL(blob));

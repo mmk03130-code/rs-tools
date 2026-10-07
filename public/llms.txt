@@ -1,0 +1,15 @@
+# RS Tools – AI Context and Documentation
+# URL: https://rsutilitytools.netlify.app/
+
+> RS Tools is a private, client-side web utility suite offering 50+ free tools for developers, designers, and professionals.
+> All processing executes 100% locally in the user's browser using WebAssembly, HTML5 Canvas, and Web Cryptography. Zero server storage, zero data uploads.
+
+## Core Capabilities
+- **Image Processing**: Image Compressor, Format Converter (WebP, AVIF, PNG, JPG), Background Remover (Chroma-Key variance + Gaussian edge feathering), Image Resizer, Crop Tool, Watermark Generator, SVG Rasterizer, Color Palette Extractor, EXIF Metadata Scrubber, Filters, Meme Maker, GIF Extractor, QR Code Generator, Favicon Generator, Image to Base64.
+- **PDF & Document Utilities**: Merge PDF, Split PDF, PDF Compressor, Convert PDF to Images (300 DPI canvas rasterizer), Images to PDF, Protect PDF, Unlock PDF, Rotate PDF, Reorder Pages, Extract Text (asynchronous byte-stream parser), Watermark PDF, Organize PDF, Page Numbering, PDF to Word, Markdown to PDF.
+- **Developer Utilities**: ATS Resume Builder (100% parser-compliant CV engine with live scoring), JSON Formatter & Validator, Regex Tester, Base64 String Tool, Hash Generator (MD5, SHA-256, SHA-512), Word & Character Counter, Text Case Converter, Text & Code Diff Checker, URL Encoder/Decoder, CSS Minifier, JS Minifier, Markdown Live Editor, Password Generator, JWT Token Decoder, SQL Query Formatter, HTML Entity Encoder, Color Converter, Smart Unit Converter, Timezone Calculator, UUID/GUID Generator.
+
+## Security & Architecture
+- Execution environment: Client-side web browser.
+- Data storage: No cloud database; purely transient in-memory buffers purged on session close.
+- License: MIT License (Free for personal and commercial use).

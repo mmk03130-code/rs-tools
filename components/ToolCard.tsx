@@ -57,10 +57,19 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           </div>
         </div>
 
-        {/* Title */}
+        {/* Title with crawlable anchor link */}
         <h3 className="font-semibold text-slate-100 light:text-slate-900 text-base mb-1.5 flex items-center gap-1.5 group-hover:text-blue-400 light:group-hover:text-blue-600 transition-colors">
-          <span>{tool.name}</span>
-          <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-blue-400" />
+          <a
+            href={`#/${tool.id}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onClick(tool);
+            }}
+            className="focus:outline-none flex items-center gap-1.5 text-inherit"
+          >
+            <span>{tool.name}</span>
+            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-blue-400" />
+          </a>
         </h3>
 
         {/* Description */}

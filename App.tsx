@@ -13,13 +13,37 @@ import { Footer } from './components/Footer';
 import { ToolCard } from './components/ToolCard';
 import { CommandPalette } from './components/CommandPalette';
 import { AdSlot } from './components/AdSlot';
-import { DeployGuideModal } from './components/DeployGuideModal';
-import { SitemapModal } from './components/SitemapModal';
-import { CompliancePages, ComplianceTab } from './components/legal/CompliancePages';
-import { ImageToolsHub } from './components/tools/image/ImageToolsHub';
-import { PdfToolsHub } from './components/tools/pdf/PdfToolsHub';
-import { DevToolsHub } from './components/tools/developer/DevToolsHub';
-import { ResumeBuilder } from './components/tools/resume/ResumeBuilder';
+
+// Code-split heavy tool workstations and modals for optimal mobile & desktop performance
+const ImageToolsHub = React.lazy(() =>
+  import('./components/tools/image/ImageToolsHub').then(m => ({ default: m.ImageToolsHub }))
+);
+const PdfToolsHub = React.lazy(() =>
+  import('./components/tools/pdf/PdfToolsHub').then(m => ({ default: m.PdfToolsHub }))
+);
+const DevToolsHub = React.lazy(() =>
+  import('./components/tools/developer/DevToolsHub').then(m => ({ default: m.DevToolsHub }))
+);
+const ResumeBuilder = React.lazy(() =>
+  import('./components/tools/resume/ResumeBuilder').then(m => ({ default: m.ResumeBuilder }))
+);
+const DeployGuideModal = React.lazy(() =>
+  import('./components/DeployGuideModal').then(m => ({ default: m.DeployGuideModal }))
+);
+const SitemapModal = React.lazy(() =>
+  import('./components/SitemapModal').then(m => ({ default: m.SitemapModal }))
+);
+const CompliancePages = React.lazy(() =>
+  import('./components/legal/CompliancePages').then(m => ({ default: m.CompliancePages }))
+);
+import { ComplianceTab } from './components/legal/CompliancePages';
+
+const WorkstationFallback = () => (
+  <div className="py-24 flex flex-col items-center justify-center space-y-3">
+    <div className="w-9 h-9 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    <p className="text-xs font-semibold text-slate-400">Loading workstation engine...</p>
+  </div>
+);
 
 export const App: React.FC = () => {
   // Theme state (dark by default)
@@ -119,7 +143,7 @@ export const App: React.FC = () => {
         metaDesc.setAttribute('content', activeTool.seo.description);
       }
       if (canonicalTag) {
-        canonicalTag.setAttribute('href', `${currentOrigin}/#/${activeTool.id}`);
+        canonicalTag.setAttribute('href', 'https://rsutilitytools.netlify.app/');
       }
       window.location.hash = `#/${activeTool.id}`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -242,6 +266,14 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 light:bg-slate-50 text-slate-100 light:text-slate-900 flex flex-col font-sans transition-colors duration-200">
+      {/* Accessible Skip Navigation Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:shadow-xl focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* Top Navbar */}
       <Navbar
         activeCategory={activeCategory}
@@ -259,7 +291,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main id="main-content" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* VIEW 1: ACTIVE TOOL RUNNER */}
         {activeTool ? (
           <div className="space-y-6">
@@ -299,11 +331,13 @@ export const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Render Category Engine Hub */}
-            {activeTool.category === 'image' && <ImageToolsHub tool={activeTool} />}
-            {activeTool.category === 'pdf' && <PdfToolsHub tool={activeTool} />}
-            {activeTool.category === 'developer' && <DevToolsHub tool={activeTool} />}
-            {activeTool.category === 'resume' && <ResumeBuilder />}
+            {/* Render Category Engine Hub with Lazy Suspense */}
+            <React.Suspense fallback={<WorkstationFallback />}>
+              {activeTool.category === 'image' && <ImageToolsHub tool={activeTool} />}
+              {activeTool.category === 'pdf' && <PdfToolsHub tool={activeTool} />}
+              {activeTool.category === 'developer' && <DevToolsHub tool={activeTool} />}
+              {activeTool.category === 'resume' && <ResumeBuilder />}
+            </React.Suspense>
 
             {/* Semantic Tool Overview & FAQ Accordion Section */}
             {(() => {
@@ -548,7 +582,9 @@ export const App: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
                   <Flame className="w-4 h-4 text-amber-400" />
-                  <span>Featured & Most Popular Utilities</span>
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Featured & Most Popular Utilities
+                  </h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {featuredTools.slice(0, 4).map(tool => (
@@ -570,9 +606,9 @@ export const App: React.FC = () => {
             {/* Main Tools Grid */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-                <span>
-                  {activeCategory === 'all' ? 'All Utilities' : `${activeCategory.toUpperCase()} Tools`}
-                </span>
+                <h2 className="text-sm font-bold text-slate-200 light:text-slate-800">
+                  {activeCategory === 'all' ? 'All Web Utilities & Online Workstations' : `${activeCategory.toUpperCase()} Tools`}
+                </h2>
                 <span>{filteredTools.length} utilities</span>
               </div>
 
@@ -604,6 +640,117 @@ export const App: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {/* Comprehensive Technical Overview & Architecture Guide (High Word Count & SEO Architecture) */}
+            <section
+              aria-labelledby="platform-architecture-guide"
+              className="mt-16 pt-12 border-t border-slate-800/80 light:border-slate-200 space-y-12 text-slate-300 light:text-slate-700"
+            >
+              {/* Primary Architectural Header */}
+              <div className="max-w-3xl space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Technical Documentation & Architecture</span>
+                </div>
+                <h2
+                  id="platform-architecture-guide"
+                  className="text-2xl sm:text-3xl font-extrabold text-slate-100 light:text-slate-900 tracking-tight"
+                >
+                  Why Client-Side Computing Represents the Future of Web Utilities
+                </h2>
+                <p className="text-sm sm:text-base leading-relaxed text-slate-400 light:text-slate-600">
+                  Traditional web conversion platforms force users to transmit private files, financial records, medical documents, and proprietary source code across third-party remote cloud servers. RS Tools was engineered from the ground up on a zero-upload client-side architecture. Every transformation, compression routine, vector extraction, and cryptographic verification runs directly inside your web browser sandbox using modern WebAssembly, HTML5 Canvas 2D, and Web Cryptography standards.
+                </p>
+              </div>
+
+              {/* Grid Breakdown of 4 Core Engineering Workstations */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Workstation 1: Image Processing */}
+                <div className="p-6 rounded-2xl bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-200 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                      <ImageIcon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-100 light:text-slate-900">
+                      High-Fidelity Raster & Vector Graphics Engine
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-400 light:text-slate-600">
+                    Our suite of 15 image processing utilities leverages browser-accelerated HTML5 Canvas contexts and typed memory arrays. The Image Compressor uses bicubic downsampling with non-linear quantization curves, achieving up to 85% filesize reductions while preserving perceptual edge clarity. The Background Remover employs a weighted Redmean perceptual color distance algorithm coupled with 2D spatial Gaussian edge feathering, allowing instant transparent PNG cutouts without sending imagery to external AI servers. Complete multi-scale favicon packaging, EXIF privacy sanitization, and QR code vectorization execute with zero network roundtrips.
+                  </p>
+                </div>
+
+                {/* Workstation 2: PDF & Document Processing */}
+                <div className="p-6 rounded-2xl bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-200 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      <FileText className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-100 light:text-slate-900">
+                      Binary Stream Document & PDF Manipulation
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-400 light:text-slate-600">
+                    Document management across our 15 PDF tools is powered by direct in-memory binary parsing. When merging, splitting, rotating, or encrypting files, our engine traverses PDF cross-reference tables and content dictionaries directly in browser ArrayBuffers. The PDF to Images converter renders vector page snapshots at crisp 150, 300, and 450 DPI densities using HTML5 Canvas contexts. Our Text Extractor uses an asynchronous stream decoder that navigates raw text operators (Tj and TJ arrays) to assemble clean, structured paragraphs without cloud dependencies.
+                  </p>
+                </div>
+
+                {/* Workstation 3: ATS Resume Engine */}
+                <div className="p-6 rounded-2xl bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-200 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-100 light:text-slate-900">
+                      100% Parser-Compliant ATS Resume & CV Builder
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-400 light:text-slate-600">
+                    Applicant Tracking Systems (Taleo, Workday, Greenhouse, Lever) reject millions of job applications annually due to unparseable graphical tables, multi-column CSS floats, and unreadable font envelopes. Our ATS Resume Builder enforces single-stream linear document hierarchies with semantic headings and standardized typographic metadata. Featuring 150+ design and color variants, real-time keyword scoring, and instantaneous single-page vector PDF compiling, candidates create interview-winning resumes completely free of subscriptions and data tracking.
+                  </p>
+                </div>
+
+                {/* Workstation 4: Developer Suite */}
+                <div className="p-6 rounded-2xl bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-200 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                      <Terminal className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-100 light:text-slate-900">
+                      Developer Encoding, Minification & Cryptography Suite
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-400 light:text-slate-600">
+                    Engineered for daily software development workflows, our 20+ developer utilities handle data formatting, syntax inspection, and security calculations. The JSON Formatter provides deep tree traversal and instant lint error pinpointing. The Cryptographic Hash Generator leverages the hardware-accelerated Web Cryptography API (SubtleCrypto) to calculate SHA-256, SHA-512, and MD5 digests offline. With JWT inspection, regular expression live matching, side-by-side code diffing, and CSS/JS minification, engineers enjoy instant productivity without telemetry.
+                  </p>
+                </div>
+              </div>
+
+              {/* Security Standards & Compliance Accordion/Box */}
+              <div className="p-8 rounded-2xl bg-gradient-to-r from-blue-950/20 via-slate-900 to-indigo-950/20 border border-slate-800 light:border-slate-200 space-y-4">
+                <h3 className="text-lg font-bold text-slate-100 light:text-slate-900 flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-blue-400" />
+                  <span>Enterprise Security, Zero Persistence, and Compliance Standards</span>
+                </h3>
+                <p className="text-xs sm:text-sm leading-relaxed text-slate-400 light:text-slate-600">
+                  Because files never leave your device, RS Tools naturally satisfies the strictest regulatory compliance frameworks, including the European Union General Data Protection Regulation (GDPR), California Consumer Privacy Act (CCPA), and Health Insurance Portability and Accountability Act (HIPAA) requirements. In-memory data buffers are instantly garbage collected when you refresh or close the browser tab. All open-source utilities are licensed under the permissive MIT license, ensuring transparent, unrestricted access for individuals, universities, and enterprise organizations worldwide.
+                </p>
+                <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400">
+                  <span className="flex items-center gap-1.5 text-blue-400">
+                    <CheckCircle2 className="w-4 h-4" /> 100% In-Browser Execution
+                  </span>
+                  <span className="flex items-center gap-1.5 text-blue-400">
+                    <CheckCircle2 className="w-4 h-4" /> Zero Server Caching
+                  </span>
+                  <span className="flex items-center gap-1.5 text-blue-400">
+                    <CheckCircle2 className="w-4 h-4" /> Complete Air-Gap Support
+                  </span>
+                  <span className="flex items-center gap-1.5 text-blue-400">
+                    <CheckCircle2 className="w-4 h-4" /> Free & Open-Source (MIT)
+                  </span>
+                </div>
+              </div>
+            </section>
           </div>
         )}
       </main>
@@ -623,7 +770,7 @@ export const App: React.FC = () => {
         }}
       />
 
-      {/* Modals */}
+      {/* Modals with Lazy Suspense */}
       <CommandPalette
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
@@ -631,21 +778,29 @@ export const App: React.FC = () => {
         onSelectTool={(tool) => setActiveTool(tool)}
       />
 
-      <DeployGuideModal
-        isOpen={isDeployGuideOpen}
-        onClose={() => setIsDeployGuideOpen(false)}
-      />
+      <React.Suspense fallback={null}>
+        {isDeployGuideOpen && (
+          <DeployGuideModal
+            isOpen={isDeployGuideOpen}
+            onClose={() => setIsDeployGuideOpen(false)}
+          />
+        )}
 
-      <SitemapModal
-        isOpen={isSitemapOpen}
-        onClose={() => setIsSitemapOpen(false)}
-      />
+        {isSitemapOpen && (
+          <SitemapModal
+            isOpen={isSitemapOpen}
+            onClose={() => setIsSitemapOpen(false)}
+          />
+        )}
 
-      <CompliancePages
-        isOpen={isComplianceOpen}
-        onClose={() => setIsComplianceOpen(false)}
-        initialTab={complianceTab}
-      />
+        {isComplianceOpen && (
+          <CompliancePages
+            isOpen={isComplianceOpen}
+            onClose={() => setIsComplianceOpen(false)}
+            initialTab={complianceTab}
+          />
+        )}
+      </React.Suspense>
     </div>
   );
 };

@@ -61,18 +61,22 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Image Utilities */}
           <div>
-            <h5 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
               Image Tools
-            </h5>
+            </h4>
             <ul className="space-y-2 text-xs text-slate-400 light:text-slate-600">
               {imageTools.map(tool => (
                 <li key={tool.id}>
-                  <button
-                    onClick={() => onSelectTool(tool)}
-                    className="hover:text-blue-400 text-left transition-colors"
+                  <a
+                    href={`#/${tool.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool(tool);
+                    }}
+                    className="hover:text-blue-400 text-left transition-colors block"
                   >
                     {tool.name}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -80,18 +84,22 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* PDF Utilities */}
           <div>
-            <h5 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
               PDF & Docs
-            </h5>
+            </h4>
             <ul className="space-y-2 text-xs text-slate-400 light:text-slate-600">
               {pdfTools.map(tool => (
                 <li key={tool.id}>
-                  <button
-                    onClick={() => onSelectTool(tool)}
-                    className="hover:text-blue-400 text-left transition-colors"
+                  <a
+                    href={`#/${tool.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool(tool);
+                    }}
+                    className="hover:text-blue-400 text-left transition-colors block"
                   >
                     {tool.name}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -99,30 +107,36 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Developer Tools */}
           <div>
-            <h5 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 light:text-slate-700 mb-3">
               Developer Suite
-            </h5>
+            </h4>
             <ul className="space-y-2 text-xs text-slate-400 light:text-slate-600">
               {devTools.map(tool => (
                 <li key={tool.id}>
-                  <button
-                    onClick={() => onSelectTool(tool)}
-                    className="hover:text-blue-400 text-left transition-colors"
+                  <a
+                    href={`#/${tool.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool(tool);
+                    }}
+                    className="hover:text-blue-400 text-left transition-colors block"
                   >
                     {tool.name}
-                  </button>
+                  </a>
                 </li>
               ))}
               <li>
-                <button
-                  onClick={() => {
+                <a
+                  href="#/resume-builder"
+                  onClick={(e) => {
+                    e.preventDefault();
                     const r = TOOLS_LIST.find(t => t.id === 'resume-builder');
                     if (r) onSelectTool(r);
                   }}
-                  className="text-blue-400 hover:text-blue-300 font-medium text-left transition-colors"
+                  className="text-blue-400 hover:text-blue-300 font-medium text-left transition-colors block"
                 >
                   ATS Resume & CV Engine →
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -136,19 +150,34 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-slate-500">
             <span>Engineered for 100/100 Lighthouse performance & privacy</span>
             <span className="text-slate-700 light:text-slate-300">·</span>
-            <button
-              onClick={onOpenPrivacy}
+            <a
+              href="#/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                onOpenPrivacy?.();
+              }}
               className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
             >
-              Compliance Privacy
-            </button>
+              Privacy Policy
+            </a>
             <span className="text-slate-700 light:text-slate-300">·</span>
-            <button
-              onClick={onOpenTerms}
+            <a
+              href="#/terms"
+              onClick={(e) => {
+                e.preventDefault();
+                onOpenTerms?.();
+              }}
               className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
             >
               Terms of Service
-            </button>
+            </a>
+            <span className="text-slate-700 light:text-slate-300">·</span>
+            <a
+              href="mailto:support@rsutilitytools.netlify.app"
+              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
+            >
+              Contact Support
+            </a>
           </div>
         </div>
       </div>

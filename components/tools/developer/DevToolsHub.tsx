@@ -254,18 +254,30 @@ export const DevToolsHub: React.FC<DevToolsHubProps> = ({ tool }) => {
     setOutputText(pass);
   };
 
-  // 9. Lorem Ipsum
+  // 9. Dummy Typography Text Generator
   const generateLorem = (count: number, type: 'paragraphs' | 'sentences' | 'words') => {
-    const raw = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    const sentences = raw.split('. ');
+    const typographySentences = [
+      "Architectural web design requires balanced typographic distribution and precise visual hierarchy across responsive viewports.",
+      "Modern browser development prioritizes client-side WebAssembly execution, zero server latency, and complete data privacy.",
+      "Digital document workflows and responsive stylesheets benefit significantly from realistic character density calibrations.",
+      "Evaluating typographical layout structures ensures optimal legibility and accessible reading flow for all audience segments.",
+      "Standardized editorial sample paragraphs allow engineers and interface designers to calibrate contrast, line length, and vertical rhythm."
+    ];
+    const rawParagraph = typographySentences.join(' ');
+
     if (type === 'paragraphs') {
-      const p = Array(count).fill(raw).join('\n\n');
+      const p = Array(count).fill(rawParagraph).join('\n\n');
       setOutputText(p);
     } else if (type === 'sentences') {
-      setOutputText(Array(count).fill(sentences[0]).join('. ') + '.');
+      const selected = Array.from({ length: count }, (_, i) => typographySentences[i % typographySentences.length]);
+      setOutputText(selected.join(' '));
     } else {
-      const words = raw.split(' ');
-      setOutputText(words.slice(0, count).join(' '));
+      const allWords = rawParagraph.split(' ');
+      const result: string[] = [];
+      for (let i = 0; i < count; i++) {
+        result.push(allWords[i % allWords.length]);
+      }
+      setOutputText(result.join(' '));
     }
   };
 
