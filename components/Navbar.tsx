@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Sun, Moon, Coffee, Rocket, Globe, Wrench, ShieldCheck } from 'lucide-react';
+import { Search, Sun, Moon, Coffee } from 'lucide-react';
 import { ToolCategory } from '../types/tools';
 
 interface NavbarProps {
@@ -8,8 +8,8 @@ interface NavbarProps {
   onOpenSearch: () => void;
   isDarkMode: boolean;
   onToggleTheme: () => void;
-  onOpenDeployGuide: () => void;
-  onOpenSitemap: () => void;
+  onOpenDeployGuide?: () => void;
+  onOpenSitemap?: () => void;
   favoritesCount: number;
 }
 
@@ -51,18 +51,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </div>
 
-        {/* Global Search Bar (Trigger) */}
-        <div className="flex-1 max-w-md hidden md:block">
+        {/* Global Search Bar (Trigger - Expanded for maximum visibility) */}
+        <div className="flex-1 max-w-xl lg:max-w-2xl hidden md:block mx-2">
           <button
             type="button"
             onClick={onOpenSearch}
-            className="w-full flex items-center justify-between px-3.5 py-2 text-xs rounded-lg bg-slate-900/80 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-500 hover:border-slate-700 light:hover:border-slate-300 hover:text-slate-200 light:hover:text-slate-800 transition-colors shadow-inner"
+            className="w-full flex items-center justify-between px-4 py-2 text-xs rounded-xl bg-slate-900/90 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-500 hover:border-slate-700 light:hover:border-slate-300 hover:text-slate-200 light:hover:text-slate-800 transition-colors shadow-inner"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <Search className="w-4 h-4 text-slate-400" />
               <span>Search any tool (e.g., PDF merge, compress, resume, JSON)...</span>
             </div>
-            <kbd className="hidden lg:inline-flex items-center gap-0.5 font-mono text-[10px] bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300">
+            <kbd className="hidden lg:inline-flex items-center gap-0.5 font-mono text-[10px] bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 px-2 py-0.5 rounded border border-slate-700/60 light:border-slate-300">
               ⌘K
             </kbd>
           </button>
@@ -80,27 +80,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Search className="w-4 h-4" />
           </button>
 
-          {/* Sitemap / SEO */}
-          <button
-            type="button"
-            onClick={onOpenSitemap}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-900/60 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-slate-850 hover:border-slate-700 transition-colors"
-            title="View XML Sitemap & SEO Specs"
-          >
-            <Globe className="w-3.5 h-3.5 text-blue-400" />
-            <span>SEO & Sitemap</span>
-          </button>
-
-          {/* Deploy Free Guide */}
-          <button
-            type="button"
-            onClick={onOpenDeployGuide}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 border border-blue-500/30 transition-colors"
-          >
-            <Rocket className="w-3.5 h-3.5 text-blue-400" />
-            <span className="hidden sm:inline">Deploy Free</span>
-          </button>
-
           {/* Buy Me a Coffee */}
           <a
             href="https://buymeacoffee.com"
@@ -109,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/20 transition-colors"
           >
             <Coffee className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden md:inline">Support</span>
+            <span className="hidden sm:inline">Support</span>
           </a>
 
           {/* Dark / Light Toggle */}
