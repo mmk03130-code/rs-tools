@@ -26,6 +26,12 @@
     Content-Type = "text/plain; charset=utf-8"
     Cache-Control = "public, max-age=3600"
 
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
 # Standard security headers for all HTML & app pages (without blocking crawlers/auditors)
 [[headers]]
   for = "/*"

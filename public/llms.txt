@@ -1,15 +1,50 @@
-# RS Tools – AI Context and Documentation
-# URL: https://rsutilitytools.netlify.app/
+# RS Tools
 
-> RS Tools is a private, client-side web utility suite offering 50+ free tools for developers, designers, and professionals.
-> All processing executes 100% locally in the user's browser using WebAssembly, HTML5 Canvas, and Web Cryptography. Zero server storage, zero data uploads.
+> High-performance, open-source suite of 50+ private browser-based utilities for images, PDFs, resumes, and code formatting. Zero server uploads.
 
-## Core Capabilities
-- **Image Processing**: Image Compressor, Format Converter (WebP, AVIF, PNG, JPG), Background Remover (Chroma-Key variance + Gaussian edge feathering), Image Resizer, Crop Tool, Watermark Generator, SVG Rasterizer, Color Palette Extractor, EXIF Metadata Scrubber, Filters, Meme Maker, GIF Extractor, QR Code Generator, Favicon Generator, Image to Base64.
-- **PDF & Document Utilities**: Merge PDF, Split PDF, PDF Compressor, Convert PDF to Images (300 DPI canvas rasterizer), Images to PDF, Protect PDF, Unlock PDF, Rotate PDF, Reorder Pages, Extract Text (asynchronous byte-stream parser), Watermark PDF, Organize PDF, Page Numbering, PDF to Word, Markdown to PDF.
-- **Developer Utilities**: ATS Resume Builder (100% parser-compliant CV engine with live scoring), JSON Formatter & Validator, Regex Tester, Base64 String Tool, Hash Generator (MD5, SHA-256, SHA-512), Word & Character Counter, Text Case Converter, Text & Code Diff Checker, URL Encoder/Decoder, CSS Minifier, JS Minifier, Markdown Live Editor, Password Generator, JWT Token Decoder, SQL Query Formatter, HTML Entity Encoder, Color Converter, Smart Unit Converter, Timezone Calculator, UUID/GUID Generator.
+RS Tools executes all data processing locally inside client browser memory using HTML5 Canvas, WebAssembly, and the Web Cryptography API.
 
-## Security & Architecture
-- Execution environment: Client-side web browser.
-- Data storage: No cloud database; purely transient in-memory buffers purged on session close.
-- License: MIT License (Free for personal and commercial use).
+## Core Image Utilities
+
+- [Image Compressor](https://rsutilitytools.netlify.app/image-compressor): Client-side PNG, JPG, and WebP compression reducing filesize up to 85% with bicubic downsampling.
+- [Image Format Converter](https://rsutilitytools.netlify.app/image-converter): Convert images between WebP, AVIF, PNG, JPG, and BMP with canvas rendering.
+- [Background Remover](https://rsutilitytools.netlify.app/background-remover): Chroma-key background eraser with Redmean perceptual color distance and Gaussian edge feathering.
+- [Image Resizer](https://rsutilitytools.netlify.app/image-resizer): Scale dimensions by pixels or aspect ratio presets (16:9, 1:1, 4:3).
+- [Crop Tool](https://rsutilitytools.netlify.app/crop-tool): Interactive freehand and aspect ratio bounding box image cropper.
+- [Watermark Generator](https://rsutilitytools.netlify.app/watermark-generator): Overlay customizable copyright stamps and brand watermarks.
+- [SVG to Raster](https://rsutilitytools.netlify.app/svg-to-raster): Rasterize scalable vector graphics to high-resolution PNG, JPG, or WebP.
+- [Color Palette Extractor](https://rsutilitytools.netlify.app/palette-extractor): Extract dominant hex swatches directly from raster image canvases.
+- [EXIF Metadata Scrubber](https://rsutilitytools.netlify.app/metadata-remover): Strip GPS coordinates, camera serials, and timestamps from photo metadata.
+- [QR Code Generator](https://rsutilitytools.netlify.app/qr-generator): Generate high-resolution vector and raster QR codes for URLs, WiFi, and text.
+- [Favicon Package Generator](https://rsutilitytools.netlify.app/favicon-generator): Export multi-resolution favicon asset bundles (16x16, 32x32, 180x180, 512x512).
+
+## PDF Document Utilities
+
+- [Merge PDF](https://rsutilitytools.netlify.app/merge-pdf): Combine multiple PDF documents into a single file via client-side stream merging.
+- [Split PDF](https://rsutilitytools.netlify.app/split-pdf): Extract individual pages or custom sheet ranges into separate PDF documents.
+- [Compress PDF](https://rsutilitytools.netlify.app/compress-pdf): Optimize PDF filesize by compressing cross-reference tables and stripping unused fonts.
+- [PDF to Images](https://rsutilitytools.netlify.app/pdf-to-images): Rasterize vector PDF pages into 150, 300, and 450 DPI PNG and JPG images.
+- [Images to PDF](https://rsutilitytools.netlify.app/images-to-pdf): Convert collections of image files into a compiled PDF document.
+- [Protect PDF](https://rsutilitytools.netlify.app/protect-pdf): Encrypt PDF documents with strong client-side passwords.
+- [Unlock PDF](https://rsutilitytools.netlify.app/unlock-pdf): Remove user and owner restrictions from password-protected PDFs.
+- [Rotate PDF](https://rsutilitytools.netlify.app/rotate-pdf): Rotate PDF pages by 90, 180, or 270 degrees.
+- [Extract Text from PDF](https://rsutilitytools.netlify.app/extract-text-pdf): Asynchronously parse embedded text streams to extract clean paragraphs.
+
+## Developer & Career Utilities
+
+- [ATS Resume Builder](https://rsutilitytools.netlify.app/resume-builder): Create 100% ATS-compliant resumes with 150+ designs, keyword scoring, and instant PDF compilation.
+- [JSON Formatter & Validator](https://rsutilitytools.netlify.app/json-formatter): Format, validate, lint, and minify JSON payloads with syntax tree view.
+- [Regex Tester & Debugger](https://rsutilitytools.netlify.app/regex-tester): Test regular expressions in real-time with capture groups and regex explanations.
+- [JWT Token Decoder](https://rsutilitytools.netlify.app/jwt-decoder): Decode and inspect JSON Web Tokens offline (header, payload, expiry).
+- [Cryptographic Hash Generator](https://rsutilitytools.netlify.app/hash-generator): Calculate SHA-256, SHA-512, and MD5 hashes using Web Cryptography (SubtleCrypto).
+- [Text & Code Diff Checker](https://rsutilitytools.netlify.app/diff-checker): Compare two text or code files with side-by-side unified diff analysis.
+- [Base64 Encoder/Decoder](https://rsutilitytools.netlify.app/base64-tool): Encode and decode text or binary data to and from Base64 strings.
+- [URL Encoder/Decoder](https://rsutilitytools.netlify.app/url-encoder): Encode and decode query strings and percent-encoded URLs.
+- [CSS Minifier](https://rsutilitytools.netlify.app/css-minifier): Minify CSS stylesheets to reduce file size.
+- [JavaScript Minifier](https://rsutilitytools.netlify.app/js-minifier): Compress JavaScript code directly in the browser.
+- [UUID Generator](https://rsutilitytools.netlify.app/uuid-generator): Generate cryptographically secure v4 UUID identifiers.
+
+## Documentation & Standards
+
+- [Privacy Policy](https://rsutilitytools.netlify.app/): 100% client-side privacy guarantee; zero data transmission to external servers.
+- [XML Sitemap](https://rsutilitytools.netlify.app/sitemap.xml): Machine-readable index of all 52 website URLs.

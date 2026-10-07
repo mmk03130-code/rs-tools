@@ -1,6 +1,7 @@
 # Explicit static resources
 /sitemap.xml    /sitemap.xml    200
 /robots.txt     /robots.txt     200
+/llms.txt       /llms.txt       200
 /favicon.svg    /favicon.svg    200
 /404.html       /404.html       200
 
