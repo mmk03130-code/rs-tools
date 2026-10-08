@@ -349,7 +349,7 @@ export const App: React.FC = () => {
               {activeTool.category === 'image' && <ImageToolsHub tool={activeTool} />}
               {activeTool.category === 'pdf' && <PdfToolsHub tool={activeTool} />}
               {activeTool.category === 'developer' && <DevToolsHub tool={activeTool} />}
-              {activeTool.category === 'resume' && <ResumeBuilder />}
+              {activeTool.category === 'resume' && <ResumeBuilder initialToolId={activeTool.id} />}
             </React.Suspense>
 
             {/* Semantic Tool Overview & FAQ Accordion Section */}

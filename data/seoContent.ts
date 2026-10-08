@@ -632,6 +632,26 @@ export const DEV_RESUME_SEO_CONTENT: Record<string, ToolSeoContent> = {
     ]
   },
 
+  // 1b. CA & ACCA Professional Resume & CV Builder
+  'ca-acca-resume-builder': {
+    longOverview: `Auditing, accounting, taxation, and corporate finance recruiting follows strict qualification standards that generic resume tools cannot accommodate. The RS Tools Chartered & ACCA Pro Resume Builder is an authoritative career workshop engineered specifically for Chartered Accountants (CA), ACCA Affiliates and Members, CPAs, CMAs, and finance professionals. In financial recruitment—whether applying to Big 4 firms (Deloitte, PwC, EY, KPMG), mid-tier practices, investment banks, or multinational corporate controllerships—hiring managers and automated screening filters demand clear visibility into examination attempt histories (e.g. 1st attempt passes, Group ranks, exemptions in Financial Reporting/Taxation), mandatory articleship training tenures, client industries audited, and specific regulatory accounting standard mastery (IFRS, Ind AS, US GAAP, ISA, SOX 404, CARO 2020). With our dedicated tool, candidates can easily input their articleship logs, examination matrix, ACCA Practical Experience Requirement (PER) status, and technical competencies, selecting from Big 4-standard templates to generate flawless, print-isolated vector PDFs.`,
+    underTheHood: `Under the hood, the Chartered & ACCA resume engine implements a domain-specific accounting state schema incorporating dedicated structures for articleship engagements, client turnover metrics, attempt counts, and regulatory compliance standards. The built-in ATS scoring algorithm incorporates a financial terminology lexical analyzer that scans for essential accounting standards (such as IFRS 15, IFRS 16, Ind AS 115, ISA 315, Schedule III, and CARO 2020) and quantitative metric density (revenue audits, tax assessments, ledger reconciliations, and team leadership metrics). Layout compilation leverages responsive CSS print media queries targeting #printable-resume, disabling viewport scroll artifacts and executing browser-native vector PDF generation at 300+ DPI. Zero data is transmitted to external servers, protecting candidates' sensitive client confidentiality and compensation details.`,
+    faqs: [
+      {
+        question: 'Why do Big 4 and corporate finance recruiters look for an examination attempt table?',
+        answer: 'In the CA and ACCA professions, examination attempts (e.g. passing on the 1st attempt, or clearing both groups together) and All-India / Regional Ranks are benchmark indicators used by recruiters to shortlist candidates. Our builder provides an elegant, structured table displaying qualification levels, exam boards, attempts, marks, and exemptions.'
+      },
+      {
+        question: 'How does the Articleship & Practical Training section cater to CA and ACCA regulations?',
+        answer: 'Articleship is the cornerstone of professional accounting qualification. Our dedicated articleship manager allows candidates to record their training firm, partner/mentor, tenure, department (Statutory Audit, Internal Audit, Taxation, Transfer Pricing), and specific client industries audited with revenue figures, fulfilling standard Big 4 and MNC vetting requirements.'
+      },
+      {
+        question: 'Can I export a clean vector PDF without any watermark or subscription?',
+        answer: 'Yes, 100% free and client-side with zero cost. Your PDF generates cleanly in vector quality at 300+ DPI using native browser print rendering, with zero watermarks and zero server data retention.'
+      }
+    ]
+  },
+
   // 2. JSON Formatter & Validator
   'json-formatter': {
     longOverview: `JavaScript Object Notation (JSON) is the backbone of modern web communication, REST APIs, cloud databases, and configuration architectures. The JSON Formatter & Validator is an indispensable utility for software engineers and systems architects, functioning as a pretty print json tree builder, lint syntax error highlighters workbench, and a tool to minify json payload structures instantly. When dealing with compact single-line server payloads or unformatted logs, this tool quickly reorganizes raw strings into beautifully indented hierarchies with 2-space or 4-space indentations. Its real-time parsing engine highlights unexpected tokens, trailing commas, and unclosed quotes with line-precise diagnostics. Because all operations execute locally in your browser, private customer records, secret configuration values, and API keys remain strictly confidential on your machine.`,

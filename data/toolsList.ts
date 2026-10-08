@@ -506,6 +506,37 @@ const RAW_TOOLS_LIST: ToolItem[] = [
       }
     ],
   },
+  {
+    id: 'ca-acca-resume-builder',
+    name: 'Chartered & ACCA Pro Resume Builder',
+    shortName: 'CA & ACCA Builder',
+    description: 'Specialized CV & resume engine for Chartered Accountants (CA), ACCA, CMA, CPA, & Finance professionals. Articleship logs, attempt tables, Big 4 layouts, & 100% ATS score.',
+    category: 'resume',
+    tags: ['ca resume', 'acca cv', 'chartered accountant', 'articleship', 'audit resume', 'finance cv', 'big 4 format', 'cpa', 'cma', 'taxation', 'ifrs', 'accounting resume'],
+    icon: 'Briefcase',
+    badge: 'New',
+    featured: true,
+    seo: {
+      title: 'Free CA & ACCA Resume Builder – Big 4 Formats, Articleship & ATS Pass',
+      description: 'Professional resume maker engineered specifically for Chartered Accountants (CA), ACCA Affiliates, CPA, and Finance specialists. Includes examination attempt matrix, articleship experience, and Big 4 approved templates.',
+      keywords: ['ca resume builder', 'acca cv builder', 'chartered accountant resume format', 'articleship resume maker', 'big 4 audit cv', 'finance resume template'],
+    },
+    longOverview: 'The RS Tools Chartered & ACCA Pro Resume Builder is a dedicated career suite crafted specifically for the auditing, accounting, and financial management disciplines. Standard generic resume makers fail to address critical accounting credentialing standards such as examination attempts, groups cleared, articleship training periods, client industry portfolios, and International Financial Reporting Standards (IFRS/Ind AS/US GAAP) proficiencies. This tool features purpose-built sections for Articleship & Industrial Training, Exam Passing Track records, ACCA Practical Experience Requirement (PER) logs, and Big 4-standard layout templates trusted by Deloitte, PwC, EY, and KPMG.',
+    faqs: [
+      {
+        question: 'Why do CA and ACCA resumes require a specialized builder?',
+        answer: 'Accounting and financial recruiters require specific structural disclosures that standard resumes lack: first-attempt vs. multiple attempt examination records, Articleship training firms, specific regulatory frameworks (IFRS, Ind AS, US GAAP, ISA), and client audit turnover. Our builder formats these sections into authoritative tables that recruiters and ATS systems parse instantly.'
+      },
+      {
+        question: 'Does this builder support both Big 4 articleship trainees and qualified professionals?',
+        answer: 'Yes! Whether you are a CA Inter student applying for 3-year articleship, an ACCA Affiliate tracking your 36-month PER, a Big 4 Senior Associate, or a seasoned Finance Controller / CFO, dedicated pre-filled presets adapt the structure to your exact career milestone.'
+      },
+      {
+        question: 'Can I export a clean vector PDF without any watermark or subscription?',
+        answer: 'Yes, 100% free and client-side with zero cost. Your PDF generates cleanly in vector quality at 300+ DPI using native browser print rendering, with zero watermarks and zero server data retention.'
+      }
+    ],
+  },
 
   // ================= DEVELOPER & TEXT TOOLS (20 tools) =================
   {

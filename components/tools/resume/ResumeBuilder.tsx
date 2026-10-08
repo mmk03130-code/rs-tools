@@ -8,7 +8,10 @@ import {
 } from 'lucide-react';
 import { ResumeData } from '../../../types/tools';
 import { ResumeTemplateRenderer } from './ResumeTemplateRenderer';
+import { CaAccaResumeBuilder } from './CaAccaResumeBuilder';
 import confetti from 'canvas-confetti';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 // Comprehensive Action Verbs for ATS Optimization
 const ACTION_VERBS = [
@@ -285,7 +288,18 @@ const SAMPLE_PRESETS: { id: string; label: string; role: string; data: ResumeDat
   },
 ];
 
-export const ResumeBuilder: React.FC = () => {
+export interface ResumeBuilderProps {
+  initialToolId?: string;
+}
+
+export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) => {
+  // Mode: General ATS Resume Builder vs CA & ACCA Finance Studio
+  const [builderMode, setBuilderMode] = useState<'general' | 'finance'>(() => {
+    if (initialToolId === 'ca-acca-resume-builder') return 'finance';
+    if (typeof window !== 'undefined' && window.location.href.includes('ca-acca')) return 'finance';
+    return 'general';
+  });
+
   // Navigation & tabs
   const [activeTab, setActiveTab] = useState<'content' | 'templates' | 'ats' | 'styles' | 'import-export'>('content');
   const [contentSubTab, setContentSubTab] = useState<'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'languages'>('personal');
@@ -297,6 +311,7 @@ export const ResumeBuilder: React.FC = () => {
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [showPageBoundary, setShowPageBoundary] = useState<boolean>(true);
   const [copyFeedback, setCopyFeedback] = useState<string | null>(null);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
 
   // Raw text import state
   const [rawTextImport, setRawTextImport] = useState<string>('');
@@ -410,19 +425,165 @@ export const ResumeBuilder: React.FC = () => {
 
   const { score: atsScore, tips: atsTips, foundVerbs, metricsMatches } = calculateAtsScore();
 
-  // Export PDF Handler with Confetti
-  const handleExportPdf = () => {
+  // 1. Direct PDF File Download (jsPDF + html2canvas - Guaranteed 0 Blank Pages)
+  const handleDownloadPdf = async () => {
+    const element = resumePrintRef.current;
+    if (!element) return;
+
+    try {
+      setIsGeneratingPdf(true);
+      confetti({
+        particleCount: 70,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
+
+      // Capture at 2x resolution for ultra-sharp 300 DPI text
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        windowWidth: 1024,
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // First page
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+      heightLeft -= pdfHeight;
+
+      // Add additional page ONLY if content genuinely overflows single page by > 8mm
+      while (heightLeft > 8) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+        heightLeft -= pdfHeight;
+      }
+
+      const safeName = (resume.personalInfo.fullName || 'Resume').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+      const filename = `${safeName}_ATS_Resume.pdf`;
+      pdf.save(filename);
+
+      setCopyFeedback(`Downloaded ${filename} successfully!`);
+      setTimeout(() => setCopyFeedback(null), 3500);
+    } catch (err) {
+      console.error('Direct PDF generation error:', err);
+      // Fallback to isolated print
+      handlePrintResume();
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  // 2. Vector Print / Save as PDF Dialog (Clean isolated iframe - 0 Blank Pages)
+  const handlePrintResume = () => {
+    const element = resumePrintRef.current;
+    if (!element) {
+      window.print();
+      return;
+    }
+
     try {
       confetti({
-        particleCount: 80,
-        spread: 60,
+        particleCount: 50,
+        spread: 50,
         origin: { y: 0.6 },
       });
     } catch (e) {}
 
-    setTimeout(() => {
+    // Create an isolated hidden iframe so ONLY the resume exists in the print context
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    iframe.style.visibility = 'hidden';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (!doc) {
       window.print();
-    }, 200);
+      return;
+    }
+
+    // Copy all stylesheets from parent document
+    let stylesHtml = '';
+    document.querySelectorAll('style, link[rel="stylesheet"]').forEach(el => {
+      stylesHtml += el.outerHTML;
+    });
+
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${resume.personalInfo.fullName || 'Resume'} - ATS CV</title>
+          ${stylesHtml}
+          <style>
+            @page {
+              size: A4 portrait;
+              margin: 6mm 8mm;
+            }
+            html, body {
+              margin: 0 !important;
+              padding: 0 !important;
+              background: #ffffff !important;
+              color: #000000 !important;
+              width: 100% !important;
+              height: auto !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            #printable-resume {
+              width: 100% !important;
+              max-width: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              box-shadow: none !important;
+              border: none !important;
+              transform: none !important;
+              overflow: visible !important;
+            }
+            .no-print {
+              display: none !important;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="printable-resume">
+            ${element.innerHTML}
+          </div>
+        </body>
+      </html>
+    `);
+    doc.close();
+
+    // Trigger print once iframe resources are ready
+    setTimeout(() => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      setTimeout(() => {
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+        }
+      }, 1500);
+    }, 350);
   };
 
   // Export JSON handler
@@ -507,6 +668,14 @@ export const ResumeBuilder: React.FC = () => {
     setResume({ ...resume, experiences: updated });
   };
 
+  if (builderMode === 'finance') {
+    return (
+      <CaAccaResumeBuilder
+        onSwitchToGeneralMode={() => setBuilderMode('general')}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Studio Header Banner */}
@@ -534,17 +703,36 @@ export const ResumeBuilder: React.FC = () => {
         {/* Action Controls & Presets */}
         <div className="flex items-center gap-2 flex-wrap">
           <button
-            onClick={handleExportPdf}
-            className="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/25 active:scale-95"
-            title="Export high-resolution PDF print"
+            onClick={() => setBuilderMode('finance')}
+            className="px-3.5 py-2 text-xs font-bold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-all flex items-center gap-1.5 shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer"
+            title="Switch to Chartered Accountant & ACCA Professional Resume Builder"
           >
-            <Printer className="w-4 h-4" />
-            <span>Export Vector PDF</span>
+            <Briefcase className="w-3.5 h-3.5 text-amber-300" />
+            <span>CA & ACCA Studio (New)</span>
+          </button>
+
+          <button
+            onClick={handleDownloadPdf}
+            disabled={isGeneratingPdf}
+            className="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/25 active:scale-95 disabled:opacity-60 cursor-pointer"
+            title="Direct download high-resolution PDF file (300 DPI, 0 blank pages)"
+          >
+            {isGeneratingPdf ? <RefreshCw className="w-4 h-4 animate-spin text-white" /> : <Download className="w-4 h-4" />}
+            <span>{isGeneratingPdf ? 'Generating PDF...' : 'Download PDF'}</span>
+          </button>
+
+          <button
+            onClick={handlePrintResume}
+            className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Clean vector print dialog with isolated 0-blank page layout"
+          >
+            <Printer className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Vector Print</span>
           </button>
 
           <button
             onClick={handleExportPlainText}
-            className="px-3 py-2 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
             title="Copy plain text for online ATS application forms"
           >
             <Copy className="w-3.5 h-3.5 text-blue-400" />
@@ -1607,13 +1795,23 @@ export const ResumeBuilder: React.FC = () => {
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>100% Client-Side Encrypted · 0 Data Stored on Server</span>
               </div>
-              <button
-                onClick={handleExportPdf}
-                className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Download Print-Ready PDF</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrintResume}
+                  className="text-slate-400 hover:text-white font-medium flex items-center gap-1 cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print</span>
+                </button>
+                <button
+                  onClick={handleDownloadPdf}
+                  disabled={isGeneratingPdf}
+                  className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                >
+                  {isGeneratingPdf ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                  <span>{isGeneratingPdf ? 'Generating...' : 'Download PDF (.pdf)'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
