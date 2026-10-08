@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             type="button"
             onClick={onOpenSearch}
             aria-label="Search tools"
-            className="p-2 md:hidden rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 hover:text-slate-100 light:hover:text-slate-900"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2.5 md:hidden rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 hover:text-slate-100 light:hover:text-slate-900 transition-colors"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -85,9 +85,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             href="https://buymeacoffee.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/20 transition-colors"
+            aria-label="Support project on Buy Me a Coffee"
+            className="min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-lg bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/20 transition-colors"
           >
-            <Coffee className="w-3.5 h-3.5 text-amber-400" />
+            <Coffee className="w-4 h-4 text-amber-400" />
             <span className="hidden sm:inline">Support</span>
           </a>
 
@@ -96,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             type="button"
             onClick={onToggleTheme}
             aria-label="Toggle dark/light theme"
-            className="p-2 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 hover:text-slate-100 light:hover:text-slate-900 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2.5 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-slate-400 hover:text-slate-100 light:hover:text-slate-900 transition-colors"
           >
             {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
           </button>

@@ -68,12 +68,16 @@
     }
     </script>
 
+    <!-- AI Agent & LLM Discoverability (Agentic Browsing Standard) -->
+    <link rel="help" type="text/markdown" href="/llms.txt" title="LLM Documentation" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="AI Agent Discoverability" />
+
     <!-- Performance & Font Optimization with Non-Blocking Asynchronous Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
     </noscript>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white min-h-screen">
@@ -95,39 +99,39 @@
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-compressor" style="color: inherit; text-decoration: none;">Image Compressor</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/image-compressor" style="color: inherit; text-decoration: none;">Image Compressor</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Compress PNG, JPG, and WebP images by up to 85% with adjustable quality thresholds, instant file reduction metrics, and lossless metadata stripping.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-converter" style="color: inherit; text-decoration: none;">Image Format Converter</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/image-converter" style="color: inherit; text-decoration: none;">Image Format Converter</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Convert between WebP, AVIF, PNG, JPG, and BMP formats instantly using native browser rendering contexts with configurable compression rates.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/background-remover" style="color: inherit; text-decoration: none;">Background Remover</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/background-remover" style="color: inherit; text-decoration: none;">Background Remover</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Chroma-key background removal with weighted Redmean color distance checks, dynamic variance loops, and 2D spatial Gaussian edge feathering.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/image-resizer" style="color: inherit; text-decoration: none;">Image Resizer & Crop</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/image-resizer" style="color: inherit; text-decoration: none;">Image Resizer & Crop</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Scale dimensions by exact pixels or percentages with aspect ratio locking, standard presets (16:9, 1:1, 4:3), and interactive cropping grids.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/watermark-generator" style="color: inherit; text-decoration: none;">Watermark Generator</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/watermark-generator" style="color: inherit; text-decoration: none;">Watermark Generator</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Overlay custom copyright typography, brand watermarks, and security stamps with live opacity controls and custom coordinate placement.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/metadata-remover" style="color: inherit; text-decoration: none;">EXIF Metadata Scrubber</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/metadata-remover" style="color: inherit; text-decoration: none;">EXIF Metadata Scrubber</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Strip sensitive camera metadata including embedded GPS location tags, camera serial identifiers, aperture values, and capture timestamps.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/palette-extractor" style="color: inherit; text-decoration: none;">Color Palette Extractor</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/palette-extractor" style="color: inherit; text-decoration: none;">Color Palette Extractor</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Sample dominant hex codes and generate harmonic color swatches with one-click clipboard copying directly from image pixel arrays.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/qr-generator" style="color: inherit; text-decoration: none;">QR Code Generator</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/qr-generator" style="color: inherit; text-decoration: none;">QR Code Generator</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Generate high-resolution vector QR codes for websites, Wi-Fi networks, and text payloads with immediate PNG and SVG downloads.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/favicon-generator" style="color: inherit; text-decoration: none;">Favicon & Icon Package Generator</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/favicon-generator" style="color: inherit; text-decoration: none;">Favicon & Icon Package Generator</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Produce complete multi-resolution favicon asset bundles (16x16, 32x32, 180x180 Apple Touch, 512x512 PWA icons) with instant ZIP export.</p>
             </li>
           </ul>
@@ -141,27 +145,27 @@
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/merge-pdf" style="color: inherit; text-decoration: none;">Merge PDF Documents</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/merge-pdf" style="color: inherit; text-decoration: none;">Merge PDF Documents</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Combine multiple PDF files and bind document scans into a single cohesive document with drag-and-drop page ordering.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/split-pdf" style="color: inherit; text-decoration: none;">Split PDF Pages</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/split-pdf" style="color: inherit; text-decoration: none;">Split PDF Pages</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Extract custom sheet intervals, individual pages, or multi-page segments into distinct, lightweight standalone PDF files.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/pdf-to-images" style="color: inherit; text-decoration: none;">PDF to Images (Rasterizer)</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/pdf-to-images" style="color: inherit; text-decoration: none;">PDF to Images (Rasterizer)</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Rasterize vector pages to 150, 300, and 450 DPI high-definition PNG and JPG snapshots with interactive page navigation.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/compress-pdf" style="color: inherit; text-decoration: none;">Compress & Optimize PDF</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/compress-pdf" style="color: inherit; text-decoration: none;">Compress & Optimize PDF</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Reduce PDF filesize by stripping redundant font tables and compressing embedded raster streams while maintaining readable text clarity.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/extract-text-pdf" style="color: inherit; text-decoration: none;">Extract Text from PDF</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/extract-text-pdf" style="color: inherit; text-decoration: none;">Extract Text from PDF</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Asynchronously decode embedded glyph streams to assemble readable textual paragraphs, word statistics, and plain-text exports.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/protect-pdf" style="color: inherit; text-decoration: none;">Protect & Unlock PDF</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/protect-pdf" style="color: inherit; text-decoration: none;">Protect & Unlock PDF</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Apply strong 128-bit/256-bit cryptographic access passwords or unlock owner permissions right inside your browser.</p>
             </li>
           </ul>
@@ -175,27 +179,27 @@
           </p>
           <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; list-style: none; padding: 0;">
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/resume-builder" style="color: inherit; text-decoration: none;">ATS Resume & CV Builder</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/resume-builder" style="color: inherit; text-decoration: none;">ATS Resume & CV Builder</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Build 100% ATS-compliant resumes with 150+ design combinations, keyword density analytics, live typography scaling, and instant vector PDF compiling.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/json-formatter" style="color: inherit; text-decoration: none;">JSON Formatter & Validator</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/json-formatter" style="color: inherit; text-decoration: none;">JSON Formatter & Validator</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Deep JSON syntax tree traversal, color-coded node inspection, syntax error highlighting, and instant payload minification.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/regex-tester" style="color: inherit; text-decoration: none;">Regex Tester & Debugger</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/regex-tester" style="color: inherit; text-decoration: none;">Regex Tester & Debugger</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Real-time regular expression analyzer with capture group extraction, match indices, flag toggles, and pattern explanations.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/jwt-decoder" style="color: inherit; text-decoration: none;">JWT Token Decoder</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/jwt-decoder" style="color: inherit; text-decoration: none;">JWT Token Decoder</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Decode JSON Web Tokens offline to inspect headers, payload claims, expiration timestamps, and authorization scope privileges.</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/hash-generator" style="color: inherit; text-decoration: none;">Cryptographic Hash Generator</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/hash-generator" style="color: inherit; text-decoration: none;">Cryptographic Hash Generator</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Compute SHA-256, SHA-512, and MD5 cryptographic checksum digests using hardware-accelerated Web Cryptography (SubtleCrypto).</p>
             </li>
             <li style="background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #1e293b;">
-              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="#/diff-checker" style="color: inherit; text-decoration: none;">Text & Code Diff Checker</a></h3>
+              <h3 style="font-size: 16px; font-weight: 600; color: #60a5fa;"><a href="/diff-checker" style="color: inherit; text-decoration: none;">Text & Code Diff Checker</a></h3>
               <p style="font-size: 13px; color: #94a3b8; line-height: 1.5;">Side-by-side textual diffing showing character insertions, deletions, unified changes, and syntax-aware comparison grids.</p>
             </li>
           </ul>

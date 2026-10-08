@@ -41,21 +41,30 @@ export const Footer: React.FC<FooterProps> = ({
               A comprehensive open-source suite of 50+ free utilities for developers, designers, and professionals. Fast, private, and serverless.
             </p>
             {/* Developer Links */}
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2.5 text-xs">
               <button
                 onClick={onOpenSitemap}
-                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left"
+                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left py-1"
               >
-                <Globe className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <Globe className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
                 <span>XML Sitemap & SEO Specs</span>
               </button>
               <button
                 onClick={onOpenDeployGuide}
-                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left"
+                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left py-1"
               >
-                <Rocket className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <Rocket className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
                 <span>Deploy Project Source</span>
               </button>
+              <a
+                href="/llms.txt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors py-1 text-left"
+              >
+                <Globe className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <span>AI Agent Specs (llms.txt)</span>
+              </a>
             </div>
           </div>
 
@@ -68,12 +77,12 @@ export const Footer: React.FC<FooterProps> = ({
               {imageTools.map(tool => (
                 <li key={tool.id}>
                   <a
-                    href={`#/${tool.id}`}
+                    href={`/${tool.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block"
+                    className="hover:text-blue-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -91,12 +100,12 @@ export const Footer: React.FC<FooterProps> = ({
               {pdfTools.map(tool => (
                 <li key={tool.id}>
                   <a
-                    href={`#/${tool.id}`}
+                    href={`/${tool.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block"
+                    className="hover:text-blue-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -114,12 +123,12 @@ export const Footer: React.FC<FooterProps> = ({
               {devTools.map(tool => (
                 <li key={tool.id}>
                   <a
-                    href={`#/${tool.id}`}
+                    href={`/${tool.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block"
+                    className="hover:text-blue-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -127,13 +136,13 @@ export const Footer: React.FC<FooterProps> = ({
               ))}
               <li>
                 <a
-                  href="#/resume-builder"
+                  href="/resume-builder"
                   onClick={(e) => {
                     e.preventDefault();
                     const r = TOOLS_LIST.find(t => t.id === 'resume-builder');
                     if (r) onSelectTool(r);
                   }}
-                  className="text-blue-400 hover:text-blue-300 font-medium text-left transition-colors block"
+                  className="text-blue-400 hover:text-blue-300 font-medium text-left transition-colors block py-1"
                 >
                   ATS Resume & CV Engine →
                 </a>
@@ -151,23 +160,23 @@ export const Footer: React.FC<FooterProps> = ({
             <span>Engineered for 100/100 Lighthouse performance & privacy</span>
             <span className="text-slate-700 light:text-slate-300">·</span>
             <a
-              href="#/privacy"
+              href="/privacy"
               onClick={(e) => {
                 e.preventDefault();
                 onOpenPrivacy?.();
               }}
-              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
+              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
             >
               Privacy Policy
             </a>
             <span className="text-slate-700 light:text-slate-300">·</span>
             <a
-              href="#/terms"
+              href="/terms"
               onClick={(e) => {
                 e.preventDefault();
                 onOpenTerms?.();
               }}
-              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
+              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
             >
               Terms of Service
             </a>

@@ -10,7 +10,7 @@ interface ToolCardProps {
   onToggleFavorite?: (e: React.MouseEvent, toolId: string) => void;
 }
 
-export const ToolCard: React.FC<ToolCardProps> = ({
+export const ToolCard: React.FC<ToolCardProps> = React.memo(({
   tool,
   onClick,
   isFavorite = false,
@@ -47,7 +47,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                 type="button"
                 aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                 onClick={(e) => onToggleFavorite(e, tool.id)}
-                className={`p-1.5 rounded-md hover:bg-slate-800 light:hover:bg-slate-100 transition-colors ${
+                className={`p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-md hover:bg-slate-800 light:hover:bg-slate-100 transition-colors ${
                   isFavorite ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -57,10 +57,10 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           </div>
         </div>
 
-        {/* Title with crawlable anchor link */}
+        {/* Title with clean crawlable anchor link (Google SEO compliant) */}
         <h3 className="font-semibold text-slate-100 light:text-slate-900 text-base mb-1.5 flex items-center gap-1.5 group-hover:text-blue-400 light:group-hover:text-blue-600 transition-colors">
           <a
-            href={`#/${tool.id}`}
+            href={`/${tool.id}`}
             onClick={(e) => {
               e.preventDefault();
               onClick(tool);
@@ -88,4 +88,4 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       </div>
     </div>
   );
-};
+});

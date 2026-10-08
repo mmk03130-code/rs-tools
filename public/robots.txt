@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://rsutilitytools.netlify.app/sitemap.xml
+
+# AI Agent Discoverability (llmstxt.org)
+# llms.txt: https://rsutilitytools.netlify.app/llms.txt
+

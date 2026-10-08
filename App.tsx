@@ -315,7 +315,7 @@ export const App: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80 light:border-slate-200">
               <button
                 onClick={clearActiveTool}
-                className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors p-1"
+                className="min-h-[44px] inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors px-2.5 py-2 rounded-lg"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to All 50+ Utilities</span>
@@ -324,7 +324,7 @@ export const App: React.FC = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={copyShareLink}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-slate-800 transition-colors"
+                  className="min-h-[40px] inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-slate-800 transition-colors"
                 >
                   {linkCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
                   <span>{linkCopied ? 'Link Copied!' : 'Share Tool'}</span>
@@ -332,7 +332,7 @@ export const App: React.FC = () => {
 
                 <button
                   onClick={(e) => toggleFavorite(e, activeTool.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+                  className={`min-h-[40px] inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-lg border transition-colors ${
                     favorites.includes(activeTool.id)
                       ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
                       : 'bg-slate-900 light:bg-white border-slate-800 light:border-slate-200 text-slate-400'
@@ -574,7 +574,7 @@ export const App: React.FC = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveCategory(tab.id as any)}
-                    className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${
+                    className={`min-h-[40px] px-4 py-2 text-xs font-semibold rounded-lg transition-all whitespace-nowrap flex items-center justify-center ${
                       activeCategory === tab.id
                         ? 'bg-blue-600 text-white shadow-sm'
                         : 'text-slate-400 light:text-slate-600 hover:text-slate-100 light:hover:text-slate-900'
