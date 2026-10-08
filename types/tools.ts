@@ -72,6 +72,12 @@ export interface ResumeData {
     issuer: string;
     year: string;
   }[];
+  languages?: {
+    id: string;
+    language: string;
+    proficiency: string;
+  }[];
+  sectionOrder?: string[];
   styling: {
     templateId: string;
     colorTheme: string;
@@ -79,5 +85,7 @@ export interface ResumeData {
     spacing: 'compact' | 'standard' | 'spacious';
     showSkillBars: boolean;
     showIcons: boolean;
+    paperSize?: 'a4' | 'letter';
+    fontSize?: 'sm' | 'base' | 'lg';
   };
 }
