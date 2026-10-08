@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, Suspense } from 'react';
 import {
   Download, Sparkles, Check, Plus, Trash2, Sliders, Palette,
   Type, ShieldCheck, Eye, RefreshCw, FileText,
@@ -8,10 +8,14 @@ import {
 } from 'lucide-react';
 import { ResumeData } from '../../../types/tools';
 import { ResumeTemplateRenderer } from './ResumeTemplateRenderer';
-import { CaAccaResumeBuilder } from './CaAccaResumeBuilder';
 import confetti from 'canvas-confetti';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+
+// Lazy-load the specialized CA & ACCA Studio so standard resume builder bundle is featherlight
+const CaAccaResumeBuilder = React.lazy(() =>
+  import('./CaAccaResumeBuilder').then(m => ({ default: m.CaAccaResumeBuilder }))
+);
 
 // Comprehensive Action Verbs for ATS Optimization
 const ACTION_VERBS = [
@@ -423,7 +427,9 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
     return { score: Math.min(100, score), tips, foundVerbs, metricsMatches };
   };
 
-  const { score: atsScore, tips: atsTips, foundVerbs, metricsMatches } = calculateAtsScore();
+  const { score: atsScore, tips: atsTips, foundVerbs, metricsMatches } = useMemo(() => {
+    return calculateAtsScore();
+  }, [resume.personalInfo, resume.experiences, resume.skills, resume.education]);
 
   // 1. Direct PDF File Download (jsPDF + html2canvas - Guaranteed 0 Blank Pages)
   const handleDownloadPdf = async () => {
@@ -432,64 +438,90 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
 
     try {
       setIsGeneratingPdf(true);
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.6 },
-      });
 
-      // Capture at 2x resolution for ultra-sharp 300 DPI text
-      const canvas = await html2canvas(element, {
+      // Create an off-screen, untransformed clone attached directly to document.body
+      // This completely avoids any CSS transform or viewport scaling glitches in html2canvas
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
+      clone.style.top = '0';
+      clone.style.width = '794px'; // Exact 210mm A4 width at 96 DPI
+      clone.style.maxWidth = '794px';
+      clone.style.minHeight = '1123px'; // Standard A4 height
+      clone.style.height = 'auto';
+      clone.style.transform = 'none';
+      clone.style.margin = '0';
+      clone.style.padding = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.border = 'none';
+      clone.style.background = '#ffffff';
+      clone.style.zIndex = '-9999';
+
+      // Strip out preview-only visual aids from download
+      clone.querySelectorAll('.no-print').forEach(el => el.remove());
+      document.body.appendChild(clone);
+
+      // Brief delay to ensure fonts and layout settle
+      await new Promise(resolve => setTimeout(resolve, 80));
+
+      // Capture at crisp 2x resolution
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: 1024,
+        width: 794,
       });
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      document.body.removeChild(clone);
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4',
       });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+      const contentHeightMm = (canvas.height * pdfWidth) / canvas.width;
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // First page
-      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-      heightLeft -= pdfHeight;
-
-      // Add additional page ONLY if content genuinely overflows single page by > 8mm
-      while (heightLeft > 8) {
-        position = heightLeft - imgHeight;
+      // If content fits within 1 page (standard ATS single page with 5mm tolerance)
+      if (contentHeightMm <= pdfHeight + 5) {
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, Math.min(contentHeightMm, pdfHeight), undefined, 'FAST');
+      } else {
+        // Page 1
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, contentHeightMm, undefined, 'FAST');
+        // Page 2
         pdf.addPage();
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-        heightLeft -= pdfHeight;
+        pdf.addImage(imgData, 'JPEG', 0, -pdfHeight, pdfWidth, contentHeightMm, undefined, 'FAST');
+
+        // Only add Page 3 if content genuinely spans over 2 full pages (> 590mm)
+        if (contentHeightMm > pdfHeight * 2 + 5) {
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, -(pdfHeight * 2), pdfWidth, contentHeightMm, undefined, 'FAST');
+        }
       }
 
       const safeName = (resume.personalInfo.fullName || 'Resume').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
       const filename = `${safeName}_ATS_Resume.pdf`;
       pdf.save(filename);
 
+      try {
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+      } catch (e) {}
+
       setCopyFeedback(`Downloaded ${filename} successfully!`);
       setTimeout(() => setCopyFeedback(null), 3500);
     } catch (err) {
       console.error('Direct PDF generation error:', err);
-      // Fallback to isolated print
       handlePrintResume();
     } finally {
       setIsGeneratingPdf(false);
     }
   };
 
-  // 2. Vector Print / Save as PDF Dialog (Clean isolated iframe - 0 Blank Pages)
+  // 2. Vector Print / Save as PDF Dialog (Clean isolated body portal - 0 Blank Pages)
   const handlePrintResume = () => {
     const element = resumePrintRef.current;
     if (!element) {
@@ -497,93 +529,33 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
       return;
     }
 
-    try {
-      confetti({
-        particleCount: 50,
-        spread: 50,
-        origin: { y: 0.6 },
-      });
-    } catch (e) {}
+    // Clean up any stale print mount
+    const existing = document.getElementById('resume-print-mount');
+    if (existing) existing.remove();
 
-    // Create an isolated hidden iframe so ONLY the resume exists in the print context
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'fixed';
-    iframe.style.right = '0';
-    iframe.style.bottom = '0';
-    iframe.style.width = '0';
-    iframe.style.height = '0';
-    iframe.style.border = '0';
-    iframe.style.visibility = 'hidden';
-    document.body.appendChild(iframe);
+    // Create a pristine dedicated print mount attached to body
+    const mount = document.createElement('div');
+    mount.id = 'resume-print-mount';
 
-    const doc = iframe.contentWindow?.document;
-    if (!doc) {
-      window.print();
-      return;
-    }
+    const clone = element.cloneNode(true) as HTMLElement;
+    clone.style.transform = 'none';
+    clone.style.maxWidth = '100%';
+    clone.style.boxShadow = 'none';
+    clone.style.border = 'none';
+    clone.querySelectorAll('.no-print').forEach(el => el.remove());
+    mount.appendChild(clone);
 
-    // Copy all stylesheets from parent document
-    let stylesHtml = '';
-    document.querySelectorAll('style, link[rel="stylesheet"]').forEach(el => {
-      stylesHtml += el.outerHTML;
-    });
+    document.body.appendChild(mount);
+    document.body.classList.add('is-printing-resume');
 
-    doc.open();
-    doc.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>${resume.personalInfo.fullName || 'Resume'} - ATS CV</title>
-          ${stylesHtml}
-          <style>
-            @page {
-              size: A4 portrait;
-              margin: 6mm 8mm;
-            }
-            html, body {
-              margin: 0 !important;
-              padding: 0 !important;
-              background: #ffffff !important;
-              color: #000000 !important;
-              width: 100% !important;
-              height: auto !important;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            #printable-resume {
-              width: 100% !important;
-              max-width: 100% !important;
-              margin: 0 !important;
-              padding: 0 !important;
-              box-shadow: none !important;
-              border: none !important;
-              transform: none !important;
-              overflow: visible !important;
-            }
-            .no-print {
-              display: none !important;
-            }
-          </style>
-        </head>
-        <body>
-          <div id="printable-resume">
-            ${element.innerHTML}
-          </div>
-        </body>
-      </html>
-    `);
-    doc.close();
-
-    // Trigger print once iframe resources are ready
+    // Trigger print once mounted
     setTimeout(() => {
-      iframe.contentWindow?.focus();
-      iframe.contentWindow?.print();
+      window.print();
       setTimeout(() => {
-        if (document.body.contains(iframe)) {
-          document.body.removeChild(iframe);
-        }
-      }, 1500);
-    }, 350);
+        document.body.classList.remove('is-printing-resume');
+        mount.remove();
+      }, 500);
+    }, 150);
   };
 
   // Export JSON handler

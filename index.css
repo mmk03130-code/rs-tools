@@ -80,7 +80,7 @@ html.light .glass-panel {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 6mm 8mm;
+    margin: 8mm 10mm;
   }
   html, body {
     background: #ffffff !important;
@@ -94,35 +94,37 @@ html.light .glass-panel {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  body > #root {
-    min-height: 0 !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-  /* Hide navigation, footers and tools chrome completely from flow */
-  nav, header, footer, aside, .no-print, [role="navigation"], button, input, textarea, select {
+
+  /* When printing resume via mount portal, completely hide #root from document flow */
+  body.is-printing-resume #root {
     display: none !important;
   }
-  body * {
-    visibility: hidden;
-  }
-  #printable-resume, #printable-resume * {
-    visibility: visible;
-  }
-  #printable-resume {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
+
+  /* Resume Print Portal attached to body */
+  #resume-print-mount {
+    display: block !important;
+    position: static !important;
     width: 100% !important;
     max-width: 100% !important;
-    box-shadow: none !important;
-    border: none !important;
-    margin: 0 auto !important;
+    margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
     transform: none !important;
     overflow: visible !important;
   }
+
+  #resume-print-mount * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide navigation, footers, and chrome */
+  nav, header, footer, aside, .no-print, [role="navigation"], button, input, textarea, select {
+    display: none !important;
+  }
+
   .print-only {
     display: block !important;
   }

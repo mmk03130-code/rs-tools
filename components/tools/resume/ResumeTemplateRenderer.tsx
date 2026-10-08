@@ -29,7 +29,7 @@ interface ResumeTemplateRendererProps {
   };
 }
 
-export const ResumeTemplateRenderer: React.FC<ResumeTemplateRendererProps> = ({
+export const ResumeTemplateRenderer = React.memo<ResumeTemplateRendererProps>(({
   resume,
   currentTheme,
 }) => {
@@ -1819,4 +1819,4 @@ export const ResumeTemplateRenderer: React.FC<ResumeTemplateRendererProps> = ({
     default:
       return renderCleanAts();
   }
-};
+});
