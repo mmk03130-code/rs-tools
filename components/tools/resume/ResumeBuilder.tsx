@@ -12,9 +12,9 @@ import confetti from 'canvas-confetti';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
-// Lazy-load the specialized CA & ACCA Studio so standard resume builder bundle is featherlight
-const CaAccaResumeBuilder = React.lazy(() =>
-  import('./CaAccaResumeBuilder').then(m => ({ default: m.CaAccaResumeBuilder }))
+// Lazy-load the specialized CA & ACCA Studio with 47 templates
+const CaAccaResumeStudio = React.lazy(() =>
+  import('./CaAccaResumeStudio').then(m => ({ default: m.CaAccaResumeStudio }))
 );
 
 // Comprehensive Action Verbs for ATS Optimization
@@ -642,7 +642,7 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
 
   if (builderMode === 'finance') {
     return (
-      <CaAccaResumeBuilder
+      <CaAccaResumeStudio
         onSwitchToGeneralMode={() => setBuilderMode('general')}
       />
     );
