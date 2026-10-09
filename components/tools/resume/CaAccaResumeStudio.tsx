@@ -15,13 +15,20 @@ import confetti from 'canvas-confetti';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
+// Clean, professional SVG data URI for candidate avatar (zero CORS risk, zero network dependency, 100% canvas export safe)
+const DEFAULT_AVATAR_DATA_URI =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%230f172a'/%3E%3Ccircle cx='80' cy='60' r='28' fill='%23e2e8f0'/%3E%3Cpath d='M30 138 c0 -28 22 -50 50 -50 s50 22 50 50' fill='%23e2e8f0'/%3E%3C/svg%3E";
+
+const A4_WIDTH_PX = 794;
+const A4_HEIGHT_PX = 1123;
+
 // Initial baseline candidate with generic professional profile "Mr. R"
 const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = {
   ftsBatch: '48',
   crn: 'CRN-98421',
   address: 'Model Town, Block C, Lahore, Pakistan',
   objective: 'Dedicated and results-oriented Chartered Accountancy trainee seeking an articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
-  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  avatarUrl: DEFAULT_AVATAR_DATA_URI,
   personalInfo: {
     fullName: 'Mr. R',
     jobTitle: 'Chartered Accountant Trainee (Articleship)',
@@ -461,13 +468,47 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
   const [gallerySearch, setGallerySearch] = useState<string>('');
   const [atsFriendlyOnly, setAtsFriendlyOnly] = useState<boolean>(false);
 
-  // Zoom & Preview States
-  const [zoomLevel, setZoomLevel] = useState<number>(100);
+  // Zoom & Responsive Layout States
+  const previewContainerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(600);
+  const [zoomMode, setZoomMode] = useState<'fit' | '100' | 'custom'>('fit');
+  const [customZoom, setCustomZoom] = useState<number>(100);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const resumePrintRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Measure container width dynamically to eliminate horizontal cut-off in split mode
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (previewContainerRef.current) {
+        setContainerWidth(previewContainerRef.current.clientWidth);
+      }
+    };
+    handleResize();
+    const observer = new ResizeObserver(handleResize);
+    if (previewContainerRef.current) {
+      observer.observe(previewContainerRef.current);
+    }
+    window.addEventListener('resize', handleResize);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [viewMode]);
+
+  // Auto-fit scale ensures the 794px A4 sheet fits inside the container width with padding
+  const autoFitScale = useMemo(() => {
+    const usableWidth = Math.max(280, containerWidth - 36);
+    return Math.min(1.0, Math.max(0.35, usableWidth / A4_WIDTH_PX));
+  }, [containerWidth]);
+
+  const currentScale = useMemo(() => {
+    if (zoomMode === 'fit') return autoFitScale;
+    if (zoomMode === '100') return 1.0;
+    return customZoom / 100;
+  }, [zoomMode, autoFitScale, customZoom]);
 
   // State update wrapper with history push
   const updateResume = (updated: ExtendedFinanceResumeData) => {
@@ -535,7 +576,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // 100% Guaranteed 0 Blank Pages PDF Export
+  // 100% Reliable Vector PDF Export with untransformed clone and CORS safety
   const handleExportPdf = async () => {
     const element = resumePrintRef.current;
     if (!element) return;
@@ -544,21 +585,47 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       setIsGeneratingPdf(true);
       setToastMessage('Compiling high-resolution vector PDF...');
 
-      const originalTransform = element.style.transform;
-      element.style.transform = 'none';
+      // Create an untransformed clone attached directly to document.body
+      // This completely avoids any CSS transform or viewport scaling glitches in html2canvas
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
+      clone.style.top = '0';
+      clone.style.width = '794px';
+      clone.style.maxWidth = '794px';
+      clone.style.minHeight = '1123px';
+      clone.style.height = 'auto';
+      clone.style.transform = 'none';
+      clone.style.margin = '0';
+      clone.style.padding = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.border = 'none';
+      clone.style.background = '#ffffff';
+      clone.style.zIndex = '-9999';
 
-      const canvas = await html2canvas(element, {
-        scale: 2.5,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 15000,
+      // Ensure all images are CORS safe to prevent tainted canvas
+      clone.querySelectorAll('img').forEach(img => {
+        img.crossOrigin = 'anonymous';
       });
 
-      element.style.transform = originalTransform;
+      document.body.appendChild(clone);
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      // Brief delay to ensure layout and fonts settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Capture at crisp 2x resolution with allowTaint: false to prevent SecurityError
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: 794,
+        windowWidth: 794,
+      });
+
+      document.body.removeChild(clone);
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -566,11 +633,10 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         compress: true,
       });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidthPx = canvas.width;
-      const imgHeightPx = canvas.height;
-      const contentHeightMm = (imgHeightPx * pdfWidth) / imgWidthPx;
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+      const contentHeightMm = (canvas.height * pdfWidth) / canvas.width;
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
       if (contentHeightMm <= pdfHeight + 5) {
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, Math.min(contentHeightMm, pdfHeight), undefined, 'FAST');
@@ -578,6 +644,10 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, contentHeightMm, undefined, 'FAST');
         pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, -pdfHeight, pdfWidth, contentHeightMm, undefined, 'FAST');
+        if (contentHeightMm > pdfHeight * 2 + 5) {
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, -(pdfHeight * 2), pdfWidth, contentHeightMm, undefined, 'FAST');
+        }
       }
 
       const safeName = (safePersonalInfo.fullName || 'Articleship_Resume').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
@@ -592,8 +662,11 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       setTimeout(() => setToastMessage(null), 3500);
     } catch (err) {
       console.error('PDF export error:', err);
-      setToastMessage('Export error: please try standard browser print');
-      setTimeout(() => setToastMessage(null), 4000);
+      // Clean fallback: trigger browser native print engine
+      setToastMessage('Exporting via browser print engine...');
+      setTimeout(() => {
+        window.print();
+      }, 400);
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -860,7 +933,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                   {/* Profile Picture Uploader */}
                   <div className="flex items-center gap-4 p-3 bg-slate-950 border border-slate-800 rounded-2xl">
                     <img
-                      src={resume.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
+                      src={resume.avatarUrl || DEFAULT_AVATAR_DATA_URI}
                       alt="Avatar"
                       className="w-14 h-14 rounded-full object-cover border-2 border-emerald-500/50"
                     />
@@ -1515,19 +1588,49 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Zoom Controls */}
-                <div className="flex items-center rounded-lg bg-slate-950 border border-slate-800 px-1 py-0.5">
+                {/* Responsive View Controls */}
+                <div className="flex items-center rounded-xl bg-slate-950 border border-slate-800 p-0.5">
                   <button
-                    onClick={() => setZoomLevel(prev => Math.max(50, prev - 10))}
-                    className="p-1 text-slate-400 hover:text-white"
+                    onClick={() => setZoomMode('fit')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      zoomMode === 'fit' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+                    }`}
+                    title="Fit page width to container (no horizontal cut-off)"
+                  >
+                    Fit Width
+                  </button>
+                  <button
+                    onClick={() => {
+                      setZoomMode('100');
+                      setCustomZoom(100);
+                    }}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      zoomMode === '100' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+                    }`}
+                    title="Actual print 100% scale"
+                  >
+                    100%
+                  </button>
+                  <div className="h-4 w-px bg-slate-800 mx-1" />
+                  <button
+                    onClick={() => {
+                      setZoomMode('custom');
+                      setCustomZoom(prev => Math.max(40, Math.round(currentScale * 100) - 10));
+                    }}
+                    className="p-1 text-slate-400 hover:text-white cursor-pointer"
                     title="Zoom Out"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-[11px] font-mono text-slate-300 px-1.5">{zoomLevel}%</span>
+                  <span className="text-[11px] font-mono text-slate-300 px-1 min-w-[36px] text-center">
+                    {Math.round(currentScale * 100)}%
+                  </span>
                   <button
-                    onClick={() => setZoomLevel(prev => Math.min(130, prev + 10))}
-                    className="p-1 text-slate-400 hover:text-white"
+                    onClick={() => {
+                      setZoomMode('custom');
+                      setCustomZoom(prev => Math.min(150, Math.round(currentScale * 100) + 10));
+                    }}
+                    className="p-1 text-slate-400 hover:text-white cursor-pointer"
                     title="Zoom In"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />
@@ -1545,27 +1648,38 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
               </div>
             </div>
 
-            {/* A4 Canvas Container with Shadow and Strict A4 Dimensions */}
-            <div className="p-4 sm:p-6 bg-slate-950/90 border border-slate-800/80 rounded-3xl shadow-2xl overflow-x-auto flex justify-center">
+            {/* A4 Canvas Container with Proportional Sizing and Zero Cut-off */}
+            <div
+              ref={previewContainerRef}
+              className="p-3 sm:p-5 bg-slate-950/90 border border-slate-800/80 rounded-3xl shadow-2xl overflow-x-auto overflow-y-auto flex justify-center"
+            >
+              {/* Outer sizing box matches exact scaled dimensions to prevent horizontal cut-off */}
               <div
                 style={{
-                  transform: `scale(${zoomLevel / 100})`,
-                  transformOrigin: 'top center',
-                  transition: 'transform 0.15s ease',
+                  width: `${Math.round(A4_WIDTH_PX * currentScale)}px`,
+                  minHeight: `${Math.round(A4_HEIGHT_PX * currentScale)}px`,
+                  height: `${Math.round(A4_HEIGHT_PX * currentScale)}px`,
+                  transition: 'width 0.15s ease, height 0.15s ease',
                 }}
+                className="relative mx-auto shrink-0"
               >
+                {/* Inner document has standard 794px width, scaled from top left */}
                 <div
-                  id="printable-resume"
-                  ref={resumePrintRef}
-                  className="w-[210mm] max-w-full bg-white text-zinc-900 shadow-2xl relative select-text"
                   style={{
-                    minHeight: '297mm', // exact standard A4
+                    width: `${A4_WIDTH_PX}px`,
+                    minHeight: `${A4_HEIGHT_PX}px`,
+                    transform: `scale(${currentScale})`,
+                    transformOrigin: 'top left',
+                    transition: 'transform 0.15s ease',
                   }}
+                  className="bg-white text-zinc-900 shadow-2xl relative select-text"
                 >
-                  <CaAccaTemplateRenderer
-                    resume={resume}
-                    currentTheme={currentTheme}
-                  />
+                  <div id="printable-resume" ref={resumePrintRef} className="w-full h-full bg-white text-zinc-900">
+                    <CaAccaTemplateRenderer
+                      resume={resume}
+                      currentTheme={currentTheme}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

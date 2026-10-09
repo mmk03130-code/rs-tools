@@ -459,6 +459,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
             <div className="flex justify-center mb-2">
               <img
                 src={resume.avatarUrl}
+                crossOrigin="anonymous"
                 alt={fullName}
                 className="w-20 h-20 rounded-full border-2 border-white object-cover shadow-md"
               />
@@ -597,6 +598,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
             <div className="flex justify-center mb-2">
               <img
                 src={resume.avatarUrl}
+                crossOrigin="anonymous"
                 alt={fullName}
                 className="w-20 h-20 rounded-full border-2 border-zinc-300 object-cover"
               />
@@ -1044,6 +1046,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
           {resume.avatarUrl && (
             <img
               src={resume.avatarUrl}
+              crossOrigin="anonymous"
               alt={fullName}
               className="w-16 h-16 rounded-full border-2 border-white object-cover shadow-lg"
             />
@@ -1303,7 +1306,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   // AND DEFAULT ATS ARCHITECTURE
   // =========================================================================
   return (
-    <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-7 sm:p-9 min-h-[1050px] font-sans">
+    <div className="w-full max-w-[794px] mx-auto box-border bg-white text-zinc-950 text-[10.5px] leading-relaxed p-6 sm:p-8 min-h-[1050px] font-sans">
       {/* ATS Compliant Header */}
       <div className="text-center pb-3 mb-3 border-b-2 border-zinc-900">
         <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">
@@ -1314,7 +1317,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
         </div>
         <div className="text-[10px] text-zinc-600 flex justify-center flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
           {contactSubParts.map((item, idx) => (
-            <span key={idx}>{item}</span>
+            <span key={idx} className="inline-block break-words">{item}</span>
           ))}
         </div>
       </div>
