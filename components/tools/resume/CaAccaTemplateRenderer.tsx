@@ -32,9 +32,9 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   const personalInfo = resume?.personalInfo || {
     fullName: 'Mr. R',
     jobTitle: 'Chartered Accountant Trainee (Articleship)',
-    regNumber: 'CRN-98421',
+    regNumber: 'CRN-88492',
     email: 'mr.r.audit@example.com',
-    phone: '+92 300 1234567',
+    phone: '+92 300 0000000',
     location: 'Lahore, Pakistan',
     summary: '',
   };
@@ -84,7 +84,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
     if (styleType === 'bar') {
       return (
         <div
-          className="text-[11px] font-bold uppercase tracking-wider text-white px-2.5 py-0.5 rounded-sm mb-2 shadow-xs"
+          className="text-[11px] font-bold uppercase tracking-wider text-white px-2.5 py-0.5 rounded-xs mb-2 shadow-xs"
           style={{ backgroundColor: pColor }}
         >
           {title}
@@ -118,7 +118,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
       return (
         <div className="flex items-center gap-2 mb-2">
           <span
-            className="w-2.5 h-2.5 rounded-full inline-block"
+            className="w-2.5 h-2.5 rounded-full inline-block shrink-0"
             style={{ backgroundColor: pColor }}
           />
           <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900">
@@ -353,9 +353,9 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
           ))}
           {!resume.achievements?.length && (
             <>
-              <li>75% Merit Scholarship for Intermediate</li>
-              <li>All AFC/PRC papers qualified in 1st attempt</li>
-              <li>Merit Certificate in Financial Accounting</li>
+              <li>Merit Scholarship for Academic Excellence</li>
+              <li>All PRC / AFC papers qualified in 1st attempt</li>
+              <li>Certificate of Merit in Financial Accounting</li>
             </>
           )}
         </ul>
@@ -386,7 +386,7 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   );
 
   // =========================================================================
-  // TEMPLATE 1: T-01 Classic Corporate (Traditional Masthead with Dark Double Bars)
+  // TEMPLATE 1: T-01 Classic Corporate (Traditional Masthead with Double Bars)
   // =========================================================================
   if (templateId === 'T-01') {
     return (
@@ -398,32 +398,32 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
           <p className="text-xs font-sans font-bold tracking-wider uppercase text-zinc-700 mt-1">
             {contactParts.join('  •  ')}
           </p>
-          <div className="text-[10px] font-sans text-zinc-600 flex justify-center flex-wrap gap-x-4 gap-y-1 mt-1.5">
+          <div className="text-[10px] font-sans text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1.5">
             {contactSubParts.map((item, idx) => (
-              <span key={idx}>{item}</span>
+              <span key={idx} className="break-words">{item}</span>
             ))}
           </div>
         </div>
 
-        <div className="space-y-3 font-sans">
+        <div className="space-y-3.5">
           <div>
             {renderHeader('Career Objective', 'serif')}
-            <p className="text-[10px] text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
           </div>
           <div>
-            {renderHeader('Professional Qualifications (ICAP / ACCA)', 'serif')}
+            {renderHeader('CA / ACCA Examination Track', 'serif')}
             {renderQualifications('table')}
           </div>
           <div>
-            {renderHeader('Articleship & Audit Engagements', 'serif')}
+            {renderHeader('Articleship & Work Experience', 'serif')}
             {renderExperienceList()}
           </div>
           <div>
-            {renderHeader('Academic Background', 'serif')}
+            {renderHeader('Academic Education', 'serif')}
             {renderEducation()}
           </div>
           <div>
-            {renderHeader('Key Competencies & Technical Skills', 'serif')}
+            {renderHeader('Core Technical Standards', 'serif')}
             <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
           </div>
           {renderBottomGrid()}
@@ -434,124 +434,167 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   }
 
   // =========================================================================
-  // TEMPLATES: T-02, T-03, T-25, T-31 (Two-Column Sidebars)
+  // TEMPLATES: T-02 Modern Two Column & T-03 Left Sidebar Dark & T-25 High Contrast & T-31 Asymmetric Split
   // =========================================================================
   if (['T-02', 'T-03', 'T-25', 'T-31'].includes(templateId)) {
-    const isDarkLeft = templateId === 'T-03';
-    const isCompact = templateId === 'T-25';
+    const isDarkLeft = templateId === 'T-03' || templateId === 'T-25';
     const isAsymmetric = templateId === 'T-31';
+    const sidebarWidthClass = isAsymmetric ? 'w-[28%]' : 'w-[34%]';
+    const mainWidthClass = isAsymmetric ? 'w-[72%]' : 'w-[66%]';
 
     return (
-      <div className="w-full bg-white text-zinc-900 text-[11px] leading-relaxed min-h-[1050px] font-sans grid grid-cols-12">
-        {/* Left Sidebar */}
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed min-h-[1050px] flex font-sans">
+        {/* Left Column */}
         <div
-          className={`${
-            isAsymmetric ? 'col-span-4' : 'col-span-4'
-          } p-5 sm:p-6 space-y-4 text-[10px] ${
-            isDarkLeft
-              ? 'bg-slate-900 text-white'
-              : 'bg-slate-100/90 text-zinc-800 border-r border-slate-200'
+          className={`${sidebarWidthClass} p-6 flex flex-col justify-between shrink-0 ${
+            isDarkLeft ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 border-r border-slate-200 text-zinc-900'
           }`}
           style={!isDarkLeft ? { borderRightColor: pColor } : {}}
         >
-          {/* Avatar if exists */}
-          {resume.avatarUrl && (
-            <div className="flex justify-center mb-2">
-              <img
-                src={resume.avatarUrl}
-                crossOrigin="anonymous"
-                alt={fullName}
-                className="w-20 h-20 rounded-full border-2 border-white object-cover shadow-md"
-              />
-            </div>
-          )}
-
-          <div>
-            <h1 className={`text-xl font-black uppercase tracking-tight ${isDarkLeft ? 'text-white' : 'text-zinc-950'}`}>
-              {fullName}
-            </h1>
-            <p
-              className={`text-[10.5px] font-bold uppercase tracking-wider mt-0.5 ${
-                isDarkLeft ? 'text-emerald-400' : 'text-blue-700'
-              }`}
-            >
-              {personalInfo.jobTitle || 'Articleship Trainee'}
-            </p>
-            {resume.ftsBatch && (
-              <span className="inline-block mt-1 px-2 py-0.5 rounded text-[9.5px] font-mono bg-white/20 font-bold">
-                FTS - {resume.ftsBatch}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <h3 className={`font-bold uppercase tracking-wider mb-1.5 border-b pb-1 ${isDarkLeft ? 'text-emerald-400 border-white/20' : 'text-zinc-900 border-zinc-300'}`}>
-              Contact
-            </h3>
-            <div className="space-y-1 text-[10px] break-words">
-              {contactSubParts.map((c, i) => (
-                <div key={i}>{c}</div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className={`font-bold uppercase tracking-wider mb-1.5 border-b pb-1 ${isDarkLeft ? 'text-emerald-400 border-white/20' : 'text-zinc-900 border-zinc-300'}`}>
-              Core Competencies
-            </h3>
-            <div className="flex flex-wrap gap-1">
-              {allSkills.slice(0, 10).map((skill, i) => (
-                <span
-                  key={i}
-                  className={`px-2 py-0.5 rounded text-[9px] font-medium ${
-                    isDarkLeft
-                      ? 'bg-white/10 text-white'
-                      : 'bg-white border border-zinc-300 text-zinc-800'
-                  }`}
-                >
-                  {skill}
+          <div className="space-y-4">
+            {/* Avatar & Name */}
+            <div className="text-center pb-2">
+              <div
+                className="w-20 h-20 rounded-full mx-auto mb-2.5 overflow-hidden border-2 shadow-sm"
+                style={{ borderColor: pColor }}
+              >
+                <img
+                  src={resume.avatarUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%230f172a'/%3E%3Ccircle cx='80' cy='60' r='28' fill='%23e2e8f0'/%3E%3Cpath d='M30 138 c0 -28 22 -50 50 -50 s50 22 50 50' fill='%23e2e8f0'/%3E%3C/svg%3E"}
+                  alt={fullName}
+                  className="w-full h-full object-cover"
+                  crossOrigin="anonymous"
+                />
+              </div>
+              <h1 className="text-lg font-black uppercase tracking-tight">{fullName}</h1>
+              <p
+                className="text-[10px] font-bold uppercase tracking-wider mt-0.5"
+                style={{ color: isDarkLeft ? '#93c5fd' : pColor }}
+              >
+                {personalInfo.jobTitle || 'CA Trainee'}
+              </p>
+              {resume.ftsBatch && (
+                <span className="inline-block mt-1 px-2 py-0.5 rounded text-[9px] font-mono bg-blue-500/20 text-blue-300 font-bold">
+                  FTS Batch {resume.ftsBatch}
                 </span>
+              )}
+            </div>
+
+            {/* Contact Details */}
+            <div className="space-y-1.5 text-[9.5px] border-t border-b py-2.5 border-current/20">
+              <div className="font-bold uppercase tracking-wider text-[10px] mb-1 opacity-80">
+                Contact Details
+              </div>
+              {contactSubParts.map((item, idx) => (
+                <div key={idx} className="break-words leading-tight">{item}</div>
               ))}
+              {resume.crn && <div>CRN: {resume.crn}</div>}
             </div>
-          </div>
 
-          <div>
-            <h3 className={`font-bold uppercase tracking-wider mb-1.5 border-b pb-1 ${isDarkLeft ? 'text-emerald-400 border-white/20' : 'text-zinc-900 border-zinc-300'}`}>
-              Languages
-            </h3>
-            <p>{languages?.map(l => l.language).join(', ') || 'English, Urdu, Punjabi'}</p>
-          </div>
-
-          {resume.references?.[0] && (
+            {/* Core Competencies & Software */}
             <div>
-              <h3 className={`font-bold uppercase tracking-wider mb-1.5 border-b pb-1 ${isDarkLeft ? 'text-emerald-400 border-white/20' : 'text-zinc-900 border-zinc-300'}`}>
-                Reference
-              </h3>
-              <p className="font-semibold">{resume.references[0].name}</p>
-              <p>{resume.references[0].role}</p>
+              <div
+                className="font-bold uppercase tracking-wider text-[10px] mb-1.5 border-b pb-0.5"
+                style={{ borderColor: pColor }}
+              >
+                Accounting & ERP Tools
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {software?.map((s, i) => (
+                  <span
+                    key={i}
+                    className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${
+                      isDarkLeft ? 'bg-slate-800 text-slate-200' : 'bg-white border border-slate-300 text-zinc-800'
+                    }`}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
             </div>
-          )}
+
+            {/* Standards */}
+            <div>
+              <div
+                className="font-bold uppercase tracking-wider text-[10px] mb-1.5 border-b pb-0.5"
+                style={{ borderColor: pColor }}
+              >
+                Standards & Frameworks
+              </div>
+              <ul className="list-disc pl-3.5 space-y-0.5 text-[9px] opacity-90">
+                {standards?.map((std, i) => (
+                  <li key={i}>{std}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Languages */}
+            <div>
+              <div className="font-bold uppercase tracking-wider text-[10px] mb-1 opacity-80">Languages</div>
+              <div className="text-[9.5px]">
+                {languages?.map(l => `${l.language} (${l.proficiency})`).join(', ') || 'English, Urdu'}
+              </div>
+            </div>
+          </div>
+
+          {/* Reference bottom tag */}
+          <div className="pt-2 border-t border-current/20 text-[9px] opacity-80">
+            <strong>Mentor Reference:</strong>
+            <div>{resume.references?.[0]?.name || 'Available on request'}</div>
+          </div>
         </div>
 
         {/* Right Main Body */}
-        <div className="col-span-8 p-6 sm:p-8 space-y-4 text-[10.5px]">
-          <div>
-            {renderHeader('Career Profile & Objective', 'boxed')}
-            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+        <div className={`${mainWidthClass} p-7 space-y-3.5 flex flex-col justify-between`}>
+          <div className="space-y-3.5">
+            {/* Header Objective */}
+            <div>
+              {renderHeader('Career Objective', 'bar')}
+              <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+            </div>
+
+            {/* Qualifications / Examinations */}
+            <div>
+              {renderHeader('CA / ACCA Examination Track & Results', 'bar')}
+              {renderQualifications('badges')}
+            </div>
+
+            {/* Articleship & Professional Experience */}
+            <div>
+              {renderHeader('Articleship & Professional Engagements', 'bar')}
+              {renderExperienceList()}
+            </div>
+
+            {/* Academic Background */}
+            <div>
+              {renderHeader('Academic Education', 'bar')}
+              {renderEducation()}
+            </div>
+
+            {/* Certifications & Training */}
+            <div>
+              {renderHeader('Certifications & Technical Training', 'bar')}
+              <div className="grid grid-cols-2 gap-2 text-[9.5px]">
+                {certifications?.map(c => (
+                  <div key={c.id} className="p-1.5 rounded bg-zinc-50 border border-zinc-200">
+                    <strong>{c.name}</strong>
+                    <div className="text-zinc-500">{c.issuer}</div>
+                  </div>
+                ))}
+                {resume.courses?.map(c => (
+                  <div key={c.id} className="p-1.5 rounded bg-zinc-50 border border-zinc-200">
+                    <strong>{c.name}</strong>
+                    <div className="text-zinc-500">{c.institute}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <div>
-            {renderHeader('Professional Qualifications (ICAP / ACCA)', 'boxed')}
-            {renderQualifications(isCompact ? 'badges' : 'standard')}
+
+          {/* Bottom Activities row */}
+          <div className="pt-2 border-t border-zinc-200 text-[10px] text-zinc-600 flex justify-between items-center">
+            <span>Extra-Curricular: {resume.activities || 'Debates, Sports, Financial Modeling Club'}</span>
+            <span className="font-mono text-[9px] text-zinc-400">Template: {templateId}</span>
           </div>
-          <div>
-            {renderHeader('Articleship & Audit Engagements', 'boxed')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Academic Background', 'boxed')}
-            {renderEducation()}
-          </div>
-          {renderBottomGrid()}
         </div>
       </div>
     );
@@ -562,67 +605,59 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   // =========================================================================
   if (templateId === 'T-04') {
     return (
-      <div className="w-full bg-white text-zinc-900 text-[11px] leading-relaxed min-h-[1050px] font-sans grid grid-cols-12">
-        {/* Left Main Body */}
-        <div className="col-span-8 p-6 sm:p-8 space-y-4 text-[10.5px]">
-          <div className="border-b-2 pb-3 mb-2" style={{ borderColor: pColor }}>
-            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
-            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  |  ')}</p>
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed min-h-[1050px] flex font-sans">
+        {/* Left Main (66%) */}
+        <div className="w-[66%] p-7 space-y-3.5 border-r border-zinc-200">
+          <div>
+            <h1 className="text-2xl font-black uppercase tracking-tight" style={{ color: pColor }}>
+              {fullName}
+            </h1>
+            <p className="text-xs font-bold text-zinc-700 uppercase tracking-wider mt-0.5">
+              {contactParts.join('  •  ')}
+            </p>
           </div>
 
           <div>
-            {renderHeader('Executive Profile', 'bar')}
-            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+            {renderHeader('Executive Objective', 'boxed')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
           </div>
+
           <div>
-            {renderHeader('Qualifications Record', 'bar')}
-            {renderQualifications('standard')}
+            {renderHeader('CA / ACCA Examination Track', 'boxed')}
+            {renderQualifications('table')}
           </div>
+
           <div>
-            {renderHeader('Practical Articleship & Experience', 'bar')}
+            {renderHeader('Articleship & Audit Engagements', 'boxed')}
             {renderExperienceList()}
           </div>
+
           <div>
-            {renderHeader('Academic Background', 'bar')}
+            {renderHeader('Academic Education', 'boxed')}
             {renderEducation()}
           </div>
+
           {renderBottomGrid()}
         </div>
 
-        {/* Right Sidebar */}
-        <div
-          className="col-span-4 p-5 sm:p-6 space-y-4 text-[10px] bg-slate-50 border-l border-slate-200"
-          style={{ borderLeftColor: pColor }}
-        >
-          {resume.avatarUrl && (
-            <div className="flex justify-center mb-2">
-              <img
-                src={resume.avatarUrl}
-                crossOrigin="anonymous"
-                alt={fullName}
-                className="w-20 h-20 rounded-full border-2 border-zinc-300 object-cover"
-              />
-            </div>
-          )}
-
-          <div>
-            <h3 className="font-bold uppercase tracking-wider mb-1.5 text-zinc-900 border-b border-zinc-300 pb-1">
-              Contact Matrix
+        {/* Right Sidebar (34%) */}
+        <div className="w-[34%] bg-slate-50 p-6 space-y-4">
+          <div className="space-y-1 text-[10px]">
+            <h3 className="font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-1">
+              Contact Details
             </h3>
-            <div className="space-y-1 text-[10px] break-words">
-              {contactSubParts.map((c, i) => (
-                <div key={i}>{c}</div>
-              ))}
-            </div>
+            {contactSubParts.map((item, idx) => (
+              <div key={idx} className="break-words text-zinc-700">{item}</div>
+            ))}
           </div>
 
           <div>
-            <h3 className="font-bold uppercase tracking-wider mb-1.5 text-zinc-900 border-b border-zinc-300 pb-1">
-              Standards & Tools
+            <h3 className="font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-1 mb-1.5">
+              Accounting Tools
             </h3>
             <div className="flex flex-wrap gap-1">
-              {allSkills.map((s, i) => (
-                <span key={i} className="px-2 py-0.5 rounded bg-white border border-zinc-300 text-zinc-800 text-[9px]">
+              {software?.map((s, i) => (
+                <span key={i} className="px-2 py-0.5 rounded text-[9px] bg-white border border-zinc-200 text-zinc-800 font-medium">
                   {s}
                 </span>
               ))}
@@ -630,255 +665,337 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
           </div>
 
           <div>
-            <h3 className="font-bold uppercase tracking-wider mb-1.5 text-zinc-900 border-b border-zinc-300 pb-1">
-              Languages
+            <h3 className="font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-1 mb-1.5">
+              Frameworks & Standards
             </h3>
-            <p>{languages?.map(l => l.language).join(', ') || 'English, Urdu'}</p>
+            <ul className="list-disc pl-4 space-y-0.5 text-zinc-700 text-[9.5px]">
+              {standards?.map((s, i) => (
+                <li key={i}>{s}</li>
+              ))}
+            </ul>
           </div>
 
-          {renderFooterRow()}
+          <div>
+            <h3 className="font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-1 mb-1">
+              Core Competencies
+            </h3>
+            <div className="space-y-1 text-zinc-700 text-[10px]">
+              {coreCompetencies?.map((c, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: pColor }} />
+                  <span>{c}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-zinc-200 text-[9.5px] text-zinc-600">
+            <strong>Mentor Reference:</strong>
+            <div>{resume.references?.[0]?.name || 'Available on request'}</div>
+          </div>
         </div>
       </div>
     );
   }
 
   // =========================================================================
-  // TEMPLATES: T-05 Minimal ATS & T-35 Modern Minimal
+  // TEMPLATES: T-05 Minimal ATS & T-35 Simple ATS Classic & T-21 Minimalist Clean
   // =========================================================================
-  if (['T-05', 'T-35'].includes(templateId)) {
+  if (['T-05', 'T-21', 'T-35'].includes(templateId)) {
     return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-8 sm:p-12 min-h-[1050px] font-sans">
-        <div className="text-center pb-4 mb-4">
-          <h1 className="text-3xl font-light uppercase tracking-widest text-zinc-900">{fullName}</h1>
-          <p className="text-xs font-medium text-zinc-600 tracking-wider mt-1">{contactParts.join('  •  ')}</p>
-          <div className="text-[10px] text-zinc-500 flex justify-center flex-wrap gap-x-4 gap-y-0.5 mt-1">
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="text-center pb-2 mb-3 border-b border-zinc-400">
+          <h1 className="text-2xl font-bold uppercase tracking-wider text-zinc-950">{fullName}</h1>
+          <p className="text-[11px] text-zinc-700 uppercase tracking-wide mt-0.5">
+            {contactParts.join(' | ')}
+          </p>
+          <div className="text-[10px] text-zinc-600 flex justify-center flex-wrap gap-x-2 mt-1">
             {contactSubParts.map((item, idx) => (
-              <span key={idx}>{item}</span>
+              <span key={idx} className="break-words">{item} {idx < contactSubParts.length - 1 ? '•' : ''}</span>
             ))}
           </div>
-          <div className="w-16 h-0.5 bg-zinc-300 mx-auto mt-3" />
-        </div>
-
-        <div className="space-y-3.5">
-          <div>
-            {renderHeader('Career Objective', 'minimal')}
-            <p className="text-zinc-700 leading-relaxed text-justify">{objectiveText}</p>
-          </div>
-          <div>
-            {renderHeader('Professional Qualifications', 'minimal')}
-            {renderQualifications('standard')}
-          </div>
-          <div>
-            {renderHeader('Practical Experience', 'minimal')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Education', 'minimal')}
-            {renderEducation()}
-          </div>
-          <div>
-            {renderHeader('Skills & Competencies', 'minimal')}
-            <p className="text-zinc-700">{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATES: T-07 Executive, T-08 Finance Executive, T-39 Senior Finance
-  // =========================================================================
-  if (['T-07', 'T-08', 'T-39'].includes(templateId)) {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[11px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-serif">
-        <div className="text-center pb-4 mb-4 border-b-2" style={{ borderColor: pColor }}>
-          <span className="text-[10px] font-sans uppercase font-bold tracking-widest" style={{ color: pColor }}>
-            Executive Leadership & Assurance Profile
-          </span>
-          <h1 className="text-3xl font-extrabold uppercase tracking-tight text-zinc-950 mt-1">{fullName}</h1>
-          <div className="text-xs font-sans font-semibold tracking-wider uppercase mt-1 text-zinc-700">
-            {contactParts.join('  •  ')}
-          </div>
-          <div className="text-[10px] font-sans text-zinc-600 flex justify-center flex-wrap gap-x-4 gap-y-1 mt-1.5">
-            {contactSubParts.map((item, idx) => (
-              <span key={idx}>{item}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* Executive Callout Quote */}
-        <div
-          className="bg-zinc-50 border-l-4 p-3.5 mb-4 italic text-zinc-800 text-[10.5px] rounded-r shadow-2xs font-sans"
-          style={{ borderColor: pColor }}
-        >
-          "{objectiveText}"
-        </div>
-
-        {/* KPI Mini-Cards if T-08 or T-39 */}
-        {(templateId === 'T-08' || templateId === 'T-39') && (
-          <div className="grid grid-cols-3 gap-3 mb-4 font-sans text-center">
-            <div className="p-2 rounded bg-zinc-50 border border-zinc-200">
-              <span className="text-xs font-bold text-zinc-900">CA Articleship</span>
-              <p className="text-[9.5px] text-zinc-600">3.5-Yr Induction Ready</p>
-            </div>
-            <div className="p-2 rounded bg-zinc-50 border border-zinc-200">
-              <span className="text-xs font-bold text-zinc-900">IFRS & ISA</span>
-              <p className="text-[9.5px] text-zinc-600">Technical Rigor</p>
-            </div>
-            <div className="p-2 rounded bg-zinc-50 border border-zinc-200">
-              <span className="text-xs font-bold text-zinc-900">Corporate Tax</span>
-              <p className="text-[9.5px] text-zinc-600">ITO 2001 & Sales Tax</p>
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-4 font-sans">
-          <div>
-            {renderHeader('Executive Credentials & Professional Qualifications', 'accent')}
-            {renderQualifications('badges')}
-          </div>
-          <div>
-            {renderHeader('Articleship & Assurance Engagements', 'accent')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Academic Background', 'accent')}
-            {renderEducation()}
-          </div>
-          <div>
-            {renderHeader('Regulatory Frameworks, Systems & Standards', 'accent')}
-            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATES: T-09 Accounting Professional, T-10 Audit Professional, T-11 Tax Professional
-  // =========================================================================
-  if (['T-09', 'T-10', 'T-11'].includes(templateId)) {
-    const isAudit = templateId === 'T-10';
-    const isTax = templateId === 'T-11';
-
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-7 sm:p-9 min-h-[1050px] font-sans">
-        {/* Top Professional Ribbon */}
-        <div
-          className="rounded-xl p-4 mb-4 text-white flex justify-between items-center shadow-sm"
-          style={{ backgroundColor: pColor }}
-        >
-          <div>
-            <span className="text-[9.5px] font-mono tracking-widest uppercase text-emerald-300 font-bold">
-              {isTax ? 'TAXATION & CORPORATE COMPLIANCE' : isAudit ? 'STATUTORY AUDIT & ASSURANCE' : 'CHARTERED ACCOUNTING'}
-            </span>
-            <h1 className="text-2xl font-black uppercase tracking-tight text-white">{fullName}</h1>
-            <p className="text-xs font-medium text-zinc-200 mt-0.5">{contactParts.join('  |  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-300">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        {/* Specialized Assertion / Domain Callout */}
-        <div className="p-2.5 rounded-lg bg-blue-50/70 border border-blue-200 mb-3 flex items-center justify-between text-[10px]">
-          <span className="font-bold text-blue-900">
-            {isTax
-              ? 'Key Expertise: Direct & Indirect Tax, Withholding Audits, FBR IRIS Filings'
-              : isAudit
-              ? 'ISA Core Assertions: Completeness, Accuracy, Cut-off, Rights & Valuation'
-              : 'Reporting Standard: IFRS, IAS, Companies Act 2017 & Financial Modeling'}
-          </span>
-          <span className="px-2 py-0.5 rounded font-mono font-bold bg-white text-blue-800 border border-blue-300">
-            {resume.crn ? `CRN: ${resume.crn}` : 'ICAP Qualified'}
-          </span>
         </div>
 
         <div className="space-y-3">
           <div>
-            {renderHeader('Career Objective', 'bar')}
-            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
-          </div>
-          <div>
-            {renderHeader('Examination Record & Papers Status', 'bar')}
-            {renderQualifications('table')}
-          </div>
-          <div>
-            {renderHeader('Practical Experience & Engagements', 'bar')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Academic Background', 'bar')}
-            {renderEducation()}
-          </div>
-          <div>
-            {renderHeader('Technical Competencies', 'bar')}
-            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATES: T-12 Big Four Style, T-13 Management Consulting, T-15 Investment Banking
-  // =========================================================================
-  if (['T-12', 'T-13', 'T-15'].includes(templateId)) {
-    const isIB = templateId === 'T-15';
-    return (
-      <div className="w-full bg-white text-zinc-950 text-[10px] leading-normal p-6 sm:p-8 min-h-[1050px] font-sans">
-        <div className="text-center pb-2.5 mb-3 border-b-2 border-zinc-900">
-          <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
-          <p className="text-[11px] font-bold text-zinc-800 uppercase tracking-wide mt-0.5">
-            {contactParts.join('  |  ')}
-          </p>
-          <div className="text-[9.5px] text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1">
-            {contactSubParts.map((item, idx) => (
-              <span key={idx}>{item}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-2.5">
-          <div>
-            <h2 className="text-[10.5px] font-black uppercase tracking-wider text-zinc-950 border-b border-zinc-400 pb-0.5 mb-1">
-              {isIB ? 'EXECUTIVE PROFILE & TRANSACTION CAPACITY' : 'EXECUTIVE SUMMARY & CAREER OBJECTIVE'}
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Professional Objective
             </h2>
-            <p className="text-[9.5px] text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
           </div>
 
           <div>
-            <h2 className="text-[10.5px] font-black uppercase tracking-wider text-zinc-950 border-b border-zinc-400 pb-0.5 mb-1">
-              PROFESSIONAL CREDENTIALS & PAPERS PASSED
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Examination Matrix & Credentials
             </h2>
             {renderQualifications('standard')}
           </div>
 
           <div>
-            <h2 className="text-[10.5px] font-black uppercase tracking-wider text-zinc-950 border-b border-zinc-400 pb-0.5 mb-1">
-              {isIB ? 'FINANCIAL MODELING & AUDIT ENGAGEMENTS' : 'ARTICLESHIP & CLIENT ENGAGEMENTS'}
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Articleship & Practical Experience
             </h2>
             {renderExperienceList(false)}
           </div>
 
           <div>
-            <h2 className="text-[10.5px] font-black uppercase tracking-wider text-zinc-950 border-b border-zinc-400 pb-0.5 mb-1">
-              ACADEMIC MERIT & EDUCATION
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Academic Background
             </h2>
             {renderEducation()}
           </div>
 
           <div>
-            <h2 className="text-[10.5px] font-black uppercase tracking-wider text-zinc-950 border-b border-zinc-400 pb-0.5 mb-1">
-              SKILLS, FRAMEWORKS & SOFTWARE
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Technical Standards & Tools
+            </h2>
+            <p className="text-zinc-700">{allSkills.join('  •  ')}</p>
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-06 Modern ATS & T-43 American Standard ATS
+  // =========================================================================
+  if (['T-06', 'T-43'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="pb-3 mb-4 border-b-2" style={{ borderColor: pColor }}>
+          <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+          <div className="text-[11px] font-bold uppercase tracking-wide mt-0.5" style={{ color: pColor }}>
+            {contactParts.join('  |  ')}
+          </div>
+          <div className="text-[10px] text-zinc-600 flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words font-mono text-[9.5px]">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'accent')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+
+          <div>
+            {renderHeader('CA / ACCA Examination Track', 'accent')}
+            {renderQualifications('standard')}
+          </div>
+
+          <div>
+            {renderHeader('Articleship & Audit Engagements', 'accent')}
+            {renderExperienceList()}
+          </div>
+
+          <div>
+            {renderHeader('Academic Education', 'accent')}
+            {renderEducation()}
+          </div>
+
+          <div>
+            {renderHeader('Competencies & Software', 'accent')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-07 Executive & T-08 Finance Executive & T-39 CFO & Director
+  // =========================================================================
+  if (['T-07', 'T-08', 'T-39'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-serif">
+        <div className="text-center pb-4 mb-4 border-b-2 border-zinc-900">
+          <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-zinc-500">
+            Executive Financial Profile
+          </span>
+          <h1 className="text-3xl font-black uppercase tracking-wider text-zinc-950 mt-1">{fullName}</h1>
+          <div className="text-xs font-sans font-semibold text-zinc-700 mt-1">
+            {contactParts.join('  •  ')}
+          </div>
+          <div className="text-[10px] font-sans text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1.5">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* KPI Summary Stat Cards */}
+        <div className="grid grid-cols-4 gap-2 text-center font-sans mb-4">
+          <div className="p-2 rounded bg-slate-50 border border-slate-200">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 block">Exams Passed</span>
+            <span className="text-sm font-black text-zinc-900">100% Track</span>
+          </div>
+          <div className="p-2 rounded bg-slate-50 border border-slate-200">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 block">FTS Batch</span>
+            <span className="text-sm font-black" style={{ color: pColor }}>{resume.ftsBatch || '49'}</span>
+          </div>
+          <div className="p-2 rounded bg-slate-50 border border-slate-200">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 block">Standards</span>
+            <span className="text-sm font-black text-zinc-900">IFRS / ISA</span>
+          </div>
+          <div className="p-2 rounded bg-slate-50 border border-slate-200">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 block">Articleship</span>
+            <span className="text-sm font-black text-emerald-700">Audit Ready</span>
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Executive Career Summary', 'serif')}
+            <p className="text-zinc-800 text-justify leading-relaxed italic">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('Professional Qualifications & Papers Cleared', 'serif')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Articleship & Audit Experience', 'serif')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Academic Education', 'serif')}
+            {renderEducation()}
+          </div>
+          <div>
+            {renderHeader('Technical Competencies & Standards', 'serif')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-09 Accounting Professional & T-10 Audit & T-11 Tax & T-38 Forensic
+  // =========================================================================
+  if (['T-09', 'T-10', 'T-11', 'T-38'].includes(templateId)) {
+    const isAudit = templateId === 'T-10' || templateId === 'T-38';
+    const isTax = templateId === 'T-11';
+
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        {/* Distinctive Accounting Banner Masthead */}
+        <div className="p-4 rounded-xl text-white mb-4 shadow-sm" style={{ backgroundColor: pColor }}>
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-[10px] font-mono tracking-widest uppercase text-blue-200">
+                {isAudit ? 'Audit & Assurance Specialization' : isTax ? 'Direct & Indirect Tax Specialization' : 'Chartered Accountancy Track'}
+              </span>
+              <h1 className="text-2xl font-black uppercase tracking-tight">{fullName}</h1>
+              <p className="text-xs font-medium text-slate-200">{contactParts.join('  •  ')}</p>
+            </div>
+            <div className="text-right text-[10px] text-slate-200 font-mono">
+              <div>CRN: {resume.crn || 'CRN-88492'}</div>
+              <div>FTS: Batch {resume.ftsBatch || '49'}</div>
+              <div className="text-emerald-300 font-bold">QCR Audit Firm Track</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-zinc-600 mb-3 pb-2 border-b border-zinc-200">
+          {contactSubParts.map((item, idx) => (
+            <span key={idx} className="break-words">{item}</span>
+          ))}
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective & Articleship Induction', 'bar')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+
+          <div>
+            {renderHeader('CA / ACCA Examination Track Record', 'bar')}
+            {renderQualifications('table')}
+          </div>
+
+          <div>
+            {renderHeader('Practical Articleship & Client Engagements', 'bar')}
+            {renderExperienceList()}
+          </div>
+
+          <div>
+            {renderHeader('Academic Background', 'bar')}
+            {renderEducation()}
+          </div>
+
+          <div>
+            {renderHeader('Technical Competencies (IFRS, ISA & ERP)', 'bar')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-12 Big Four Style & T-13 Consulting & T-15 Investment Banking
+  // =========================================================================
+  if (['T-12', 'T-13', 'T-15'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        {/* Crisp Consulting Masthead */}
+        <div className="border-b-2 border-zinc-900 pb-2 mb-3 flex justify-between items-baseline">
+          <div>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  |  ')}</p>
+          </div>
+          <div className="text-right text-[10px] text-zinc-600">
+            {contactSubParts.map((item, idx) => (
+              <div key={idx} className="break-words">{item}</div>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1.5">
+              Engagement Objective & Scope
+            </h2>
+            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+          </div>
+
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1.5">
+              Examination Credentials & Professional Stages
+            </h2>
+            {renderQualifications('table')}
+          </div>
+
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1.5">
+              Articleship & Advisory Engagements
+            </h2>
+            {renderExperienceList()}
+          </div>
+
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1.5">
+              Academic Background
+            </h2>
+            {renderEducation()}
+          </div>
+
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1.5">
+              Financial Standards & Technical Stack
             </h2>
             <p className="text-[9.5px] text-zinc-800">{allSkills.join('  •  ')}</p>
           </div>
@@ -891,375 +1008,72 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   }
 
   // =========================================================================
-  // TEMPLATES: T-16 Graduate, T-17 CA Student (ICAP), T-18 ACCA Student, T-19 Internship
+  // TEMPLATES: T-14 Corporate Banking & T-37 Treasury & Capital
   // =========================================================================
-  if (['T-16', 'T-17', 'T-18', 'T-19'].includes(templateId)) {
-    const isIcap = templateId === 'T-17';
-    const isAcca = templateId === 'T-18';
-
+  if (['T-14', 'T-37'].includes(templateId)) {
     return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-7 sm:p-9 min-h-[1050px] font-sans">
-        {/* Top Badges Bar */}
-        <div className="flex justify-between items-center border-b-2 pb-3 mb-3" style={{ borderColor: pColor }}>
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-blue-100 text-blue-900">
-                {isIcap ? 'ICAP STUDENT' : isAcca ? 'ACCA STUDENT' : 'GRADUATE CANDIDATE'}
-              </span>
-              {resume.ftsBatch && (
-                <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-100 text-emerald-900">
-                  FTS - {resume.ftsBatch}
-                </span>
-              )}
-              {resume.crn && (
-                <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-zinc-100 text-zinc-800 border">
-                  CRN: {resume.crn}
-                </span>
-              )}
-            </div>
-            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
-            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-600">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          <div>
-            {renderHeader('Career Objective (3.5-Yr Articleship Induction)', 'tag')}
-            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
-          </div>
-
-          {/* Education First if Fresh Graduate T-16 */}
-          {templateId === 'T-16' && (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="border-b-4 pb-3 mb-4" style={{ borderColor: pColor }}>
+          <div className="flex justify-between items-center">
             <div>
-              {renderHeader('Academic Honors & High School Merit', 'tag')}
-              {renderEducation()}
-            </div>
-          )}
-
-          <div>
-            {renderHeader(isIcap ? 'ICAP PRC / CAF Papers Status' : isAcca ? 'ACCA Papers Status' : 'Qualifications', 'tag')}
-            {renderQualifications('badges')}
-          </div>
-
-          <div>
-            {renderHeader('Practical Experience & Articleship Intent', 'tag')}
-            {renderExperienceList()}
-          </div>
-
-          {templateId !== 'T-16' && (
-            <div>
-              {renderHeader('Academic Background', 'tag')}
-              {renderEducation()}
-            </div>
-          )}
-
-          <div>
-            {renderHeader('Core Competencies & Tools', 'tag')}
-            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
-          </div>
-
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATE 21: T-21 Timeline Architecture
-  // =========================================================================
-  if (templateId === 'T-21') {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[11px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
-        <div className="border-b-2 pb-4 mb-4 flex justify-between items-baseline" style={{ borderColor: pColor }}>
-          <div>
-            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
-            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-600">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-4">
-          {renderHeader('Career Path & Objective', 'line')}
-          <p className="text-[10.5px] text-zinc-800 leading-relaxed">{objectiveText}</p>
-        </div>
-
-        {/* Timeline spine */}
-        <div className="border-l-2 pl-4 ml-2 space-y-4 my-4" style={{ borderColor: pColor }}>
-          <div className="relative">
-            <div className="w-3 h-3 rounded-full absolute -left-[22px] top-1" style={{ backgroundColor: pColor }} />
-            <h3 className="text-xs font-bold uppercase text-zinc-900">Milestone 1: Professional Qualifications</h3>
-            {renderQualifications('standard')}
-          </div>
-
-          <div className="relative">
-            <div className="w-3 h-3 rounded-full absolute -left-[22px] top-1" style={{ backgroundColor: pColor }} />
-            <h3 className="text-xs font-bold uppercase text-zinc-900">Milestone 2: Articleship & Audit Engagements</h3>
-            {renderExperienceList()}
-          </div>
-
-          <div className="relative">
-            <div className="w-3 h-3 rounded-full absolute -left-[22px] top-1" style={{ backgroundColor: pColor }} />
-            <h3 className="text-xs font-bold uppercase text-zinc-900">Milestone 3: Academic Foundations</h3>
-            {renderEducation()}
-          </div>
-        </div>
-
-        {renderBottomGrid()}
-        {renderFooterRow()}
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATES: T-22 Split Header, T-27 Color Block, T-28 Top Band Banner
-  // =========================================================================
-  if (['T-22', 'T-27', 'T-28'].includes(templateId)) {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-6 sm:p-8 min-h-[1050px] font-sans">
-        {/* Large Header Banner */}
-        <div
-          className="rounded-2xl p-6 mb-5 text-white flex flex-wrap justify-between items-center gap-4 shadow-md"
-          style={{ backgroundColor: pColor }}
-        >
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-300">
-              CHARTERED ACCOUNTANCY & AUDIT ASSURANCE
-            </span>
-            <h1 className="text-3xl font-black uppercase tracking-tight text-white mt-1">{fullName}</h1>
-            <p className="text-xs font-semibold text-zinc-200 mt-0.5">{contactParts.join('  •  ')}</p>
-            <div className="text-[10px] text-zinc-300 flex flex-wrap gap-x-3 gap-y-0.5 mt-2">
-              {contactSubParts.map((part, i) => (
-                <span key={i}>{part}</span>
-              ))}
-            </div>
-          </div>
-          {resume.avatarUrl && (
-            <img
-              src={resume.avatarUrl}
-              crossOrigin="anonymous"
-              alt={fullName}
-              className="w-16 h-16 rounded-full border-2 border-white object-cover shadow-lg"
-            />
-          )}
-        </div>
-
-        <div className="space-y-3.5">
-          <div>
-            {renderHeader('Career Objective', 'tag')}
-            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
-          </div>
-          <div>
-            {renderHeader('Professional Qualifications (ICAP / ACCA)', 'tag')}
-            {renderQualifications('badges')}
-          </div>
-          <div>
-            {renderHeader('Practical Experience & Articleship', 'tag')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Academic Background', 'tag')}
-            {renderEducation()}
-          </div>
-          <div>
-            {renderHeader('Technical Competencies & Systems', 'tag')}
-            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATES: T-29 Card Based, T-30 Grid Matrix 2x2, T-32 Creative, T-42 Portfolio
-  // =========================================================================
-  if (['T-29', 'T-30', 'T-32', 'T-42'].includes(templateId)) {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-6 sm:p-8 min-h-[1050px] font-sans">
-        <div className="flex justify-between items-center border-b pb-3 mb-3">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">
-              Professional Finance & Audit Portfolio
-            </span>
-            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
-            <p className="text-xs text-zinc-600 mt-0.5">{contactParts.join('  |  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-500">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 mb-3">
-          <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 mb-0.5">Career Objective</h2>
-          <p className="text-[10px] text-zinc-700 leading-relaxed">{objectiveText}</p>
-        </div>
-
-        {/* 2x2 Card Grid */}
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          <div className="p-3 rounded-xl border border-zinc-200 bg-white shadow-2xs">
-            <h3 className="text-[10.5px] font-bold uppercase text-zinc-900 border-b pb-1 mb-2" style={{ color: pColor }}>
-              Qualifications Record
-            </h3>
-            {renderQualifications('standard')}
-          </div>
-
-          <div className="p-3 rounded-xl border border-zinc-200 bg-white shadow-2xs">
-            <h3 className="text-[10.5px] font-bold uppercase text-zinc-900 border-b pb-1 mb-2" style={{ color: pColor }}>
-              Academic Background
-            </h3>
-            {renderEducation()}
-          </div>
-
-          <div className="p-3 rounded-xl border border-zinc-200 bg-white shadow-2xs col-span-2">
-            <h3 className="text-[10.5px] font-bold uppercase text-zinc-900 border-b pb-1 mb-2" style={{ color: pColor }}>
-              Articleship & Practical Experience
-            </h3>
-            {renderExperienceList()}
-          </div>
-        </div>
-
-        {renderBottomGrid()}
-        {renderFooterRow()}
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATE 26: T-26 Premium Swiss Monochrome (Pure Black & White)
-  // =========================================================================
-  if (templateId === 'T-26') {
-    return (
-      <div className="w-full bg-white text-black text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
-        <div className="border-b-4 border-black pb-3 mb-4 flex justify-between items-end">
-          <div>
-            <h1 className="text-3xl font-black uppercase tracking-tight text-black">{fullName}</h1>
-            <p className="text-xs font-bold uppercase tracking-wider mt-0.5">{contactParts.join('  •  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-800">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-3.5">
-          <div>
-            <h2 className="text-[11px] font-black uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-1.5">
-              CAREER OBJECTIVE
-            </h2>
-            <p className="text-zinc-900 leading-relaxed text-justify">{objectiveText}</p>
-          </div>
-          <div>
-            <h2 className="text-[11px] font-black uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-1.5">
-              PROFESSIONAL QUALIFICATIONS
-            </h2>
-            {renderQualifications('standard')}
-          </div>
-          <div>
-            <h2 className="text-[11px] font-black uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-1.5">
-              PRACTICAL EXPERIENCE & ARTICLESHIP
-            </h2>
-            {renderExperienceList()}
-          </div>
-          <div>
-            <h2 className="text-[11px] font-black uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-1.5">
-              ACADEMIC BACKGROUND
-            </h2>
-            {renderEducation()}
-          </div>
-          <div>
-            <h2 className="text-[11px] font-black uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-1.5">
-              COMPETENCIES
-            </h2>
-            <p>{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATE 34: T-34 European Europass Style
-  // =========================================================================
-  if (templateId === 'T-34') {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-7 sm:p-9 min-h-[1050px] font-sans">
-        <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 mb-4 flex justify-between items-center">
-          <div>
-            <span className="text-[9.5px] font-bold uppercase tracking-wider text-blue-700">Curriculum Vitae</span>
-            <h1 className="text-2xl font-black uppercase text-zinc-950 mt-0.5">{fullName}</h1>
-            <p className="text-xs text-zinc-700 font-semibold">{contactParts.join('  |  ')}</p>
-          </div>
-          <div className="text-right text-[10px] text-zinc-600">
-            {contactSubParts.map((c, i) => (
-              <div key={i}>{c}</div>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          <div>
-            {renderHeader('Personal Statement', 'boxed')}
-            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
-          </div>
-          <div>
-            {renderHeader('Education & Training (ICAP / ACCA)', 'boxed')}
-            {renderQualifications('standard')}
-          </div>
-          <div>
-            {renderHeader('Work Experience & Articleship', 'boxed')}
-            {renderExperienceList()}
-          </div>
-          <div>
-            {renderHeader('Formal Academic Background', 'boxed')}
-            {renderEducation()}
-          </div>
-          <div>
-            {renderHeader('Personal Skills & Competencies (CEFR Standards)', 'boxed')}
-            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
-          </div>
-          {renderBottomGrid()}
-          {renderFooterRow()}
-        </div>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // TEMPLATE 36: T-36 Data & Financial Analytics
-  // =========================================================================
-  if (templateId === 'T-36') {
-    return (
-      <div className="w-full bg-white text-zinc-900 text-[10.5px] leading-relaxed p-7 sm:p-9 min-h-[1050px] font-sans">
-        <div className="border-b-2 pb-3 mb-3" style={{ borderColor: pColor }}>
-          <div className="flex justify-between items-baseline">
-            <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-700">
-                Data-Driven Audit & Financial Analytics
-              </span>
+              <span className="text-[10px] font-mono uppercase font-bold text-blue-700">Corporate Banking & Treasury Advisory</span>
               <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
               <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
             </div>
             <div className="text-right text-[10px] text-zinc-600">
-              {contactSubParts.map((c, i) => (
-                <div key={i}>{c}</div>
+              {contactSubParts.map((item, idx) => (
+                <div key={idx} className="break-words">{item}</div>
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'accent')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('Financial Credentials & Examinations', 'accent')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Practical Experience & Articleship', 'accent')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Academic Background', 'accent')}
+            {renderEducation()}
+          </div>
+          <div>
+            {renderHeader('Core Financial Competencies', 'accent')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-16 Equity Research & T-23 Technical Finance & T-36 Financial Analytics
+  // =========================================================================
+  if (['T-16', 'T-23', 'T-36'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="border-b-2 border-purple-900 pb-3 mb-3 flex justify-between items-baseline">
+          <div>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-700">
+              Quantitative Audit & Financial Analytics
+            </span>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
+          </div>
+          <div className="text-right text-[10px] text-zinc-600">
+            {contactSubParts.map((c, i) => (
+              <div key={i} className="break-words">{c}</div>
+            ))}
           </div>
         </div>
 
@@ -1302,8 +1116,517 @@ export const CaAccaTemplateRenderer: React.FC<CaAccaTemplateRendererProps> = ({
   }
 
   // =========================================================================
-  // TEMPLATES: T-43 American Standard, T-44 ATS Advanced, T-45 ATS Executive, T-46 ATS Finance, T-47 ATS CA/ACCA
-  // AND DEFAULT ATS ARCHITECTURE
+  // TEMPLATES: T-17 ICAP Articleship Standard & T-18 ACCA Practical & T-19 CIMA & T-20 CPA
+  // =========================================================================
+  if (['T-17', 'T-18', 'T-19', 'T-20'].includes(templateId)) {
+    const isAcca = templateId === 'T-18';
+    const isCpa = templateId === 'T-20';
+    const headerTitle = isAcca
+      ? 'ACCA (UK) Practical Experience Requirement (PER) Format'
+      : isCpa
+      ? 'CPA / US GAAP Certified Accounting Format'
+      : 'Official ICAP Articleship Induction Curriculum Vitae';
+
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="border border-zinc-900 p-3 mb-3 bg-zinc-50 flex justify-between items-center">
+          <div>
+            <span className="text-[9.5px] font-bold uppercase tracking-wider text-zinc-700 block">
+              {headerTitle}
+            </span>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+            <p className="text-xs font-semibold text-zinc-800">{contactParts.join('  |  ')}</p>
+          </div>
+          <div className="text-right text-[10px] font-mono">
+            <div>CRN: {resume.crn || 'CRN-88492'}</div>
+            <div>FTS: Batch {resume.ftsBatch || '49'}</div>
+            <div className="text-emerald-700 font-bold">1st Attempt Pass Record</div>
+          </div>
+        </div>
+
+        <div className="text-[10px] text-zinc-600 flex flex-wrap gap-x-3 gap-y-0.5 mb-3">
+          {contactSubParts.map((item, idx) => (
+            <span key={idx} className="break-words">{item}</span>
+          ))}
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'bar')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+
+          <div>
+            {renderHeader('Examination Track & Papers Cleared', 'bar')}
+            {renderQualifications('table')}
+          </div>
+
+          <div>
+            {renderHeader('Articleship & Work Experience', 'bar')}
+            {renderExperienceList()}
+          </div>
+
+          <div>
+            {renderHeader('Academic Education', 'bar')}
+            {renderEducation()}
+          </div>
+
+          <div>
+            {renderHeader('Technical Competencies & Standards', 'bar')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-22 Compact One Page & T-24 Risk & Controls & T-34 Dense Articleship Log
+  // =========================================================================
+  if (['T-22', 'T-24', 'T-34'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10px] leading-tight p-6 sm:p-7 min-h-[1050px] font-sans">
+        <div className="border-b-2 border-zinc-900 pb-2 mb-2 flex justify-between items-baseline">
+          <div>
+            <h1 className="text-xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+            <p className="text-[11px] font-bold text-zinc-700">{contactParts.join('  •  ')}</p>
+          </div>
+          <div className="text-right text-[9.5px] text-zinc-600">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="inline-block break-words ml-2">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2.5">
+          <div>
+            <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Career Objective
+            </h2>
+            <p className="text-zinc-800 leading-snug">{objectiveText}</p>
+          </div>
+
+          <div>
+            <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              CA / ACCA Examination Track
+            </h2>
+            {renderQualifications('table')}
+          </div>
+
+          <div>
+            <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Articleship & Practical Experience
+            </h2>
+            {renderExperienceList()}
+          </div>
+
+          <div>
+            <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Education
+            </h2>
+            {renderEducation()}
+          </div>
+
+          <div>
+            <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-300 pb-0.5 mb-1">
+              Technical Standards & Tools
+            </h2>
+            <p className="text-[9.5px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-26 Header Banner Modern
+  // =========================================================================
+  if (templateId === 'T-26') {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed min-h-[1050px] font-sans">
+        <div className="p-8 text-white shadow-md" style={{ backgroundColor: pColor }}>
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-[11px] font-mono uppercase tracking-widest text-blue-200">
+                Chartered Accountant Articleship Candidate
+              </span>
+              <h1 className="text-3xl font-black uppercase tracking-tight text-white mt-1">{fullName}</h1>
+              <p className="text-xs font-semibold text-slate-200 mt-0.5">{contactParts.join('  •  ')}</p>
+            </div>
+            <div className="text-right text-[10.5px] text-slate-200 font-mono">
+              <div>CRN: {resume.crn || 'CRN-88492'}</div>
+              <div>FTS: Batch {resume.ftsBatch || '49'}</div>
+            </div>
+          </div>
+          <div className="mt-3 pt-2 border-t border-white/20 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-slate-200">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="p-8 space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'boxed')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('CA / ACCA Examination Track', 'boxed')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Articleship Experience', 'boxed')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Education', 'boxed')}
+            {renderEducation()}
+          </div>
+          <div>
+            {renderHeader('Technical Standards', 'boxed')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-27 Timeline Progression
+  // =========================================================================
+  if (templateId === 'T-27') {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="text-center pb-3 mb-4 border-b-2" style={{ borderColor: pColor }}>
+          <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+          <p className="text-xs font-bold uppercase tracking-wider text-zinc-700 mt-0.5">{contactParts.join('  •  ')}</p>
+          <div className="text-[10px] text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1.5">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            {renderHeader('Career Progression Objective', 'tag')}
+            <p className="text-zinc-800 leading-relaxed text-justify">{objectiveText}</p>
+          </div>
+
+          <div>
+            {renderHeader('Timeline Milestones: Examinations Cleared', 'tag')}
+            <div className="border-l-2 pl-4 space-y-3 ml-2" style={{ borderColor: pColor }}>
+              {qualifications.map(q => (
+                <div key={q.id} className="relative">
+                  <span className="w-2.5 h-2.5 rounded-full absolute -left-[21px] top-1" style={{ backgroundColor: pColor }} />
+                  <div className="font-bold text-zinc-900">{q.course} ({q.body})</div>
+                  <div className="text-[10px] text-zinc-600 font-mono">{q.attempt || '1st Attempt'} • {q.marks || 'Qualified'}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            {renderHeader('Articleship Milestones', 'tag')}
+            <div className="border-l-2 pl-4 space-y-3 ml-2" style={{ borderColor: pColor }}>
+              {renderExperienceList()}
+            </div>
+          </div>
+
+          <div>
+            {renderHeader('Academic Education', 'tag')}
+            {renderEducation()}
+          </div>
+
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-28 Elegant Serif & T-42 Bordered Classic
+  // =========================================================================
+  if (['T-28', 'T-42'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-serif border-4 border-double border-zinc-900">
+        <div className="text-center pb-3 mb-3 border-b border-zinc-300">
+          <h1 className="text-3xl font-extrabold uppercase tracking-widest text-zinc-950">{fullName}</h1>
+          <p className="text-xs font-sans font-bold uppercase tracking-wider text-zinc-700 mt-1">{contactParts.join('  •  ')}</p>
+          <div className="text-[10px] font-sans text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1.5">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'serif')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('Examination Track Record', 'serif')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Practical Experience', 'serif')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Education', 'serif')}
+            {renderEducation()}
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-29 Clean Grid Two-Column & T-30 Executive Bordered
+  // =========================================================================
+  if (['T-29', 'T-30'].includes(templateId)) {
+    return (
+      <div className={`w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans ${templateId === 'T-30' ? 'border-2 border-zinc-800' : ''}`}>
+        <div className="text-center pb-3 mb-4 border-b-2" style={{ borderColor: pColor }}>
+          <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+          <div className="text-xs font-bold text-zinc-700 uppercase mt-0.5">{contactParts.join('  •  ')}</div>
+          <div className="text-[10px] text-zinc-600 flex justify-center flex-wrap gap-x-3 mt-1.5">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-3.5">
+            <div>
+              {renderHeader('Objective', 'boxed')}
+              <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+            </div>
+            <div>
+              {renderHeader('Examinations Passed', 'boxed')}
+              {renderQualifications('table')}
+            </div>
+            <div>
+              {renderHeader('Academic Education', 'boxed')}
+              {renderEducation()}
+            </div>
+          </div>
+
+          <div className="space-y-3.5">
+            <div>
+              {renderHeader('Articleship Experience', 'boxed')}
+              {renderExperienceList()}
+            </div>
+            <div>
+              {renderHeader('Technical Competencies', 'boxed')}
+              <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+            </div>
+            {renderBottomGrid()}
+          </div>
+        </div>
+        {renderFooterRow()}
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-32 Monochrome Precision
+  // =========================================================================
+  if (templateId === 'T-32') {
+    return (
+      <div className="w-full bg-white text-black text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-mono">
+        <div className="border-b-2 border-black pb-3 mb-3">
+          <h1 className="text-2xl font-black uppercase tracking-wider">{fullName}</h1>
+          <div className="text-xs font-bold uppercase mt-1">{contactParts.join(' // ')}</div>
+          <div className="text-[10px] text-zinc-700 flex flex-wrap gap-x-3 mt-1">
+            {contactSubParts.map((item, idx) => (
+              <span key={idx} className="break-words">{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            <h2 className="text-[11px] font-black uppercase tracking-widest border-b border-black pb-0.5 mb-1.5">[ CAREER OBJECTIVE ]</h2>
+            <p className="text-zinc-900 leading-relaxed text-justify">{objectiveText}</p>
+          </div>
+          <div>
+            <h2 className="text-[11px] font-black uppercase tracking-widest border-b border-black pb-0.5 mb-1.5">[ EXAMINATION TRACK ]</h2>
+            {renderQualifications('table')}
+          </div>
+          <div>
+            <h2 className="text-[11px] font-black uppercase tracking-widest border-b border-black pb-0.5 mb-1.5">[ PRACTICAL EXPERIENCE ]</h2>
+            {renderExperienceList(false)}
+          </div>
+          <div>
+            <h2 className="text-[11px] font-black uppercase tracking-widest border-b border-black pb-0.5 mb-1.5">[ ACADEMIC EDUCATION ]</h2>
+            {renderEducation()}
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-33 Soft Pastel Accent & T-40 Junior Trainee & T-41 Semi-Senior
+  // =========================================================================
+  if (['T-33', 'T-40', 'T-41'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-4 flex justify-between items-center">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700">CA Articleship Trainee Induction</span>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950 mt-0.5">{fullName}</h1>
+            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
+          </div>
+          <div className="text-right text-[10px] font-mono text-zinc-600">
+            <div>CRN: {resume.crn || 'CRN-88492'}</div>
+            <div>FTS: Batch {resume.ftsBatch || '49'}</div>
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'tag')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('Examinations Cleared', 'tag')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Articleship Experience', 'tag')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Academic Education', 'tag')}
+            {renderEducation()}
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-44 European Europass Style
+  // =========================================================================
+  if (templateId === 'T-44') {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="border-b-2 border-blue-900 pb-3 mb-4 flex justify-between items-center">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-blue-800">EUROPASS CURRICULUM VITAE</span>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-zinc-950">{fullName}</h1>
+            <p className="text-xs font-semibold text-zinc-700">{contactParts.join('  •  ')}</p>
+          </div>
+          <div className="text-right text-[10px] text-zinc-600">
+            {contactSubParts.map((item, idx) => (
+              <div key={idx} className="break-words">{item}</div>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Work Experience & Practical Training', 'bar')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Education & Training (CA / ACCA)', 'bar')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Academic Degrees', 'bar')}
+            {renderEducation()}
+          </div>
+          <div>
+            {renderHeader('Personal Skills & Competencies', 'bar')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATES: T-45 Middle East / Gulf Corporate & T-46 International Assurance
+  // =========================================================================
+  if (['T-45', 'T-46'].includes(templateId)) {
+    return (
+      <div className="w-full bg-white text-zinc-950 text-[10.5px] leading-relaxed p-8 sm:p-10 min-h-[1050px] font-sans">
+        <div className="p-5 rounded-xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white mb-4 shadow-sm">
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-[10px] font-mono tracking-widest uppercase text-amber-300">
+                {templateId === 'T-45' ? 'Middle East & Gulf Corporate Format' : 'International Cross-Border Assurance'}
+              </span>
+              <h1 className="text-2xl font-black uppercase tracking-tight mt-0.5">{fullName}</h1>
+              <p className="text-xs font-medium text-slate-200">{contactParts.join('  •  ')}</p>
+            </div>
+            <div className="text-right text-[10px] text-slate-200 font-mono">
+              <div>CRN: {resume.crn || 'CRN-88492'}</div>
+              <div>FTS: Batch {resume.ftsBatch || '49'}</div>
+              <div className="text-amber-300 font-semibold">IFRS & ISA Proficient</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-zinc-600 mb-3 pb-2 border-b border-zinc-200">
+          {contactSubParts.map((item, idx) => (
+            <span key={idx} className="break-words">{item}</span>
+          ))}
+        </div>
+
+        <div className="space-y-3.5">
+          <div>
+            {renderHeader('Career Objective', 'accent')}
+            <p className="text-zinc-800 text-justify leading-relaxed">{objectiveText}</p>
+          </div>
+          <div>
+            {renderHeader('Examination Track & Professional Qualifications', 'accent')}
+            {renderQualifications('table')}
+          </div>
+          <div>
+            {renderHeader('Articleship & Audit Engagements', 'accent')}
+            {renderExperienceList()}
+          </div>
+          <div>
+            {renderHeader('Academic Education', 'accent')}
+            {renderEducation()}
+          </div>
+          <div>
+            {renderHeader('Core Technical Standards & Software', 'accent')}
+            <p className="text-[10px] text-zinc-800">{allSkills.join('  •  ')}</p>
+          </div>
+          {renderBottomGrid()}
+          {renderFooterRow()}
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // TEMPLATE 47: T-47 Ultimate CA & ACCA ATS Pro (The Flagship Layout)
+  // Default architecture for any unspecified ID
   // =========================================================================
   return (
     <div className="w-full max-w-[794px] mx-auto box-border bg-white text-zinc-950 text-[10.5px] leading-relaxed p-6 sm:p-8 min-h-[1050px] font-sans">

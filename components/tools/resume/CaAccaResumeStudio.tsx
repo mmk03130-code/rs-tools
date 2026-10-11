@@ -24,90 +24,92 @@ const A4_HEIGHT_PX = 1123;
 
 // Initial baseline candidate with generic professional profile "Mr. R"
 const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = {
-  ftsBatch: '48',
-  crn: 'CRN-98421',
-  address: 'Model Town, Block C, Lahore, Pakistan',
-  objective: 'Dedicated and results-oriented Chartered Accountancy trainee seeking an articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
+  ftsBatch: '49',
+  crn: 'CRN-88492',
+  address: 'DHA Phase 5, Lahore, Pakistan',
+  objective: 'Results-driven Chartered Accountancy student with CAF qualification seeking a 3.5-year articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
   avatarUrl: DEFAULT_AVATAR_DATA_URI,
   personalInfo: {
     fullName: 'Mr. R',
     jobTitle: 'Chartered Accountant Trainee (Articleship)',
-    regNumber: 'CRN-98421',
+    regNumber: 'CRN-88492',
     email: 'mr.r.audit@example.com',
-    phone: '+92 300 1234567',
+    phone: '+92 300 0000000',
     location: 'Lahore, Pakistan',
-    linkedin: 'linkedin.com/in/mr-r-finance',
-    website: 'mr-r-portfolio.com',
-    summary: 'Dedicated and results-oriented Chartered Accountancy trainee seeking an articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
+    linkedin: 'linkedin.com/in/mr-r-audit-ca',
+    website: 'mr-r-portfolio.example.com',
+    summary: 'Results-driven Chartered Accountancy student with CAF qualification seeking a 3.5-year articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
   },
   qualifications: [
     {
       id: 'q1',
-      course: 'Assessment of Fundamental Competencies (AFC / PRC)',
+      course: 'Pre-Requisite Competencies (PRC)',
       body: 'ICAP',
-      year: 'June 2021',
+      year: 'Autumn 2022',
       attempt: 'in 1 attempt',
-      marks: 'Passed',
+      marks: 'All 5 papers passed',
     },
     {
       id: 'q2',
       course: 'Certificate in Accounting and Finance (CAF)',
       body: 'ICAP',
-      year: 'Recent Session',
-      attempt: 'qualified in 3 attempts',
-      marks: '(2 papers result awaited)',
+      year: 'Spring 2024',
+      attempt: 'in 3 attempts',
+      marks: 'All 8 papers qualified',
     },
   ],
   education: [
     {
       id: 'e1',
-      institution: 'Forman Christian College',
-      degree: 'INTERMEDIATE',
-      field: 'Commerce / Pre-Medical',
+      institution: 'Punjab College of Commerce, Lahore',
+      degree: 'INTERMEDIATE (HSSC)',
+      field: 'Commerce / Pre-Engineering',
       location: 'Lahore',
-      startDate: '2018',
-      endDate: '2020',
-      gpa: '84.5% (A+)',
+      startDate: '2020',
+      endDate: '2022',
+      gpa: '88.2% (Grade A+)',
     },
     {
       id: 'e2',
-      institution: 'Model High School / Premier Academy',
-      degree: 'MATRICULATION',
+      institution: 'Divisional Public School, Lahore',
+      degree: 'MATRICULATION (SSC)',
       field: 'Science',
       location: 'Lahore',
-      startDate: '2016',
-      endDate: '2018',
-      gpa: '91.2% (A+)',
+      startDate: '2018',
+      endDate: '2020',
+      gpa: '92.5% (Grade A+)',
     },
   ],
   articleship: [
     {
       id: 'art1',
-      firmName: 'Premier SME Advisory & Client Engagements',
-      role: 'Bookkeeping & Financial Statement Preparation',
+      firmName: 'Tariq & Co. Chartered Accountants (QCR Rated)',
+      role: 'Audit Trainee / Associate',
       location: 'Lahore',
-      startDate: '2022',
+      startDate: '2024',
       endDate: 'Present',
       current: true,
-      department: 'Financial Advisory',
-      industriesAudited: 'Trading, Small Manufacturing',
+      department: 'Audit & Assurance Advisory',
+      industriesAudited: 'Textile, FMCG, Manufacturing',
       highlights: [
-        'Prepared monthly journals, ledgers, and trial balances using QuickBooks and Advanced Excel.',
-        'Assisted in reconciling bank statements, general ledgers, and preparing final tax computations.',
+        'Assisted statutory audit teams on interim and year-end procedures for private entities under ISA.',
+        'Conducted substantive audit tests on revenue, inventory, trade receivables, and bank reconciliations.',
+        'Drafted audit working papers, lead schedules, and internal control observation memoranda.',
       ],
     },
     {
       id: 'art2',
-      firmName: 'Premier Coaching Institute',
-      role: 'Faculty & Mentoring in Financial Accounting & Math',
+      firmName: 'Al-Baraka Financial Advisory Services',
+      role: 'Accounting & Tax Intern',
       location: 'Lahore',
-      startDate: '2021',
+      startDate: '2023',
       endDate: '2023',
       current: false,
-      department: 'Education',
-      industriesAudited: 'Academic',
+      department: 'Financial Advisory',
+      industriesAudited: 'Retail, Distribution',
       highlights: [
-        'Mentored aspiring students in Fundamental Accounting, Quantitative Methods, and Financial Mathematics.',
+        'Prepared monthly withholding tax statements and sales tax return computations using FBR IRIS.',
+        'Reconciled general ledgers and assisted in trial balance preparation using QuickBooks and MS Excel.',
       ],
     },
   ],
@@ -122,7 +124,7 @@ const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = {
     'Time Management & Deadline Adherence',
   ],
   software: [
-    'Advanced MS Excel',
+    'Advanced MS Excel (Power Query)',
     'QuickBooks Desktop & Online',
     'Tally Prime',
     'Power BI',
@@ -135,25 +137,25 @@ const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = {
   ],
   courses: [
     { id: 'c1', name: 'Presentation & Personal Effectiveness (PPEC - ICAP)', institute: 'ICAP' },
-    { id: 'c2', name: 'Financial Modeling & Valuation Analysis (FMVA)', institute: 'Online' },
-    { id: 'c3', name: 'MS Office & Advanced Excel Automation', institute: 'PAC / SKANS' },
-    { id: 'c4', name: 'Data Analytics & Business Intelligence', institute: 'Digiskills' },
+    { id: 'c2', name: 'Financial Modeling & Valuation Analysis (FMVA)', institute: 'CFI' },
+    { id: 'c3', name: 'MS Office & Advanced Excel Automation for Auditors', institute: 'ICAP IT Training' },
+    { id: 'c4', name: 'Data Analytics & Power BI for Finance', institute: 'Digiskills' },
   ],
   achievements: [
-    { id: 'a1', title: '75% Merit scholarship for Intermediate' },
-    { id: 'a2', title: 'All AFC/PRC papers qualified in 1st attempt' },
-    { id: 'a3', title: 'Merit Certificate in Accounting & Financial Reporting' },
+    { id: 'a1', title: 'Merit scholarship for Academic Excellence' },
+    { id: 'a2', title: 'All PRC/AFC papers qualified in 1st attempt' },
+    { id: 'a3', title: 'Certificate of Merit in Financial Accounting & Reporting' },
   ],
   references: [
     {
       id: 'r1',
-      name: 'Muhammad Rashid FCA',
-      role: 'Partner, Audit & Assurance Advisory',
-      email: 'rashid.fca@example.com',
-      phone: '+92 300 7654321',
+      name: 'Mr. Farhan Ahmed, FCA',
+      role: 'Audit Partner, Tariq & Co.',
+      email: 'farhan.fca@example.com',
+      phone: '+92 333 5551234',
     },
   ],
-  activities: 'Debate Team Captain • Inter-College Badminton Champion',
+  activities: 'Debate Team Captain • Inter-College Cricket Champion',
   languages: [
     { id: 'l1', language: 'Urdu', proficiency: 'Native' },
     { id: 'l2', language: 'English', proficiency: 'Professional' },
@@ -199,44 +201,69 @@ const TemplateThumbnailPreview: React.FC<{
   name: string;
 }> = ({ template, primaryColor, name }) => {
   const id = template.id;
+  const displayName = name || 'Mr. R';
 
-  // Render archetype layout depending on template ID
-  if (['T-02', 'T-03', 'T-25', 'T-31'].includes(id)) {
-    const isDarkLeft = id === 'T-03';
+  // 1. Dark Left Sidebar: T-03, T-25
+  if (['T-03', 'T-25'].includes(id)) {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
-        {/* Left Column */}
-        <div
-          className={`w-[35%] p-1.5 flex flex-col justify-between ${
-            isDarkLeft ? 'bg-slate-900 text-white' : 'bg-slate-100 text-zinc-900 border-r border-slate-200'
-          }`}
-          style={!isDarkLeft ? { borderRightColor: primaryColor } : {}}
-        >
+        <div className="w-[36%] p-1.5 bg-slate-900 text-white flex flex-col justify-between">
           <div>
-            <div className="w-5 h-5 rounded-full bg-slate-300 mx-auto mb-1 border border-white" />
-            <div className="w-full h-1 bg-current opacity-80 rounded mb-0.5" />
-            <div className="w-3/4 h-1 bg-current opacity-60 rounded" />
+            <div className="w-5 h-5 rounded-full bg-slate-400 mx-auto mb-1 border border-white" />
+            <div className="w-full h-1 bg-blue-400 rounded mb-0.5" />
+            <div className="w-3/4 h-1 bg-slate-400 rounded" />
           </div>
           <div className="space-y-0.5">
-            <div className="w-full h-0.5 bg-current opacity-40 rounded" />
-            <div className="w-4/5 h-0.5 bg-current opacity-40 rounded" />
-            <div className="w-2/3 h-0.5 bg-current opacity-40 rounded" />
+            <div className="w-full h-0.5 bg-slate-500 rounded" />
+            <div className="w-4/5 h-0.5 bg-slate-500 rounded" />
+            <div className="w-2/3 h-0.5 bg-slate-500 rounded" />
           </div>
         </div>
-        {/* Right Column */}
+        <div className="w-[64%] p-1.5 flex flex-col justify-between">
+          <div>
+            <div className="text-[7.5px] font-black uppercase tracking-tight text-zinc-900 truncate">{displayName}</div>
+            <div className="w-10 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
+            <div className="w-full h-1 bg-zinc-300 rounded mb-0.5" />
+            <div className="w-4/5 h-1 bg-zinc-200 rounded" />
+          </div>
+          <div className="space-y-1">
+            <div className="w-full h-1 bg-zinc-400 rounded" />
+            <div className="w-full h-0.5 bg-zinc-200 rounded" />
+            <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+          </div>
+          <div className="space-y-0.5">
+            <div className="w-full h-1 bg-zinc-400 rounded" />
+            <div className="w-2/3 h-0.5 bg-zinc-200 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Light / Split Sidebar: T-02, T-31
+  if (['T-02', 'T-31'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
+        <div className="w-[35%] p-1.5 bg-slate-100 border-r border-slate-200 flex flex-col justify-between" style={{ borderRightColor: primaryColor }}>
+          <div>
+            <div className="w-5 h-5 rounded-full bg-slate-300 mx-auto mb-1 border" style={{ borderColor: primaryColor }} />
+            <div className="w-full h-1 rounded mb-0.5" style={{ backgroundColor: primaryColor }} />
+            <div className="w-3/4 h-1 bg-zinc-300 rounded" />
+          </div>
+          <div className="space-y-0.5">
+            <div className="w-full h-0.5 bg-zinc-400 rounded" />
+            <div className="w-4/5 h-0.5 bg-zinc-400 rounded" />
+          </div>
+        </div>
         <div className="w-[65%] p-1.5 flex flex-col justify-between">
           <div>
-            <div className="text-[7.5px] font-black uppercase tracking-tight text-zinc-900 truncate">
-              {name || 'Mr. R'}
-            </div>
+            <div className="text-[7.5px] font-black uppercase tracking-tight text-zinc-900 truncate">{displayName}</div>
             <div className="w-10 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
             <div className="w-full h-1 bg-zinc-200 rounded mb-0.5" />
-            <div className="w-4/5 h-1 bg-zinc-100 rounded" />
           </div>
           <div className="space-y-1">
             <div className="w-full h-1 bg-zinc-300 rounded" />
             <div className="w-full h-0.5 bg-zinc-200 rounded" />
-            <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
           </div>
           <div className="space-y-0.5">
             <div className="w-full h-1 bg-zinc-300 rounded" />
@@ -247,13 +274,13 @@ const TemplateThumbnailPreview: React.FC<{
     );
   }
 
+  // 3. Right Sidebar: T-04
   if (id === 'T-04') {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
-        {/* Left Main */}
         <div className="w-[65%] p-1.5 flex flex-col justify-between">
           <div>
-            <div className="text-[7.5px] font-black uppercase text-zinc-900 truncate">{name || 'Mr. R'}</div>
+            <div className="text-[7.5px] font-black uppercase text-zinc-900 truncate">{displayName}</div>
             <div className="w-12 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
             <div className="w-full h-1 bg-zinc-200 rounded mb-0.5" />
           </div>
@@ -266,12 +293,11 @@ const TemplateThumbnailPreview: React.FC<{
             <div className="w-3/5 h-0.5 bg-zinc-200 rounded" />
           </div>
         </div>
-        {/* Right Sidebar */}
         <div className="w-[35%] p-1.5 bg-slate-100 border-l border-slate-200 flex flex-col justify-between">
           <div className="w-5 h-5 rounded-full bg-slate-300 mx-auto mb-1" />
           <div className="space-y-0.5">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
-            <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+            <div className="w-full h-1 bg-zinc-400 rounded" />
+            <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
           </div>
           <div className="space-y-0.5">
             <div className="w-full h-0.5 bg-zinc-300 rounded" />
@@ -282,73 +308,89 @@ const TemplateThumbnailPreview: React.FC<{
     );
   }
 
-  if (['T-22', 'T-27', 'T-28'].includes(id)) {
+  // 4. Top Banner Header: T-09, T-10, T-11, T-26, T-45, T-46
+  if (['T-09', 'T-10', 'T-11', 'T-26', 'T-45', 'T-46'].includes(id)) {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between select-none mb-2.5">
-        {/* Top Colored Header Band */}
-        <div className="p-1.5 text-white flex items-center justify-between" style={{ backgroundColor: primaryColor }}>
+        <div className="p-1.5 text-white flex justify-between items-center" style={{ backgroundColor: primaryColor }}>
           <div>
-            <div className="text-[7.5px] font-black uppercase tracking-tight text-white truncate max-w-[80px]">
-              {name || 'Mr. R'}
-            </div>
-            <div className="w-8 h-0.5 bg-emerald-300 rounded mt-0.5" />
+            <div className="text-[7px] font-black uppercase tracking-tight truncate">{displayName}</div>
+            <div className="text-[5px] text-blue-200 uppercase font-mono">ICAP / ACCA Track</div>
           </div>
-          <div className="w-4 h-4 rounded-full bg-white/20 border border-white/40" />
+          <span className="text-[5px] font-mono bg-white/20 px-1 py-0.5 rounded">FTS-49</span>
         </div>
-        {/* Content Body */}
-        <div className="p-1.5 flex-1 flex flex-col justify-between space-y-1">
-          <div>
-            <div className="w-full h-1 bg-zinc-200 rounded mb-0.5" />
-            <div className="w-4/5 h-1 bg-zinc-100 rounded" />
+        <div className="p-1.5 flex-1 flex flex-col justify-between">
+          <div className="border border-zinc-200 rounded p-1 bg-zinc-50 space-y-0.5">
+            <div className="w-full h-1 bg-zinc-300 rounded flex justify-between">
+              <span className="w-1/3 h-full bg-zinc-400 rounded" />
+              <span className="w-1/4 h-full bg-emerald-500 rounded" />
+            </div>
+            <div className="w-full h-0.5 bg-zinc-200 rounded" />
           </div>
-          <div className="grid grid-cols-2 gap-1">
-            <div className="h-4 bg-zinc-50 border border-zinc-200 rounded p-0.5" />
-            <div className="h-4 bg-zinc-50 border border-zinc-200 rounded p-0.5" />
+          <div className="space-y-1">
+            <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
+            <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
           </div>
-          <div className="space-y-0.5">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
-            <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
-          </div>
+          <div className="w-full h-0.5 bg-zinc-200 rounded" />
         </div>
       </div>
     );
   }
 
-  if (['T-29', 'T-30', 'T-32', 'T-42'].includes(id)) {
+  // 5. Executive / KPI Cards: T-07, T-08, T-39
+  if (['T-07', 'T-08', 'T-39'].includes(id)) {
     return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="flex justify-between items-center border-b pb-0.5">
-          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{name || 'Mr. R'}</div>
-          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: primaryColor }} />
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-serif">
+        <div className="text-center border-b-2 pb-1" style={{ borderColor: primaryColor }}>
+          <div className="text-[8px] font-black uppercase text-zinc-900 truncate">{displayName}</div>
+          <div className="text-[5px] font-sans text-zinc-500">Executive Finance & Assurance</div>
         </div>
-        {/* 2x2 Mini Cards */}
-        <div className="grid grid-cols-2 gap-1 my-1">
-          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
-            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
-            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 col-span-2 space-y-0.5">
-            <div className="w-12 h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
+        <div className="grid grid-cols-4 gap-0.5 my-1">
+          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-zinc-800">100%</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-blue-800">FTS49</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-emerald-800">IFRS</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-amber-800">AUDIT</div>
+        </div>
+        <div className="space-y-1 font-sans">
+          <div className="w-full h-1 bg-zinc-400 rounded" />
+          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+          <div className="w-full h-1 bg-zinc-400 rounded" />
         </div>
         <div className="w-full h-0.5 bg-zinc-200 rounded" />
       </div>
     );
   }
 
-  if (id === 'T-21') {
+  // 6. Classic Corporate / Elegant Serif: T-01, T-28, T-42
+  if (['T-01', 'T-28', 'T-42'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-serif border-2 border-zinc-900">
+        <div className="text-center border-b-2 border-double border-zinc-900 pb-1">
+          <div className="text-[8.5px] font-black uppercase text-zinc-950 tracking-wider truncate">{displayName}</div>
+          <div className="text-[5px] font-sans font-bold text-zinc-600">CHARTERED ACCOUNTANT TRAINEE</div>
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="w-12 h-1 bg-zinc-800 rounded mx-auto" />
+          <div className="w-full h-0.5 bg-zinc-300 rounded" />
+          <div className="w-5/6 h-0.5 bg-zinc-200 rounded mx-auto" />
+        </div>
+        <div className="border border-zinc-300 rounded p-1 space-y-0.5">
+          <div className="w-full h-1 bg-zinc-400 rounded" />
+          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-300 rounded" />
+      </div>
+    );
+  }
+
+  // 7. Timeline Progression: T-27
+  if (id === 'T-27') {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
         <div className="border-b pb-0.5">
-          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{name || 'Mr. R'}</div>
-          <div className="text-[5.5px] text-zinc-500">Timeline Architecture</div>
+          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
+          <div className="text-[5px] text-zinc-500">Timeline Career Architecture</div>
         </div>
-        {/* Timeline with nodes */}
         <div className="border-l-2 pl-2 my-1 space-y-1.5" style={{ borderColor: primaryColor }}>
           <div className="relative">
             <div className="w-1.5 h-1.5 rounded-full absolute -left-[11px] top-0" style={{ backgroundColor: primaryColor }} />
@@ -360,9 +402,28 @@ const TemplateThumbnailPreview: React.FC<{
             <div className="w-12 h-1 bg-zinc-400 rounded" />
             <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
           </div>
-          <div className="relative">
-            <div className="w-1.5 h-1.5 rounded-full absolute -left-[11px] top-0" style={{ backgroundColor: primaryColor }} />
-            <div className="w-8 h-1 bg-zinc-400 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 8. Grid Cards / 2-Column: T-29, T-30
+  if (['T-29', 'T-30'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+        <div className="flex justify-between items-center border-b pb-0.5" style={{ borderColor: primaryColor }}>
+          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
+          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: primaryColor }} />
+        </div>
+        <div className="grid grid-cols-2 gap-1 my-1">
+          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
+            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
+            <div className="w-full h-0.5 bg-zinc-200 rounded" />
+          </div>
+          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
+            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
+            <div className="w-full h-0.5 bg-zinc-200 rounded" />
           </div>
         </div>
         <div className="w-full h-0.5 bg-zinc-200 rounded" />
@@ -370,48 +431,147 @@ const TemplateThumbnailPreview: React.FC<{
     );
   }
 
-  if (['T-07', 'T-08', 'T-39'].includes(id)) {
+  // 9. Analytics / FinTech Purple: T-16, T-23, T-36
+  if (['T-16', 'T-23', 'T-36'].includes(id)) {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="text-center border-b-2 pb-1" style={{ borderColor: primaryColor }}>
-          <div className="text-[8px] font-serif font-black uppercase text-zinc-900 truncate">{name || 'Mr. R'}</div>
-          <div className="text-[5.5px] text-zinc-600">Executive Finance & Assurance</div>
+        <div className="border-b border-purple-900 pb-0.5 flex justify-between items-center">
+          <div>
+            <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
+            <div className="text-[5px] text-purple-700 font-bold uppercase">Analytics & Power BI</div>
+          </div>
+          <span className="px-1 py-0.2 rounded text-[5px] font-mono bg-purple-100 text-purple-800 font-bold">DAX/SQL</span>
         </div>
-        {/* Quote Callout Banner */}
-        <div className="p-1 bg-zinc-50 border-l-2 rounded-r my-1" style={{ borderLeftColor: primaryColor }}>
-          <div className="w-full h-1 bg-zinc-300 rounded mb-0.5" />
-          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+        <div className="p-1 rounded bg-purple-50 border border-purple-200 my-1 space-y-0.5">
+          <div className="flex gap-1">
+            <span className="h-1.5 w-6 bg-purple-300 rounded" />
+            <span className="h-1.5 w-6 bg-purple-300 rounded" />
+            <span className="h-1.5 w-6 bg-purple-300 rounded" />
+          </div>
         </div>
         <div className="space-y-1">
           <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-5/6 h-0.5 bg-zinc-200 rounded" />
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
         </div>
         <div className="w-full h-0.5 bg-zinc-200 rounded" />
       </div>
     );
   }
 
-  if (['T-09', 'T-10', 'T-11', 'T-17', 'T-18', 'T-47'].includes(id)) {
+  // 10. Official Induction Form: T-17, T-18, T-19, T-20
+  if (['T-17', 'T-18', 'T-19', 'T-20'].includes(id)) {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="p-1 rounded text-white flex justify-between items-center" style={{ backgroundColor: primaryColor }}>
-          <span className="text-[7px] font-black uppercase tracking-tight truncate">{name || 'Mr. R'}</span>
-          <span className="text-[5px] font-mono bg-white/20 px-1 rounded">FTS-48</span>
-        </div>
-        {/* Examination Table Preview */}
-        <div className="border border-zinc-200 rounded p-1 bg-zinc-50 my-1 space-y-0.5">
-          <div className="w-full h-1 bg-zinc-300 rounded flex justify-between">
-            <span className="w-1/3 h-full bg-zinc-400 rounded" />
-            <span className="w-1/4 h-full bg-emerald-500 rounded" />
+        <div className="border border-zinc-800 p-1 bg-zinc-50 flex justify-between items-center">
+          <div>
+            <div className="text-[7px] font-black uppercase truncate text-zinc-950">{displayName}</div>
+            <div className="text-[5px] text-zinc-600 font-bold">Official ICAP Induction Form</div>
           </div>
-          <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          <div className="w-full h-0.5 bg-zinc-200 rounded" />
+          <span className="text-[5px] font-mono border px-1 rounded bg-white font-bold">CRN-88492</span>
+        </div>
+        <div className="border border-zinc-200 rounded p-1 bg-white my-1 space-y-0.5">
+          <div className="w-full h-1 bg-zinc-800 rounded" />
+          <div className="w-full h-0.5 bg-zinc-300 rounded" />
         </div>
         <div className="space-y-1">
           <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
           <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 11. Modern Left Accent: T-06, T-14, T-37, T-43
+  if (['T-06', 'T-14', 'T-37', 'T-43'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+        <div className="border-b-2 pb-0.5" style={{ borderColor: primaryColor }}>
+          <div className="text-[8px] font-black uppercase text-zinc-950 truncate">{displayName}</div>
+          <div className="text-[5.5px] font-bold" style={{ color: primaryColor }}>Modern ATS Architecture</div>
+        </div>
+        <div className="space-y-1.5 my-1">
+          <div className="border-l-2 pl-1" style={{ borderColor: primaryColor }}>
+            <div className="w-12 h-1 bg-zinc-600 rounded" />
+            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
+          </div>
+          <div className="border-l-2 pl-1" style={{ borderColor: primaryColor }}>
+            <div className="w-14 h-1 bg-zinc-600 rounded" />
+            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
+          </div>
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 12. Monochrome Precision: T-32
+  if (id === 'T-32') {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-black overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-mono">
+        <div className="border-b border-black pb-0.5">
+          <div className="text-[7.5px] font-black uppercase truncate text-black">[ {displayName} ]</div>
+          <div className="text-[5px] text-zinc-700">100% Monochrome Engine</div>
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="w-full h-1 bg-black rounded" />
+          <div className="w-full h-0.5 bg-zinc-300 rounded" />
+          <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-300 rounded" />
+      </div>
+    );
+  }
+
+  // 13. Europass Modern: T-44
+  if (id === 'T-44') {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+        <div className="border-b-2 border-blue-900 pb-0.5 flex justify-between items-center">
+          <div>
+            <div className="text-[7.5px] font-black uppercase truncate text-blue-950">{displayName}</div>
+            <div className="text-[5px] text-blue-800 font-bold">EUROPASS FORMAT</div>
+          </div>
+          <span className="w-3 h-2 bg-blue-800 rounded-xs" />
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="w-full h-1 bg-blue-900 rounded" />
+          <div className="w-full h-0.5 bg-zinc-200 rounded" />
+          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 14. Soft Pastel / Trainee: T-33, T-40, T-41
+  if (['T-33', 'T-40', 'T-41'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+        <div className="p-1 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+          <div className="text-[7px] font-black uppercase truncate text-zinc-950">{displayName}</div>
+          <span className="text-[5px] bg-blue-100 text-blue-800 px-1 rounded font-bold">CAF FRESH</span>
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="w-full h-1 bg-zinc-400 rounded" />
+          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 15. Compact / Logbook: T-22, T-24, T-34
+  if (['T-22', 'T-24', 'T-34'].includes(id)) {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1 flex flex-col justify-between select-none mb-2.5 text-[6px]">
+        <div className="border-b pb-0.5 flex justify-between">
+          <span className="font-black uppercase truncate text-zinc-950">{displayName}</span>
+          <span className="font-mono text-zinc-500">Compact</span>
+        </div>
+        <div className="border border-zinc-200 rounded p-0.5 bg-zinc-50 space-y-0.5">
+          <div className="w-full h-0.5 bg-zinc-400 rounded" />
+          <div className="w-full h-0.5 bg-zinc-300 rounded" />
           <div className="w-full h-0.5 bg-zinc-200 rounded" />
         </div>
         <div className="w-full h-0.5 bg-zinc-200 rounded" />
@@ -419,25 +579,20 @@ const TemplateThumbnailPreview: React.FC<{
     );
   }
 
-  // Default Standard Clean ATS Architecture
+  // 16. Flagship ATS Pro / Default: T-47, T-05, T-12, T-13, T-15, T-21, T-35
   return (
-    <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-2 flex flex-col justify-between select-none mb-2.5">
-      <div className="text-center border-b pb-1">
-        <div className="text-[8px] font-black uppercase text-zinc-950 truncate tracking-wider">{name || 'Mr. R'}</div>
-        <div className="text-[5.5px] text-zinc-600">Chartered Accountant Trainee (Articleship)</div>
+    <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+      <div className="text-center border-b pb-0.5">
+        <div className="text-[8px] font-black uppercase text-zinc-950 truncate tracking-wider">{displayName}</div>
+        <div className="text-[5px] text-zinc-600 font-semibold">Chartered Accountant Trainee • ATS 100%</div>
       </div>
-      <div className="space-y-1">
+      <div className="border border-zinc-200 rounded p-1 bg-zinc-50 space-y-0.5 my-1">
         <div className="w-full h-1 bg-zinc-800 rounded" />
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-        <div className="w-5/6 h-0.5 bg-zinc-200 rounded" />
-      </div>
-      <div className="space-y-1">
-        <div className="w-full h-1 bg-zinc-800 rounded" />
-        <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
+        <div className="w-full h-0.5 bg-zinc-300 rounded" />
       </div>
       <div className="space-y-0.5">
-        <div className="w-full h-1 bg-zinc-800 rounded" />
-        <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+        <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
+        <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
       </div>
       <div className="w-full h-0.5 bg-zinc-200 rounded" />
     </div>
@@ -539,17 +694,25 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
   const safePersonalInfo = {
     fullName: resume?.personalInfo?.fullName || 'Mr. R',
     jobTitle: resume?.personalInfo?.jobTitle || 'Chartered Accountant Trainee (Articleship)',
-    regNumber: resume?.personalInfo?.regNumber || 'CRN-98421',
+    regNumber: resume?.personalInfo?.regNumber || 'CRN-88492',
     email: resume?.personalInfo?.email || 'mr.r.audit@example.com',
-    phone: resume?.personalInfo?.phone || '+92 300 1234567',
+    phone: resume?.personalInfo?.phone || '+92 300 0000000',
     location: resume?.personalInfo?.location || 'Lahore, Pakistan',
-    linkedin: resume?.personalInfo?.linkedin || 'linkedin.com/in/mr-r-finance',
-    website: resume?.personalInfo?.website || 'mr-r-portfolio.com',
+    linkedin: resume?.personalInfo?.linkedin || 'linkedin.com/in/mr-r-audit-ca',
+    website: resume?.personalInfo?.website || 'mr-r-portfolio.example.com',
     summary: resume?.personalInfo?.summary || '',
   };
 
   const currentTheme = COLOR_THEMES.find(t => t.id === resume.styling.colorTheme) || COLOR_THEMES[0];
   const activeTemplateMeta = TEMPLATES_47_CATALOG.find(t => t.id === resume.styling.templateId) || TEMPLATES_47_CATALOG[46];
+
+  // Dynamically track document content height so it never cuts off vertically
+  const [docHeight, setDocHeight] = useState<number>(A4_HEIGHT_PX);
+  React.useEffect(() => {
+    if (resumePrintRef.current) {
+      setDocHeight(Math.max(A4_HEIGHT_PX, resumePrintRef.current.scrollHeight));
+    }
+  }, [resume, currentScale, resume.styling.templateId]);
 
   // Memoized filtered templates list
   const filteredTemplates = useMemo(() => {
@@ -576,24 +739,60 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // 100% Reliable Vector PDF Export with untransformed clone and CORS safety
+  // 100% Crisp Vector Print Engine Portal (Zero UI chrome, 0 blank pages, native 300+ DPI vector PDF)
+  const handlePrintResume = () => {
+    const element = resumePrintRef.current;
+    if (!element) {
+      window.print();
+      return;
+    }
+
+    const existing = document.getElementById('resume-print-mount');
+    if (existing) existing.remove();
+
+    const mount = document.createElement('div');
+    mount.id = 'resume-print-mount';
+
+    const clone = element.cloneNode(true) as HTMLElement;
+    clone.style.transform = 'none';
+    clone.style.maxWidth = '100%';
+    clone.style.width = '100%';
+    clone.style.boxShadow = 'none';
+    clone.style.border = 'none';
+    clone.querySelectorAll('.no-print').forEach(el => el.remove());
+    mount.appendChild(clone);
+
+    document.body.appendChild(mount);
+    document.body.classList.add('is-printing-resume');
+
+    setToastMessage('Opening native print engine... (Choose "Save as PDF" for crisp vector output)');
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('is-printing-resume');
+        mount.remove();
+        setToastMessage(null);
+      }, 500);
+    }, 150);
+  };
+
+  // Direct In-Browser High-Res PDF Export
   const handleExportPdf = async () => {
     const element = resumePrintRef.current;
     if (!element) return;
 
     try {
       setIsGeneratingPdf(true);
-      setToastMessage('Compiling high-resolution vector PDF...');
+      setToastMessage('Compiling high-resolution PDF...');
 
-      // Create an untransformed clone attached directly to document.body
-      // This completely avoids any CSS transform or viewport scaling glitches in html2canvas
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const clone = element.cloneNode(true) as HTMLElement;
       clone.style.position = 'fixed';
-      clone.style.left = '-9999px';
       clone.style.top = '0';
+      clone.style.left = '0';
       clone.style.width = '794px';
       clone.style.maxWidth = '794px';
-      clone.style.minHeight = '1123px';
       clone.style.height = 'auto';
       clone.style.transform = 'none';
       clone.style.margin = '0';
@@ -602,18 +801,14 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       clone.style.border = 'none';
       clone.style.background = '#ffffff';
       clone.style.zIndex = '-9999';
+      clone.style.opacity = '0.01';
 
-      // Ensure all images are CORS safe to prevent tainted canvas
       clone.querySelectorAll('img').forEach(img => {
         img.crossOrigin = 'anonymous';
       });
 
       document.body.appendChild(clone);
 
-      // Brief delay to ensure layout and fonts settle
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Capture at crisp 2x resolution with allowTaint: false to prevent SecurityError
       const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
@@ -650,7 +845,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         }
       }
 
-      const safeName = (safePersonalInfo.fullName || 'Articleship_Resume').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+      const safeName = (safePersonalInfo.fullName || 'Mr_R').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
       const filename = `${safeName}_${resume.styling.templateId}_CV.pdf`;
       pdf.save(filename);
 
@@ -662,19 +857,10 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       setTimeout(() => setToastMessage(null), 3500);
     } catch (err) {
       console.error('PDF export error:', err);
-      // Clean fallback: trigger browser native print engine
-      setToastMessage('Exporting via browser print engine...');
-      setTimeout(() => {
-        window.print();
-      }, 400);
+      handlePrintResume();
     } finally {
       setIsGeneratingPdf(false);
     }
-  };
-
-  // Browser Direct Print
-  const handlePrint = () => {
-    window.print();
   };
 
   // Quick JSON download
@@ -1638,12 +1824,22 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                 </div>
 
                 <button
+                  onClick={handlePrintResume}
+                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+                  title="Print directly or save crisp vector PDF via browser"
+                >
+                  <Printer className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Vector Print / PDF</span>
+                </button>
+
+                <button
                   onClick={handleExportPdf}
                   disabled={isGeneratingPdf}
-                  className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                  className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-md shadow-emerald-600/25 active:scale-95 transition-all"
+                  title="Download instant high-resolution PDF file"
                 >
                   {isGeneratingPdf ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-                  <span>{isGeneratingPdf ? 'Exporting...' : 'Export PDF'}</span>
+                  <span>{isGeneratingPdf ? 'Compiling...' : 'Download PDF'}</span>
                 </button>
               </div>
             </div>
@@ -1651,14 +1847,14 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
             {/* A4 Canvas Container with Proportional Sizing and Zero Cut-off */}
             <div
               ref={previewContainerRef}
-              className="p-3 sm:p-5 bg-slate-950/90 border border-slate-800/80 rounded-3xl shadow-2xl overflow-x-auto overflow-y-auto flex justify-center"
+              className="p-3 sm:p-5 bg-slate-950/90 border border-slate-800/80 rounded-3xl shadow-2xl overflow-x-auto overflow-y-auto block"
             >
               {/* Outer sizing box matches exact scaled dimensions to prevent horizontal cut-off */}
               <div
                 style={{
                   width: `${Math.round(A4_WIDTH_PX * currentScale)}px`,
                   minHeight: `${Math.round(A4_HEIGHT_PX * currentScale)}px`,
-                  height: `${Math.round(A4_HEIGHT_PX * currentScale)}px`,
+                  height: `${Math.round(docHeight * currentScale)}px`,
                   transition: 'width 0.15s ease, height 0.15s ease',
                 }}
                 className="relative mx-auto shrink-0"

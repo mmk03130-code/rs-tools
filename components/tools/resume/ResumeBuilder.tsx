@@ -642,9 +642,18 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
 
   if (builderMode === 'finance') {
     return (
-      <CaAccaResumeStudio
-        onSwitchToGeneralMode={() => setBuilderMode('general')}
-      />
+      <React.Suspense
+        fallback={
+          <div className="py-24 flex flex-col items-center justify-center space-y-3">
+            <div className="w-9 h-9 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-xs font-semibold text-slate-400">Loading CA & ACCA 47-Template Studio...</p>
+          </div>
+        }
+      >
+        <CaAccaResumeStudio
+          onSwitchToGeneralMode={() => setBuilderMode('general')}
+        />
+      </React.Suspense>
     );
   }
 
