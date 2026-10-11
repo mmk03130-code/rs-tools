@@ -732,7 +732,7 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
       {/* Main Studio Workstation (Split View) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Interactive Editor Suite (5 cols) */}
-        <div className="lg:col-span-5 space-y-4">
+        <div className="lg:col-span-5 min-w-0 space-y-4">
           {/* Preset Selector */}
           <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between gap-2">
             <span className="text-xs font-semibold text-slate-400 whitespace-nowrap">Load Preset Profile:</span>
@@ -1685,7 +1685,7 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
         </div>
 
         {/* Right Column: Live High-Resolution Resume Sheet Preview (7 cols) */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 min-w-0">
           <div className="sticky top-20 rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-2xl overflow-hidden">
             {/* Canvas Toolbar */}
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-xs text-slate-400 flex-wrap gap-2">

@@ -638,16 +638,22 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
   React.useEffect(() => {
     const handleResize = () => {
       if (previewContainerRef.current) {
-        setContainerWidth(previewContainerRef.current.clientWidth);
+        const clientW = previewContainerRef.current.clientWidth;
+        if (clientW > 50) {
+          setContainerWidth(clientW);
+        }
       }
     };
     handleResize();
+    // Re-check shortly after mounting/mode change
+    const timer = setTimeout(handleResize, 60);
     const observer = new ResizeObserver(handleResize);
     if (previewContainerRef.current) {
       observer.observe(previewContainerRef.current);
     }
     window.addEventListener('resize', handleResize);
     return () => {
+      clearTimeout(timer);
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
     };
@@ -655,8 +661,9 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
 
   // Auto-fit scale ensures the 794px A4 sheet fits inside the container width with padding
   const autoFitScale = useMemo(() => {
-    const usableWidth = Math.max(280, containerWidth - 36);
-    return Math.min(1.0, Math.max(0.35, usableWidth / A4_WIDTH_PX));
+    const usableWidth = Math.max(260, containerWidth - 48);
+    const calculated = usableWidth / A4_WIDTH_PX;
+    return Math.min(1.0, Math.max(0.3, Number((calculated).toFixed(3))));
   }, [containerWidth]);
 
   const currentScale = useMemo(() => {
@@ -779,20 +786,25 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
   // Direct In-Browser High-Res PDF Export
   const handleExportPdf = async () => {
     const element = resumePrintRef.current;
-    if (!element) return;
+    if (!element) {
+      handlePrintResume();
+      return;
+    }
 
     try {
       setIsGeneratingPdf(true);
       setToastMessage('Compiling high-resolution PDF...');
 
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Give browser time to settle render and show toast
+      await new Promise(resolve => setTimeout(resolve, 80));
 
       const clone = element.cloneNode(true) as HTMLElement;
       clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
       clone.style.top = '0';
-      clone.style.left = '0';
       clone.style.width = '794px';
       clone.style.maxWidth = '794px';
+      clone.style.minHeight = '1123px';
       clone.style.height = 'auto';
       clone.style.transform = 'none';
       clone.style.margin = '0';
@@ -801,22 +813,27 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       clone.style.border = 'none';
       clone.style.background = '#ffffff';
       clone.style.zIndex = '-9999';
-      clone.style.opacity = '0.01';
 
+      clone.querySelectorAll('.no-print').forEach(el => el.remove());
       clone.querySelectorAll('img').forEach(img => {
         img.crossOrigin = 'anonymous';
       });
 
       document.body.appendChild(clone);
 
+      // Brief delay to ensure fonts and layout settle in the clone
+      await new Promise(resolve => setTimeout(resolve, 80));
+
       const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
-        allowTaint: false,
+        allowTaint: true,
         backgroundColor: '#ffffff',
         logging: false,
         width: 794,
         windowWidth: 794,
+        scrollX: 0,
+        scrollY: 0,
       });
 
       document.body.removeChild(clone);
@@ -831,7 +848,14 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       const pdfWidth = 210;
       const pdfHeight = 297;
       const contentHeightMm = (canvas.height * pdfWidth) / canvas.width;
-      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      
+      let imgData: string;
+      try {
+        imgData = canvas.toDataURL('image/jpeg', 0.98);
+      } catch (dataErr) {
+        // Fallback if canvas is tainted by external image
+        imgData = canvas.toDataURL();
+      }
 
       if (contentHeightMm <= pdfHeight + 5) {
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, Math.min(contentHeightMm, pdfHeight), undefined, 'FAST');
@@ -856,7 +880,8 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       setToastMessage(`Downloaded ${filename} successfully!`);
       setTimeout(() => setToastMessage(null), 3500);
     } catch (err) {
-      console.error('PDF export error:', err);
+      console.error('PDF export error, falling back to Vector Print:', err);
+      setToastMessage('Switching to Vector Print engine for 100% crisp PDF export...');
       handlePrintResume();
     } finally {
       setIsGeneratingPdf(false);
@@ -1057,7 +1082,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: 10-STEP WIZARD FORM (visible in split or form mode) */}
         {(viewMode === 'split' || viewMode === 'form') && (
-          <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} space-y-4`}>
+          <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} min-w-0 space-y-4`}>
             {/* Template Quick Chip */}
             <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -1763,7 +1788,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
 
         {/* RIGHT COLUMN: LIVE A4 PREVIEW (visible in split or preview mode) */}
         {(viewMode === 'split' || viewMode === 'preview') && (
-          <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} space-y-3`}>
+          <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} min-w-0 space-y-3`}>
             {/* Live A4 Toolbar */}
             <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
