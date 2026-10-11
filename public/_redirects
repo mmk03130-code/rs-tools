@@ -37,6 +37,7 @@
 /pdf-to-word              /index.html    200
 /markdown-to-pdf          /index.html    200
 /resume-builder           /index.html    200
+/ca-acca-resume-builder   /index.html    200
 /json-formatter           /index.html    200
 /regex-tester             /index.html    200
 /base64-tool              /index.html    200
