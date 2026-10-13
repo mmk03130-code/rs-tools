@@ -14,7 +14,6 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ToolCard } from './components/ToolCard';
 import { CommandPalette } from './components/CommandPalette';
-import { AdSlot } from './components/AdSlot';
 import { Logo } from './components/Logo';
 import { IconRenderer } from './components/IconRenderer';
 import { AmbientMotionBackdrop } from './components/AmbientMotionBackdrop';
@@ -778,10 +777,6 @@ export const App: React.FC = () => {
               </div>
             )}
 
-            {/* Subtle Ad / Sponsorship Slot */}
-            <div className="pt-6">
-              <AdSlot slotType="banner" />
-            </div>
           </motion.div>
         ) : (
           /* VIEW 2: DASHBOARD & TOOL DIRECTORY */
@@ -1302,9 +1297,6 @@ export const App: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* Subtle Sponsor Ad Slot */}
-            <AdSlot slotType="banner" />
 
             {/* Main Tools Grid */}
             <div className="space-y-3">
