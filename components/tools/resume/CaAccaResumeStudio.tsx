@@ -12,8 +12,9 @@ import { FinanceResumeData } from '../../../types/tools';
 import { CaAccaTemplateRenderer, ExtendedFinanceResumeData } from './CaAccaTemplateRenderer';
 import { TEMPLATES_47_CATALOG, TemplateMeta } from './templates47Data';
 import confetti from 'canvas-confetti';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
+import { sanitizeElementColors } from '../../../utils/sanitizeColors';
 
 // Clean, professional SVG data URI for candidate avatar (zero CORS risk, zero network dependency, 100% canvas export safe)
 const DEFAULT_AVATAR_DATA_URI =
@@ -783,6 +784,8 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     }, 150);
   };
 
+  const handlePrint = handlePrintResume;
+
   // Direct In-Browser High-Res PDF Export
   const handleExportPdf = async () => {
     const element = resumePrintRef.current;
@@ -823,6 +826,9 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
 
       // Brief delay to ensure fonts and layout settle in the clone
       await new Promise(resolve => setTimeout(resolve, 80));
+
+      // Sanitize colors to guarantee zero oklch parsing glitches
+      sanitizeElementColors(clone);
 
       const canvas = await html2canvas(clone, {
         scale: 2,
@@ -1001,7 +1007,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
             </button>
 
             <button
-              onClick={handlePrint}
+              onClick={handlePrintResume}
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs cursor-pointer"
               title="Print via Browser"
             >

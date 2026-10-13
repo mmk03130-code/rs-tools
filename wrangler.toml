@@ -1,0 +1,6 @@
+name = "rs-utility-tools"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "dist"
+
+# Cloudflare Pages / Static Assets Configuration
+# Run 'npm run deploy:cloudflare' or 'npx wrangler pages deploy dist' to deploy instantly to Cloudflare's global edge network.

@@ -9,8 +9,9 @@ import {
 import { FinanceResumeData, AccountingExam, ArticleshipTraining } from '../../../types/tools';
 import { CaAccaTemplateRenderer } from './CaAccaTemplateRenderer';
 import confetti from 'canvas-confetti';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
+import { sanitizeElementColors } from '../../../utils/sanitizeColors';
 
 // Accounting-specific action verbs for real-time audit
 const ACCOUNTING_ACTION_VERBS = [
@@ -898,6 +899,9 @@ export const CaAccaResumeBuilder: React.FC<CaAccaResumeBuilderProps> = ({
         spread: 60,
         origin: { y: 0.7 },
       });
+
+      // Sanitize colors to eliminate any oklch color function issues
+      sanitizeElementColors(element);
 
       const canvas = await html2canvas(element, {
         scale: 2,

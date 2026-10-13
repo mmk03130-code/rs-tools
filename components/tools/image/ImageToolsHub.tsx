@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { ToolItem } from '../../../types/tools';
 import QRCode from 'qrcode';
+import { triggerConfetti } from '../../../utils/confetti';
 
 interface ImageToolsHubProps {
   tool: ToolItem;
@@ -1391,7 +1392,8 @@ export const ImageToolsHub: React.FC<ImageToolsHubProps> = ({ tool }) => {
                 <a
                   href={resultSrc}
                   download={`rstools-${tool.id}-${Date.now()}.png`}
-                  className="px-5 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors flex items-center gap-2 shadow-lg shadow-emerald-600/20"
+                  onClick={() => triggerConfetti({ particleCount: 50, spread: 60 })}
+                  className="px-5 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors flex items-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download Output File</span>

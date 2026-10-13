@@ -2,6 +2,7 @@ import React from 'react';
 import { Rocket, Globe } from 'lucide-react';
 import { ToolCategory, ToolItem } from '../types/tools';
 import { TOOLS_LIST } from '../data/toolsList';
+import { Logo } from './Logo';
 
 interface FooterProps {
   onSelectTool: (tool: ToolItem) => void;
@@ -23,19 +24,14 @@ export const Footer: React.FC<FooterProps> = ({
   const devTools = TOOLS_LIST.filter(t => t.category === 'developer').slice(0, 6);
 
   return (
-    <footer className="mt-20 border-t border-slate-800 light:border-slate-200 bg-slate-950/60 light:bg-slate-50 transition-colors">
+    <footer className="mt-20 border-t border-[#1e232d] dark:border-white/8 light:border-zinc-200 bg-[#090b0e]/95 dark:bg-[#090b0e]/95 light:bg-zinc-50 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Directory Links Grid (SEO Optimized Internal Links) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Col */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm shadow-blue-500/30">
-                RS
-              </div>
-              <span className="font-bold text-base text-slate-100 light:text-slate-900">
-                RS tools
-              </span>
+            <div className="mb-3">
+              <Logo size="sm" showText={true} />
             </div>
             <p className="text-xs text-slate-400 light:text-slate-600 leading-relaxed mb-4">
               A comprehensive open-source suite of 50+ free utilities for developers, designers, and professionals. Fast, private, and serverless.
@@ -44,23 +40,23 @@ export const Footer: React.FC<FooterProps> = ({
             <div className="space-y-2.5 text-xs">
               <button
                 onClick={onOpenSitemap}
-                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left py-1"
+                className="group flex items-center gap-2 text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left py-1"
               >
-                <Globe className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <Globe className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform flex-shrink-0" />
                 <span>XML Sitemap & SEO Specs</span>
               </button>
               <button
                 onClick={onOpenDeployGuide}
-                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors cursor-pointer text-left py-1"
+                className="group flex items-center gap-2 text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-amber-700 transition-colors cursor-pointer text-left py-1"
               >
-                <Rocket className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform flex-shrink-0" />
-                <span>Deploy Project Source</span>
+                <Rocket className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <span>Cloudflare & Edge Deploy</span>
               </button>
               <a
                 href="/llms.txt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors py-1 text-left"
+                className="group flex items-center gap-2 text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-amber-700 transition-colors py-1 text-left"
               >
                 <Globe className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform flex-shrink-0" />
                 <span>AI Agent Specs (llms.txt)</span>
@@ -82,7 +78,7 @@ export const Footer: React.FC<FooterProps> = ({
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block py-1"
+                    className="hover:text-amber-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -105,7 +101,7 @@ export const Footer: React.FC<FooterProps> = ({
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block py-1"
+                    className="hover:text-amber-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -128,7 +124,7 @@ export const Footer: React.FC<FooterProps> = ({
                       e.preventDefault();
                       onSelectTool(tool);
                     }}
-                    className="hover:text-blue-400 text-left transition-colors block py-1"
+                    className="hover:text-amber-400 text-left transition-colors block py-1"
                   >
                     {tool.name}
                   </a>
@@ -142,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
                     const r = TOOLS_LIST.find(t => t.id === 'resume-builder');
                     if (r) onSelectTool(r);
                   }}
-                  className="text-blue-400 hover:text-blue-300 font-medium text-left transition-colors block py-1"
+                  className="text-amber-400 hover:text-blue-300 font-medium text-left transition-colors block py-1"
                 >
                   ATS Resume & CV Engine →
                 </a>
@@ -165,7 +161,7 @@ export const Footer: React.FC<FooterProps> = ({
                 e.preventDefault();
                 onOpenPrivacy?.();
               }}
-              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
+              className="text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
             >
               Privacy Policy
             </a>
@@ -176,14 +172,14 @@ export const Footer: React.FC<FooterProps> = ({
                 e.preventDefault();
                 onOpenTerms?.();
               }}
-              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
+              className="text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer py-1"
             >
               Terms of Service
             </a>
             <span className="text-slate-700 light:text-slate-300">·</span>
             <a
               href="mailto:support@rsutilitytools.netlify.app"
-              className="text-slate-400 hover:text-blue-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
+              className="text-slate-400 hover:text-amber-400 light:text-slate-600 light:hover:text-blue-600 transition-colors underline-offset-4 hover:underline cursor-pointer"
             >
               Contact Support
             </a>

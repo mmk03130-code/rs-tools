@@ -9,6 +9,7 @@ import {
 import { ToolItem } from '../../../types/tools';
 import { PDFDocument, rgb, degrees, StandardFonts } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
+import { triggerConfetti } from '../../../utils/confetti';
 
 // Configure pdfjs worker source
 if (typeof window !== 'undefined' && 'GlobalWorkerOptions' in pdfjsLib) {
@@ -1771,7 +1772,8 @@ export const PdfToolsHub: React.FC<PdfToolsHubProps> = ({ tool }) => {
                   <a
                     href={resultBlobUrl}
                     download={resultFileName}
-                    className="px-6 py-2.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors flex items-center gap-2 shadow-lg shadow-emerald-600/20"
+                    onClick={() => triggerConfetti({ particleCount: 50, spread: 60 })}
+                    className="px-6 py-2.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors flex items-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95"
                   >
                     <Download className="w-4 h-4" />
                     <span>Download {resultFileName}</span>

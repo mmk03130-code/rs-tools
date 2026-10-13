@@ -9,8 +9,9 @@ import {
 import { ResumeData } from '../../../types/tools';
 import { ResumeTemplateRenderer } from './ResumeTemplateRenderer';
 import confetti from 'canvas-confetti';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
+import { sanitizeElementColors } from '../../../utils/sanitizeColors';
 
 // Lazy-load the specialized CA & ACCA Studio with 47 templates
 const CaAccaResumeStudio = React.lazy(() =>
@@ -463,6 +464,9 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
 
       // Brief delay to ensure fonts and layout settle
       await new Promise(resolve => setTimeout(resolve, 80));
+
+      // Sanitize colors to eliminate any oklch color function issues
+      sanitizeElementColors(clone);
 
       // Capture at crisp 2x resolution
       const canvas = await html2canvas(clone, {

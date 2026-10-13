@@ -6,6 +6,7 @@ import {
   Copy, Check, RefreshCw, Play, Sparkles
 } from 'lucide-react';
 import { ToolItem } from '../../../types/tools';
+import { triggerConfetti } from '../../../utils/confetti';
 
 interface DevToolsHubProps {
   tool: ToolItem;
@@ -123,6 +124,7 @@ export const DevToolsHub: React.FC<DevToolsHubProps> = ({ tool }) => {
   const copyToClipboard = (txt: string) => {
     navigator.clipboard.writeText(txt);
     setCopied(true);
+    triggerConfetti({ particleCount: 35, spread: 55 });
     setTimeout(() => setCopied(false), 2000);
   };
 
