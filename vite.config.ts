@@ -24,11 +24,17 @@ export default defineConfig(({ mode }) => {
           '@': path.resolve(__dirname, '.'),
         }
       },
+      esbuild: {
+        legalComments: 'none',
+        drop: mode === 'production' ? ['debugger'] : [],
+      },
       build: {
         outDir: 'dist',
         emptyOutDir: true,
         assetsDir: 'assets',
         sourcemap: false,
+        minify: 'esbuild',
+        cssMinify: true,
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
           input: {

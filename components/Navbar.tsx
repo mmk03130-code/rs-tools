@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Search, Sun, Moon, Coffee } from 'lucide-react';
+import { Search, Sun, Moon } from 'lucide-react';
 import { ToolCategory } from '../types/tools';
 import { Logo } from './Logo';
 
@@ -99,20 +99,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Search className="w-4 h-4" />
           </motion.button>
-
-          {/* Buy Me a Coffee */}
-          <motion.a
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            href="https://buymeacoffee.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Support project on Buy Me a Coffee"
-            className="min-h-[40px] inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/25 transition-all"
-          >
-            <Coffee className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="hidden sm:inline">Support</span>
-          </motion.a>
 
           {/* Dark / Light Toggle */}
           <motion.button

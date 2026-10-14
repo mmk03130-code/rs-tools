@@ -13,7 +13,7 @@ import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
 import { sanitizeElementColors } from '../../../utils/sanitizeColors';
 
-// Lazy-load the specialized CA & ACCA Studio with 47 templates
+// Lazy-load the specialized CA, ACCA & Finance Executive Studio
 const CaAccaResumeStudio = React.lazy(() =>
   import('./CaAccaResumeStudio').then(m => ({ default: m.CaAccaResumeStudio }))
 );
@@ -650,7 +650,7 @@ export const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ initialToolId }) =
         fallback={
           <div className="py-24 flex flex-col items-center justify-center space-y-3">
             <div className="w-9 h-9 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-xs font-semibold text-slate-400">Loading CA & ACCA 47-Template Studio...</p>
+            <p className="text-xs font-semibold text-slate-400">Loading CA & ACCA Resume Studio...</p>
           </div>
         }
       >

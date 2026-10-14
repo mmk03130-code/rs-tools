@@ -6,596 +6,249 @@ import {
   Upload, Copy, ZoomIn, ZoomOut, CheckCircle2, AlertCircle, FileCode, Printer,
   BookOpen, Building2, Table, Hash, Percent, FileCheck, CheckSquare, Search,
   X, ChevronLeft, ChevronRight, Shuffle, Undo2, Redo2, Phone, Mail, MapPin, Globe,
-  HelpCircle, CheckCircle, Layers, Grid, List
+  HelpCircle, CheckCircle, Layers, Grid, List, Columns, Sparkle, ArrowRight
 } from 'lucide-react';
 import { FinanceResumeData } from '../../../types/tools';
 import { CaAccaTemplateRenderer, ExtendedFinanceResumeData } from './CaAccaTemplateRenderer';
 import { TEMPLATES_47_CATALOG, TemplateMeta } from './templates47Data';
+import { generateRandomFinanceResume, createBlankFinanceResume } from './financeSampleGenerator';
 import confetti from 'canvas-confetti';
 import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
 import { sanitizeElementColors } from '../../../utils/sanitizeColors';
 
-// Clean, professional SVG data URI for candidate avatar (zero CORS risk, zero network dependency, 100% canvas export safe)
-const DEFAULT_AVATAR_DATA_URI =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%230f172a'/%3E%3Ccircle cx='80' cy='60' r='28' fill='%23e2e8f0'/%3E%3Cpath d='M30 138 c0 -28 22 -50 50 -50 s50 22 50 50' fill='%23e2e8f0'/%3E%3C/svg%3E";
-
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
 
-// Initial baseline candidate with generic professional profile "Mr. R"
-const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = {
-  ftsBatch: '49',
-  crn: 'CRN-88492',
-  address: 'DHA Phase 5, Lahore, Pakistan',
-  objective: 'Results-driven Chartered Accountancy student with CAF qualification seeking a 3.5-year articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
-  avatarUrl: DEFAULT_AVATAR_DATA_URI,
-  personalInfo: {
-    fullName: 'Mr. R',
-    jobTitle: 'Chartered Accountant Trainee (Articleship)',
-    regNumber: 'CRN-88492',
-    email: 'mr.r.audit@example.com',
-    phone: '+92 300 0000000',
-    location: 'Lahore, Pakistan',
-    linkedin: 'linkedin.com/in/mr-r-audit-ca',
-    website: 'mr-r-portfolio.example.com',
-    summary: 'Results-driven Chartered Accountancy student with CAF qualification seeking a 3.5-year articleship induction in a reputable audit and assurance practice. Committed to applying strong analytical grounding in IFRS, ISA, and Corporate Taxation to statutory audit engagements while upholding strict ethical objectivity.',
-  },
-  qualifications: [
-    {
-      id: 'q1',
-      course: 'Pre-Requisite Competencies (PRC)',
-      body: 'ICAP',
-      year: 'Autumn 2022',
-      attempt: 'in 1 attempt',
-      marks: 'All 5 papers passed',
-    },
-    {
-      id: 'q2',
-      course: 'Certificate in Accounting and Finance (CAF)',
-      body: 'ICAP',
-      year: 'Spring 2024',
-      attempt: 'in 3 attempts',
-      marks: 'All 8 papers qualified',
-    },
-  ],
-  education: [
-    {
-      id: 'e1',
-      institution: 'Punjab College of Commerce, Lahore',
-      degree: 'INTERMEDIATE (HSSC)',
-      field: 'Commerce / Pre-Engineering',
-      location: 'Lahore',
-      startDate: '2020',
-      endDate: '2022',
-      gpa: '88.2% (Grade A+)',
-    },
-    {
-      id: 'e2',
-      institution: 'Divisional Public School, Lahore',
-      degree: 'MATRICULATION (SSC)',
-      field: 'Science',
-      location: 'Lahore',
-      startDate: '2018',
-      endDate: '2020',
-      gpa: '92.5% (Grade A+)',
-    },
-  ],
-  articleship: [
-    {
-      id: 'art1',
-      firmName: 'Tariq & Co. Chartered Accountants (QCR Rated)',
-      role: 'Audit Trainee / Associate',
-      location: 'Lahore',
-      startDate: '2024',
-      endDate: 'Present',
-      current: true,
-      department: 'Audit & Assurance Advisory',
-      industriesAudited: 'Textile, FMCG, Manufacturing',
-      highlights: [
-        'Assisted statutory audit teams on interim and year-end procedures for private entities under ISA.',
-        'Conducted substantive audit tests on revenue, inventory, trade receivables, and bank reconciliations.',
-        'Drafted audit working papers, lead schedules, and internal control observation memoranda.',
-      ],
-    },
-    {
-      id: 'art2',
-      firmName: 'Al-Baraka Financial Advisory Services',
-      role: 'Accounting & Tax Intern',
-      location: 'Lahore',
-      startDate: '2023',
-      endDate: '2023',
-      current: false,
-      department: 'Financial Advisory',
-      industriesAudited: 'Retail, Distribution',
-      highlights: [
-        'Prepared monthly withholding tax statements and sales tax return computations using FBR IRIS.',
-        'Reconciled general ledgers and assisted in trial balance preparation using QuickBooks and MS Excel.',
-      ],
-    },
-  ],
-  experiences: [],
-  standards: [
-    'Financial Accounting & Reporting (IFRS / IAS)',
-    'Audit Sampling & Risk Assessment (ISA)',
-    'Advanced MS Excel (VLOOKUP, Pivot Tables, XLOOKUP)',
-    'QuickBooks & ERP Familiarity',
-    'Strong Professional Skepticism & Attention to Detail',
-    'Effective Business Communication & Presentation',
-    'Time Management & Deadline Adherence',
-  ],
-  software: [
-    'Advanced MS Excel (Power Query)',
-    'QuickBooks Desktop & Online',
-    'Tally Prime',
-    'Power BI',
-  ],
-  coreCompetencies: [
-    'Statutory Audit & Assurance',
-    'Financial Reporting (IFRS)',
-    'Internal Controls & Testing',
-    'Taxation (Income Tax Ordinance 2001 & Sales Tax)',
-  ],
-  courses: [
-    { id: 'c1', name: 'Presentation & Personal Effectiveness (PPEC - ICAP)', institute: 'ICAP' },
-    { id: 'c2', name: 'Financial Modeling & Valuation Analysis (FMVA)', institute: 'CFI' },
-    { id: 'c3', name: 'MS Office & Advanced Excel Automation for Auditors', institute: 'ICAP IT Training' },
-    { id: 'c4', name: 'Data Analytics & Power BI for Finance', institute: 'Digiskills' },
-  ],
-  achievements: [
-    { id: 'a1', title: 'Merit scholarship for Academic Excellence' },
-    { id: 'a2', title: 'All PRC/AFC papers qualified in 1st attempt' },
-    { id: 'a3', title: 'Certificate of Merit in Financial Accounting & Reporting' },
-  ],
-  references: [
-    {
-      id: 'r1',
-      name: 'Mr. Farhan Ahmed, FCA',
-      role: 'Audit Partner, Tariq & Co.',
-      email: 'farhan.fca@example.com',
-      phone: '+92 333 5551234',
-    },
-  ],
-  activities: 'Debate Team Captain • Inter-College Cricket Champion',
-  languages: [
-    { id: 'l1', language: 'Urdu', proficiency: 'Native' },
-    { id: 'l2', language: 'English', proficiency: 'Professional' },
-    { id: 'l3', language: 'Punjabi', proficiency: 'Conversational' },
-  ],
-  certifications: [],
-  styling: {
-    templateId: 'T-47',
-    colorTheme: 'navy',
-    fontFamily: 'sans',
-    spacing: 'standard',
-    paperSize: 'a4',
-    fontSize: 'base',
-  },
-};
+// Initial baseline candidate: dynamically randomized with global credentials
+const INITIAL_CA_ACCA_DATA: ExtendedFinanceResumeData = generateRandomFinanceResume('audit-exec');
 
 const COLOR_THEMES = [
-  { id: 'navy', name: 'Taxman Executive Navy', primary: '#021B3A', secondary: '#1e3a8a', accent: '#3b82f6' },
-  { id: 'slate', name: 'Big 4 Slate Charcoal', primary: '#0f172a', secondary: '#334155', accent: '#64748b' },
-  { id: 'burgundy', name: 'ICAP Royal Crimson', primary: '#581c87', secondary: '#7e22ce', accent: '#a855f7' },
-  { id: 'emerald', name: 'Audit Green & Assurance', primary: '#064e3b', secondary: '#047857', accent: '#10b981' },
-  { id: 'corporate', name: 'Banking Cobalt Blue', primary: '#1e40af', secondary: '#2563eb', accent: '#60a5fa' },
-  { id: 'minimal', name: 'Pure Monochrome Black', primary: '#18181b', secondary: '#27272a', accent: '#52525b' },
+  { id: 'navy', name: 'Executive Navy', primary: '#021B3A', secondary: '#1e3a8a', accent: '#3b82f6' },
+  { id: 'slate', name: 'Charcoal Slate', primary: '#0f172a', secondary: '#334155', accent: '#64748b' },
+  { id: 'burgundy', name: 'Regal Crimson & Plum', primary: '#581c87', secondary: '#7e22ce', accent: '#a855f7' },
+  { id: 'emerald', name: 'Assurance Forest Green', primary: '#064e3b', secondary: '#047857', accent: '#10b981' },
+  { id: 'corporate', name: 'Cobalt Banking Blue', primary: '#1e40af', secondary: '#2563eb', accent: '#60a5fa' },
+  { id: 'minimal', name: 'Monochrome Onyx', primary: '#18181b', secondary: '#27272a', accent: '#52525b' },
 ];
 
-const STEPS = [
-  { num: 1, name: 'Personal & Contact', icon: User, desc: 'Name, CRN, FTS Batch & Contacts' },
-  { num: 2, name: 'CA / ACCA Track', icon: Award, desc: 'PRC/CAF Stages & Attempts' },
-  { num: 3, name: 'Career Objective', icon: FileText, desc: 'Articleship induction summary' },
-  { num: 4, name: 'Academic Background', icon: GraduationCap, desc: 'Intermediate & Matriculation' },
-  { num: 5, name: 'Articleship / Experience', icon: Briefcase, desc: 'Firms, SME clients & roles' },
-  { num: 6, name: 'Competencies & IFRS', icon: CheckSquare, desc: 'IFRS, ISA & Core Strengths' },
-  { num: 7, name: 'Software & Tools', icon: Code, desc: 'Excel, QuickBooks, Tally, BI' },
-  { num: 8, name: 'Certifications & Courses', icon: BookOpen, desc: 'PPEC, FMVA, IT Trainings' },
-  { num: 9, name: 'References & Activities', icon: Building2, desc: 'FCA/ACA References & Sports' },
-  { num: 10, name: 'Appearance & Template', icon: Palette, desc: 'Choose from all 47 Templates' },
+// 4 Core Master Sections
+const CORE_SECTIONS = [
+  { id: 'identity', name: 'Identity & Objective', icon: User, desc: 'Name, Role, Contacts & Pitch' },
+  { id: 'credentials', name: 'Registry & Academics', icon: Award, desc: 'Accounting Exams & Degrees' },
+  { id: 'experience', name: 'Assurance & Tech', icon: Briefcase, desc: 'Articleship, Standards & Tools' },
+  { id: 'styling', name: 'Design & Presentation', icon: Palette, desc: '8 Architectures & Color Themes' },
+] as const;
+
+type CoreSectionId = typeof CORE_SECTIONS[number]['id'];
+
+// Suggested standards for 1-click addition
+const SUGGESTED_STANDARDS = [
+  'IFRS 15 (Revenue)', 'IFRS 16 (Leases)', 'IFRS 9 (Financial Instruments)',
+  'ISA 315 (Risk Assessment)', 'ISA 240 (Fraud in Audit)', 'ISA 700 (Audit Reports)',
+  'SOX 404 (ICFR Testing)', 'COSO Framework', 'US GAAP', 'Ind AS', 'CARO 2020'
 ];
 
-// Rich, vivid miniature preview component for every template in the 47 gallery
+// Suggested software for 1-click addition
+const SUGGESTED_SOFTWARE = [
+  'Advanced Excel (VBA/Power Query)', 'Power BI Dashboards', 'SAP S/4HANA Finance',
+  'Oracle NetSuite ERP', 'QuickBooks Online', 'CaseWare Working Papers', 'TallyPrime', 'Xero Accounting'
+];
+
+// Suggested action verbs for summary
+const SUMMARY_VERBS = [
+  'Spearheaded', 'Architected', 'Reconciled', 'Optimized',
+  'Audited', 'Formulated', 'Streamlined', 'Engineered'
+];
+
+// Rich miniature preview component for the 8 specialized architectures
 const TemplateThumbnailPreview: React.FC<{
   template: TemplateMeta;
   primaryColor: string;
   name: string;
 }> = ({ template, primaryColor, name }) => {
   const id = template.id;
-  const displayName = name || 'Mr. R';
+  const displayName = name || 'Candidate Name';
 
-  // 1. Dark Left Sidebar: T-03, T-25
-  if (['T-03', 'T-25'].includes(id)) {
+  // 1. Audit Executive
+  if (id === 'audit-exec' || id === 'T-01') {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
+        <div className="border-b-2 pb-1" style={{ borderColor: primaryColor }}>
+          <div className="flex justify-between items-baseline">
+            <span className="text-[8px] font-black uppercase tracking-tight text-zinc-950 truncate">{displayName}</span>
+            <span className="text-[5px] font-bold px-1 rounded text-white" style={{ backgroundColor: primaryColor }}>AUDIT</span>
+          </div>
+          <div className="w-full h-0.5 bg-zinc-200 mt-0.5 rounded" />
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="w-full h-1 bg-zinc-700 rounded" />
+          <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
+          <div className="flex gap-0.5">
+            <span className="text-[4px] bg-blue-50 text-blue-700 px-0.5 rounded">ISA 315</span>
+            <span className="text-[4px] bg-blue-50 text-blue-700 px-0.5 rounded">IFRS 15</span>
+            <span className="text-[4px] bg-blue-50 text-blue-700 px-0.5 rounded">SOX</span>
+          </div>
+        </div>
+        <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      </div>
+    );
+  }
+
+  // 2. Tax Advisory
+  if (id === 'tax-advisory' || id === 'T-02') {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between select-none mb-2.5">
+        <div className="p-1.5 text-white flex justify-between items-center" style={{ backgroundColor: primaryColor }}>
+          <span className="text-[8px] font-black uppercase truncate">{displayName}</span>
+          <span className="text-[5px] bg-amber-400 text-slate-950 font-bold px-1 rounded">TAX</span>
+        </div>
+        <div className="p-1.5 space-y-1 flex-1">
+          <div className="w-full h-1 bg-zinc-700 rounded" />
+          <div className="grid grid-cols-2 gap-1">
+            <div className="h-6 bg-slate-50 border border-slate-200 rounded p-0.5" />
+            <div className="h-6 bg-slate-50 border border-slate-200 rounded p-0.5" />
+          </div>
+        </div>
+        <div className="p-1 bg-slate-100 border-t border-slate-200 text-[5px] text-zinc-600 font-mono">Tax Counsel • Registry</div>
+      </div>
+    );
+  }
+
+  // 3. Corporate Controller (Dual Column)
+  if (id === 'corp-controller' || id === 'T-03') {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
         <div className="w-[36%] p-1.5 bg-slate-900 text-white flex flex-col justify-between">
           <div>
-            <div className="w-5 h-5 rounded-full bg-slate-400 mx-auto mb-1 border border-white" />
-            <div className="w-full h-1 bg-blue-400 rounded mb-0.5" />
-            <div className="w-3/4 h-1 bg-slate-400 rounded" />
+            <div className="w-4 h-4 rounded-full bg-slate-400 mx-auto mb-1 border border-white" />
+            <div className="w-full h-0.5 bg-blue-400 rounded mb-0.5" />
+            <div className="w-3/4 h-0.5 bg-slate-400 rounded" />
           </div>
           <div className="space-y-0.5">
             <div className="w-full h-0.5 bg-slate-500 rounded" />
-            <div className="w-4/5 h-0.5 bg-slate-500 rounded" />
             <div className="w-2/3 h-0.5 bg-slate-500 rounded" />
           </div>
         </div>
         <div className="w-[64%] p-1.5 flex flex-col justify-between">
           <div>
-            <div className="text-[7.5px] font-black uppercase tracking-tight text-zinc-900 truncate">{displayName}</div>
-            <div className="w-10 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
+            <div className="text-[7.5px] font-black uppercase text-zinc-900 truncate">{displayName}</div>
+            <div className="w-8 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
             <div className="w-full h-1 bg-zinc-300 rounded mb-0.5" />
-            <div className="w-4/5 h-1 bg-zinc-200 rounded" />
-          </div>
-          <div className="space-y-1">
-            <div className="w-full h-1 bg-zinc-400 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-            <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
           </div>
           <div className="space-y-0.5">
             <div className="w-full h-1 bg-zinc-400 rounded" />
-            <div className="w-2/3 h-0.5 bg-zinc-200 rounded" />
+            <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
           </div>
+          <div className="w-full h-0.5 bg-zinc-200 rounded" />
         </div>
       </div>
     );
   }
 
-  // 2. Light / Split Sidebar: T-02, T-31
-  if (['T-02', 'T-31'].includes(id)) {
+  // 4. ACCA Global Analyst
+  if (id === 'acca-analyst' || id === 'T-04') {
     return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
-        <div className="w-[35%] p-1.5 bg-slate-100 border-r border-slate-200 flex flex-col justify-between" style={{ borderRightColor: primaryColor }}>
-          <div>
-            <div className="w-5 h-5 rounded-full bg-slate-300 mx-auto mb-1 border" style={{ borderColor: primaryColor }} />
-            <div className="w-full h-1 rounded mb-0.5" style={{ backgroundColor: primaryColor }} />
-            <div className="w-3/4 h-1 bg-zinc-300 rounded" />
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between select-none mb-2.5">
+        <div className="h-1.5 w-full bg-gradient-to-r from-blue-700 via-teal-600 to-indigo-700" />
+        <div className="p-1.5 flex-1 flex flex-col justify-between">
+          <div className="flex justify-between items-start">
+            <div>
+              <div className="text-[8px] font-black uppercase text-zinc-950 truncate">{displayName}</div>
+              <div className="text-[5px] text-zinc-600">ACCA Global Analyst</div>
+            </div>
+            <span className="text-[5px] bg-teal-100 text-teal-800 font-bold px-1 rounded">GLOBAL</span>
+          </div>
+          <div className="grid grid-cols-3 gap-0.5 my-1">
+            <div className="bg-slate-100 h-3 rounded" />
+            <div className="bg-slate-100 h-3 rounded" />
+            <div className="bg-slate-100 h-3 rounded" />
           </div>
           <div className="space-y-0.5">
             <div className="w-full h-0.5 bg-zinc-400 rounded" />
-            <div className="w-4/5 h-0.5 bg-zinc-400 rounded" />
-          </div>
-        </div>
-        <div className="w-[65%] p-1.5 flex flex-col justify-between">
-          <div>
-            <div className="text-[7.5px] font-black uppercase tracking-tight text-zinc-900 truncate">{displayName}</div>
-            <div className="w-10 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-1 bg-zinc-200 rounded mb-0.5" />
-          </div>
-          <div className="space-y-1">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-          <div className="space-y-0.5">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
-            <div className="w-2/3 h-0.5 bg-zinc-200 rounded" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 3. Right Sidebar: T-04
-  if (id === 'T-04') {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex select-none mb-2.5">
-        <div className="w-[65%] p-1.5 flex flex-col justify-between">
-          <div>
-            <div className="text-[7.5px] font-black uppercase text-zinc-900 truncate">{displayName}</div>
-            <div className="w-12 h-0.5 rounded my-0.5" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-1 bg-zinc-200 rounded mb-0.5" />
-          </div>
-          <div className="space-y-1">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
             <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
           </div>
-          <div className="space-y-0.5">
-            <div className="w-full h-1 bg-zinc-300 rounded" />
-            <div className="w-3/5 h-0.5 bg-zinc-200 rounded" />
-          </div>
-        </div>
-        <div className="w-[35%] p-1.5 bg-slate-100 border-l border-slate-200 flex flex-col justify-between">
-          <div className="w-5 h-5 rounded-full bg-slate-300 mx-auto mb-1" />
-          <div className="space-y-0.5">
-            <div className="w-full h-1 bg-zinc-400 rounded" />
-            <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
-          </div>
-          <div className="space-y-0.5">
-            <div className="w-full h-0.5 bg-zinc-300 rounded" />
-            <div className="w-2/3 h-0.5 bg-zinc-300 rounded" />
-          </div>
         </div>
       </div>
     );
   }
 
-  // 4. Top Banner Header: T-09, T-10, T-11, T-26, T-45, T-46
-  if (['T-09', 'T-10', 'T-11', 'T-26', 'T-45', 'T-46'].includes(id)) {
+  // 5. M&A Treasury Advisory (Serif)
+  if (id === 'ma-treasury' || id === 'T-05') {
     return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between select-none mb-2.5">
-        <div className="p-1.5 text-white flex justify-between items-center" style={{ backgroundColor: primaryColor }}>
-          <div>
-            <div className="text-[7px] font-black uppercase tracking-tight truncate">{displayName}</div>
-            <div className="text-[5px] text-blue-200 uppercase font-mono">ICAP / ACCA Track</div>
-          </div>
-          <span className="text-[5px] font-mono bg-white/20 px-1 py-0.5 rounded">FTS-49</span>
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-serif text-center">
+        <div className="border-b pb-1">
+          <div className="text-[8px] font-bold uppercase tracking-widest text-zinc-950 truncate">{displayName}</div>
+          <div className="text-[5px] italic text-zinc-600">Investment Banking & M&A Advisory</div>
         </div>
-        <div className="p-1.5 flex-1 flex flex-col justify-between">
-          <div className="border border-zinc-200 rounded p-1 bg-zinc-50 space-y-0.5">
-            <div className="w-full h-1 bg-zinc-300 rounded flex justify-between">
-              <span className="w-1/3 h-full bg-zinc-400 rounded" />
-              <span className="w-1/4 h-full bg-emerald-500 rounded" />
-            </div>
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-          <div className="space-y-1">
-            <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
-          </div>
+        <div className="my-1 space-y-0.5 text-left">
+          <div className="w-12 h-0.5 bg-zinc-400 mx-auto" />
+          <div className="w-full h-1 bg-zinc-300 rounded" />
           <div className="w-full h-0.5 bg-zinc-200 rounded" />
         </div>
+        <div className="border-t pt-0.5 flex justify-between text-[5px] font-mono text-zinc-500">
+          <span>DCF & Valuation</span>
+          <span>Capital Advisory</span>
+        </div>
       </div>
     );
   }
 
-  // 5. Executive / KPI Cards: T-07, T-08, T-39
-  if (['T-07', 'T-08', 'T-39'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-serif">
-        <div className="text-center border-b-2 pb-1" style={{ borderColor: primaryColor }}>
-          <div className="text-[8px] font-black uppercase text-zinc-900 truncate">{displayName}</div>
-          <div className="text-[5px] font-sans text-zinc-500">Executive Finance & Assurance</div>
-        </div>
-        <div className="grid grid-cols-4 gap-0.5 my-1">
-          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-zinc-800">100%</div>
-          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-blue-800">FTS49</div>
-          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-emerald-800">IFRS</div>
-          <div className="p-0.5 bg-slate-100 rounded text-[5px] text-center font-bold text-amber-800">AUDIT</div>
-        </div>
-        <div className="space-y-1 font-sans">
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 6. Classic Corporate / Elegant Serif: T-01, T-28, T-42
-  if (['T-01', 'T-28', 'T-42'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-serif border-2 border-zinc-900">
-        <div className="text-center border-b-2 border-double border-zinc-900 pb-1">
-          <div className="text-[8.5px] font-black uppercase text-zinc-950 tracking-wider truncate">{displayName}</div>
-          <div className="text-[5px] font-sans font-bold text-zinc-600">CHARTERED ACCOUNTANT TRAINEE</div>
-        </div>
-        <div className="space-y-1 my-1">
-          <div className="w-12 h-1 bg-zinc-800 rounded mx-auto" />
-          <div className="w-full h-0.5 bg-zinc-300 rounded" />
-          <div className="w-5/6 h-0.5 bg-zinc-200 rounded mx-auto" />
-        </div>
-        <div className="border border-zinc-300 rounded p-1 space-y-0.5">
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-300 rounded" />
-      </div>
-    );
-  }
-
-  // 7. Timeline Progression: T-27
-  if (id === 'T-27') {
+  // 6. Risk Governance & SOX
+  if (id === 'risk-assurance' || id === 'T-06') {
     return (
       <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="border-b pb-0.5">
-          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
-          <div className="text-[5px] text-zinc-500">Timeline Career Architecture</div>
+        <div className="border-l-4 pl-1.5 py-0.5 bg-zinc-50 border-emerald-600">
+          <div className="text-[7.5px] font-black uppercase text-zinc-950 truncate">{displayName}</div>
+          <div className="text-[5px] text-zinc-600 font-bold">SOX 404 • Risk Assurance</div>
         </div>
-        <div className="border-l-2 pl-2 my-1 space-y-1.5" style={{ borderColor: primaryColor }}>
-          <div className="relative">
-            <div className="w-1.5 h-1.5 rounded-full absolute -left-[11px] top-0" style={{ backgroundColor: primaryColor }} />
-            <div className="w-10 h-1 bg-zinc-400 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
-          </div>
-          <div className="relative">
-            <div className="w-1.5 h-1.5 rounded-full absolute -left-[11px] top-0" style={{ backgroundColor: primaryColor }} />
-            <div className="w-12 h-1 bg-zinc-400 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
-          </div>
+        <div className="grid grid-cols-4 gap-0.5 my-1 text-center">
+          <div className="p-0.5 bg-slate-100 rounded text-[4px] font-bold">SOX</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[4px] font-bold">COSO</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[4px] font-bold">ICFR</div>
+          <div className="p-0.5 bg-slate-100 rounded text-[4px] font-bold">ISA</div>
         </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 8. Grid Cards / 2-Column: T-29, T-30
-  if (['T-29', 'T-30'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="flex justify-between items-center border-b pb-0.5" style={{ borderColor: primaryColor }}>
-          <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
-          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: primaryColor }} />
-        </div>
-        <div className="grid grid-cols-2 gap-1 my-1">
-          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
-            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-          <div className="border border-zinc-300 rounded p-1 bg-zinc-50 space-y-0.5">
-            <div className="w-8 h-1 rounded" style={{ backgroundColor: primaryColor }} />
-            <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          </div>
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 9. Analytics / FinTech Purple: T-16, T-23, T-36
-  if (['T-16', 'T-23', 'T-36'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="border-b border-purple-900 pb-0.5 flex justify-between items-center">
-          <div>
-            <div className="text-[7.5px] font-black text-zinc-900 uppercase truncate">{displayName}</div>
-            <div className="text-[5px] text-purple-700 font-bold uppercase">Analytics & Power BI</div>
-          </div>
-          <span className="px-1 py-0.2 rounded text-[5px] font-mono bg-purple-100 text-purple-800 font-bold">DAX/SQL</span>
-        </div>
-        <div className="p-1 rounded bg-purple-50 border border-purple-200 my-1 space-y-0.5">
-          <div className="flex gap-1">
-            <span className="h-1.5 w-6 bg-purple-300 rounded" />
-            <span className="h-1.5 w-6 bg-purple-300 rounded" />
-            <span className="h-1.5 w-6 bg-purple-300 rounded" />
-          </div>
-        </div>
-        <div className="space-y-1">
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 10. Official Induction Form: T-17, T-18, T-19, T-20
-  if (['T-17', 'T-18', 'T-19', 'T-20'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="border border-zinc-800 p-1 bg-zinc-50 flex justify-between items-center">
-          <div>
-            <div className="text-[7px] font-black uppercase truncate text-zinc-950">{displayName}</div>
-            <div className="text-[5px] text-zinc-600 font-bold">Official ICAP Induction Form</div>
-          </div>
-          <span className="text-[5px] font-mono border px-1 rounded bg-white font-bold">CRN-88492</span>
-        </div>
-        <div className="border border-zinc-200 rounded p-1 bg-white my-1 space-y-0.5">
-          <div className="w-full h-1 bg-zinc-800 rounded" />
-          <div className="w-full h-0.5 bg-zinc-300 rounded" />
-        </div>
-        <div className="space-y-1">
-          <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
-          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 11. Modern Left Accent: T-06, T-14, T-37, T-43
-  if (['T-06', 'T-14', 'T-37', 'T-43'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="border-b-2 pb-0.5" style={{ borderColor: primaryColor }}>
-          <div className="text-[8px] font-black uppercase text-zinc-950 truncate">{displayName}</div>
-          <div className="text-[5.5px] font-bold" style={{ color: primaryColor }}>Modern ATS Architecture</div>
-        </div>
-        <div className="space-y-1.5 my-1">
-          <div className="border-l-2 pl-1" style={{ borderColor: primaryColor }}>
-            <div className="w-12 h-1 bg-zinc-600 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
-          </div>
-          <div className="border-l-2 pl-1" style={{ borderColor: primaryColor }}>
-            <div className="w-14 h-1 bg-zinc-600 rounded" />
-            <div className="w-full h-0.5 bg-zinc-200 rounded mt-0.5" />
-          </div>
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 12. Monochrome Precision: T-32
-  if (id === 'T-32') {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-black overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 font-mono">
-        <div className="border-b border-black pb-0.5">
-          <div className="text-[7.5px] font-black uppercase truncate text-black">[ {displayName} ]</div>
-          <div className="text-[5px] text-zinc-700">100% Monochrome Engine</div>
-        </div>
-        <div className="space-y-1 my-1">
-          <div className="w-full h-1 bg-black rounded" />
-          <div className="w-full h-0.5 bg-zinc-300 rounded" />
-          <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-300 rounded" />
-      </div>
-    );
-  }
-
-  // 13. Europass Modern: T-44
-  if (id === 'T-44') {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="border-b-2 border-blue-900 pb-0.5 flex justify-between items-center">
-          <div>
-            <div className="text-[7.5px] font-black uppercase truncate text-blue-950">{displayName}</div>
-            <div className="text-[5px] text-blue-800 font-bold">EUROPASS FORMAT</div>
-          </div>
-          <span className="w-3 h-2 bg-blue-800 rounded-xs" />
-        </div>
-        <div className="space-y-1 my-1">
-          <div className="w-full h-1 bg-blue-900 rounded" />
-          <div className="w-full h-0.5 bg-zinc-200 rounded" />
-          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 14. Soft Pastel / Trainee: T-33, T-40, T-41
-  if (['T-33', 'T-40', 'T-41'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-        <div className="p-1 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
-          <div className="text-[7px] font-black uppercase truncate text-zinc-950">{displayName}</div>
-          <span className="text-[5px] bg-blue-100 text-blue-800 px-1 rounded font-bold">CAF FRESH</span>
-        </div>
-        <div className="space-y-1 my-1">
-          <div className="w-full h-1 bg-zinc-400 rounded" />
-          <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
-        </div>
-        <div className="w-full h-0.5 bg-zinc-200 rounded" />
-      </div>
-    );
-  }
-
-  // 15. Compact / Logbook: T-22, T-24, T-34
-  if (['T-22', 'T-24', 'T-34'].includes(id)) {
-    return (
-      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1 flex flex-col justify-between select-none mb-2.5 text-[6px]">
-        <div className="border-b pb-0.5 flex justify-between">
-          <span className="font-black uppercase truncate text-zinc-950">{displayName}</span>
-          <span className="font-mono text-zinc-500">Compact</span>
-        </div>
-        <div className="border border-zinc-200 rounded p-0.5 bg-zinc-50 space-y-0.5">
+        <div className="space-y-0.5">
           <div className="w-full h-0.5 bg-zinc-400 rounded" />
+          <div className="w-3/4 h-0.5 bg-zinc-200 rounded" />
+        </div>
+      </div>
+    );
+  }
+
+  // 7. Clean Minimalist ATS
+  if (id === 'clean-ats' || id === 'T-07') {
+    return (
+      <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5 text-center">
+        <div className="border-b pb-0.5">
+          <div className="text-[8px] font-black uppercase tracking-wider text-zinc-950 truncate">{displayName}</div>
+          <div className="text-[5px] text-zinc-600">Chartered Professional • 100% ATS Safe</div>
+        </div>
+        <div className="space-y-0.5 my-1 text-left">
+          <div className="w-16 h-1 bg-zinc-800 rounded mb-0.5" />
           <div className="w-full h-0.5 bg-zinc-300 rounded" />
-          <div className="w-full h-0.5 bg-zinc-200 rounded" />
+          <div className="w-5/6 h-0.5 bg-zinc-200 rounded" />
         </div>
         <div className="w-full h-0.5 bg-zinc-200 rounded" />
       </div>
     );
   }
 
-  // 16. Flagship ATS Pro / Default: T-47, T-05, T-12, T-13, T-15, T-21, T-35
+  // 8. Executive CFO & Partner
   return (
-    <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs p-1.5 flex flex-col justify-between select-none mb-2.5">
-      <div className="text-center border-b pb-0.5">
-        <div className="text-[8px] font-black uppercase text-zinc-950 truncate tracking-wider">{displayName}</div>
-        <div className="text-[5px] text-zinc-600 font-semibold">Chartered Accountant Trainee • ATS 100%</div>
+    <div className="w-full h-32 rounded-lg bg-white border border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between select-none mb-2.5">
+      <div className="p-1.5 text-white flex justify-between items-center" style={{ backgroundColor: primaryColor }}>
+        <div>
+          <div className="text-[8px] font-black uppercase truncate">{displayName}</div>
+          <div className="text-[5px] text-amber-300 font-bold uppercase">Chief Financial Officer</div>
+        </div>
+        <span className="text-[5px] bg-white/20 text-white font-bold px-1 rounded">CFO</span>
       </div>
-      <div className="border border-zinc-200 rounded p-1 bg-zinc-50 space-y-0.5 my-1">
-        <div className="w-full h-1 bg-zinc-800 rounded" />
-        <div className="w-full h-0.5 bg-zinc-300 rounded" />
+      <div className="p-1.5 space-y-1 flex-1">
+        <div className="w-full h-1 bg-zinc-700 rounded" />
+        <div className="w-4/5 h-0.5 bg-zinc-300 rounded" />
       </div>
-      <div className="space-y-0.5">
-        <div className="w-full h-1 rounded" style={{ backgroundColor: primaryColor }} />
-        <div className="w-4/5 h-0.5 bg-zinc-200 rounded" />
-      </div>
-      <div className="w-full h-0.5 bg-zinc-200 rounded" />
+      <div className="p-1 bg-slate-50 border-t border-slate-200 text-[5px] text-zinc-500">Board Advisory • Executive Practice</div>
     </div>
   );
 };
@@ -607,77 +260,46 @@ export interface CaAccaResumeStudioProps {
 export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
   onSwitchToGeneralMode,
 }) => {
-  // Navigation: Sath Sath (Split View), Edit Form Only, Live A4 Preview Only
-  const [viewMode, setViewMode] = useState<'split' | 'form' | 'preview'>('split');
+  // Main Resume Data State with initial dynamic randomized data
+  const [resume, setResume] = useState<ExtendedFinanceResumeData>(() =>
+    generateRandomFinanceResume('audit-exec')
+  );
 
-  // Wizard 10 Steps
-  const [activeStep, setActiveStep] = useState<number>(1);
-
-  // Resume State with Undo/Redo history
-  const [resume, setResume] = useState<ExtendedFinanceResumeData>(INITIAL_CA_ACCA_DATA);
-  const [history, setHistory] = useState<ExtendedFinanceResumeData[]>([INITIAL_CA_ACCA_DATA]);
+  // Undo / Redo History
+  const [history, setHistory] = useState<ExtendedFinanceResumeData[]>([resume]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
 
-  // Modal for Template Gallery (47 Templates)
+  // Active Core Section ('identity' | 'credentials' | 'experience' | 'styling')
+  const [activeSection, setActiveSection] = useState<CoreSectionId>('identity');
+
+  // Fill Layout Mode: 'tabs' (focused section) vs 'continuous' (scroll all sections)
+  const [fillLayoutMode, setFillLayoutMode] = useState<'tabs' | 'continuous'>('tabs');
+
+  // View Mode: 'split' (side by side), 'form' (edit only), 'preview' (preview only)
+  const [viewMode, setViewMode] = useState<'split' | 'form' | 'preview'>('split');
+
+  // Zoom scale for live A4 preview
+  const [zoomScale, setZoomScale] = useState<number>(0.84);
+
+  // Modal for Template Gallery
   const [isGalleryOpen, setIsGalleryOpen] = useState<boolean>(false);
   const [galleryFilter, setGalleryFilter] = useState<string>('All');
   const [gallerySearch, setGallerySearch] = useState<string>('');
   const [atsFriendlyOnly, setAtsFriendlyOnly] = useState<boolean>(false);
 
-  // Zoom & Responsive Layout States
-  const previewContainerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number>(600);
-  const [zoomMode, setZoomMode] = useState<'fit' | '100' | 'custom'>('fit');
-  const [customZoom, setCustomZoom] = useState<number>(100);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
+  // Toast notification state
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
 
+  // DOM Refs
   const resumePrintRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Measure container width dynamically to eliminate horizontal cut-off in split mode
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (previewContainerRef.current) {
-        const clientW = previewContainerRef.current.clientWidth;
-        if (clientW > 50) {
-          setContainerWidth(clientW);
-        }
-      }
-    };
-    handleResize();
-    // Re-check shortly after mounting/mode change
-    const timer = setTimeout(handleResize, 60);
-    const observer = new ResizeObserver(handleResize);
-    if (previewContainerRef.current) {
-      observer.observe(previewContainerRef.current);
-    }
-    window.addEventListener('resize', handleResize);
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [viewMode]);
-
-  // Auto-fit scale ensures the 794px A4 sheet fits inside the container width with padding
-  const autoFitScale = useMemo(() => {
-    const usableWidth = Math.max(260, containerWidth - 48);
-    const calculated = usableWidth / A4_WIDTH_PX;
-    return Math.min(1.0, Math.max(0.3, Number((calculated).toFixed(3))));
-  }, [containerWidth]);
-
-  const currentScale = useMemo(() => {
-    if (zoomMode === 'fit') return autoFitScale;
-    if (zoomMode === '100') return 1.0;
-    return customZoom / 100;
-  }, [zoomMode, autoFitScale, customZoom]);
-
-  // State update wrapper with history push
-  const updateResume = (updated: ExtendedFinanceResumeData) => {
-    setResume(updated);
+  // Update resume with history capture
+  const updateResume = (newResume: ExtendedFinanceResumeData) => {
+    setResume(newResume);
     const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(updated);
+    newHistory.push(newResume);
     if (newHistory.length > 25) newHistory.shift();
     setHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
@@ -699,30 +321,63 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     }
   };
 
-  const safePersonalInfo = {
-    fullName: resume?.personalInfo?.fullName || 'Mr. R',
-    jobTitle: resume?.personalInfo?.jobTitle || 'Chartered Accountant Trainee (Articleship)',
-    regNumber: resume?.personalInfo?.regNumber || 'CRN-88492',
-    email: resume?.personalInfo?.email || 'mr.r.audit@example.com',
-    phone: resume?.personalInfo?.phone || '+92 300 0000000',
-    location: resume?.personalInfo?.location || 'Lahore, Pakistan',
-    linkedin: resume?.personalInfo?.linkedin || 'linkedin.com/in/mr-r-audit-ca',
-    website: resume?.personalInfo?.website || 'mr-r-portfolio.example.com',
-    summary: resume?.personalInfo?.summary || '',
+  // Completely Randomize Candidate Profile
+  const handleRandomizeEverything = () => {
+    const randomized = generateRandomFinanceResume(resume.styling.templateId);
+    updateResume(randomized);
+    setToastMessage(`Generated fresh candidate: ${randomized.personalInfo?.fullName || 'Profile'}!`);
+    setTimeout(() => setToastMessage(null), 3000);
   };
 
-  const currentTheme = COLOR_THEMES.find(t => t.id === resume.styling.colorTheme) || COLOR_THEMES[0];
-  const activeTemplateMeta = TEMPLATES_47_CATALOG.find(t => t.id === resume.styling.templateId) || TEMPLATES_47_CATALOG[46];
+  // Clear all fields to start with a blank document
+  const handleClearAllFields = () => {
+    const blank = createBlankFinanceResume(resume.styling.templateId);
+    updateResume(blank);
+    setToastMessage('All fields cleared. Ready for manual typing!');
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
-  // Dynamically track document content height so it never cuts off vertically
-  const [docHeight, setDocHeight] = useState<number>(A4_HEIGHT_PX);
-  React.useEffect(() => {
-    if (resumePrintRef.current) {
-      setDocHeight(Math.max(A4_HEIGHT_PX, resumePrintRef.current.scrollHeight));
-    }
-  }, [resume, currentScale, resume.styling.templateId]);
+  // Current Theme Object
+  const currentTheme = useMemo(() => {
+    return COLOR_THEMES.find(t => t.id === resume.styling.colorTheme) || COLOR_THEMES[0];
+  }, [resume.styling.colorTheme]);
 
-  // Memoized filtered templates list
+  // Active Template Meta
+  const activeTemplateMeta = useMemo(() => {
+    return (
+      TEMPLATES_47_CATALOG.find(t => t.id === resume.styling.templateId) ||
+      TEMPLATES_47_CATALOG[0]
+    );
+  }, [resume.styling.templateId]);
+
+  // Safe personal info fallback
+  const safePersonalInfo = resume.personalInfo || {
+    fullName: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    location: '',
+    summary: '',
+    regNumber: '',
+    linkedin: '',
+    website: '',
+  };
+
+  // Calculate live resume completeness score
+  const completeness = useMemo(() => {
+    let score = 0;
+    if (safePersonalInfo.fullName.trim()) score += 15;
+    if (safePersonalInfo.jobTitle.trim()) score += 10;
+    if (safePersonalInfo.email.trim()) score += 10;
+    if (safePersonalInfo.phone.trim()) score += 10;
+    if (resume.objective?.trim() || safePersonalInfo.summary.trim()) score += 15;
+    if (resume.qualifications && resume.qualifications.length > 0) score += 15;
+    if (resume.education && resume.education.length > 0) score += 10;
+    if (resume.articleship && resume.articleship.length > 0) score += 15;
+    return Math.min(100, score);
+  }, [safePersonalInfo, resume.objective, resume.qualifications, resume.education, resume.articleship]);
+
+  // Filtered templates for modal
   const filteredTemplates = useMemo(() => {
     return TEMPLATES_47_CATALOG.filter(t => {
       const matchesFilter = galleryFilter === 'All' || t.category === galleryFilter;
@@ -730,24 +385,14 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         !gallerySearch ||
         t.name.toLowerCase().includes(gallerySearch.toLowerCase()) ||
         t.desc.toLowerCase().includes(gallerySearch.toLowerCase()) ||
+        t.code.toLowerCase().includes(gallerySearch.toLowerCase()) ||
         t.id.toLowerCase().includes(gallerySearch.toLowerCase());
       const matchesAts = !atsFriendlyOnly || t.atsFriendly;
       return matchesFilter && matchesSearch && matchesAts;
     });
   }, [galleryFilter, gallerySearch, atsFriendlyOnly]);
 
-  // Surprise Me Random Template
-  const handleSurpriseMe = () => {
-    const random = TEMPLATES_47_CATALOG[Math.floor(Math.random() * TEMPLATES_47_CATALOG.length)];
-    updateResume({
-      ...resume,
-      styling: { ...resume.styling, templateId: random.id },
-    });
-    setToastMessage(`Switched to ${random.id} – ${random.name}!`);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
-  // 100% Crisp Vector Print Engine Portal (Zero UI chrome, 0 blank pages, native 300+ DPI vector PDF)
+  // Vector Print Engine
   const handlePrintResume = () => {
     const element = resumePrintRef.current;
     if (!element) {
@@ -773,7 +418,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     document.body.appendChild(mount);
     document.body.classList.add('is-printing-resume');
 
-    setToastMessage('Opening native print engine... (Choose "Save as PDF" for crisp vector output)');
+    setToastMessage('Opening print engine... (Choose "Save as PDF" for crisp vector output)');
     setTimeout(() => {
       window.print();
       setTimeout(() => {
@@ -783,8 +428,6 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       }, 500);
     }, 150);
   };
-
-  const handlePrint = handlePrintResume;
 
   // Direct In-Browser High-Res PDF Export
   const handleExportPdf = async () => {
@@ -797,8 +440,6 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     try {
       setIsGeneratingPdf(true);
       setToastMessage('Compiling high-resolution PDF...');
-
-      // Give browser time to settle render and show toast
       await new Promise(resolve => setTimeout(resolve, 80));
 
       const clone = element.cloneNode(true) as HTMLElement;
@@ -823,11 +464,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       });
 
       document.body.appendChild(clone);
-
-      // Brief delay to ensure fonts and layout settle in the clone
       await new Promise(resolve => setTimeout(resolve, 80));
-
-      // Sanitize colors to guarantee zero oklch parsing glitches
       sanitizeElementColors(clone);
 
       const canvas = await html2canvas(clone, {
@@ -859,7 +496,6 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       try {
         imgData = canvas.toDataURL('image/jpeg', 0.98);
       } catch (dataErr) {
-        // Fallback if canvas is tainted by external image
         imgData = canvas.toDataURL();
       }
 
@@ -869,14 +505,10 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, contentHeightMm, undefined, 'FAST');
         pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, -pdfHeight, pdfWidth, contentHeightMm, undefined, 'FAST');
-        if (contentHeightMm > pdfHeight * 2 + 5) {
-          pdf.addPage();
-          pdf.addImage(imgData, 'JPEG', 0, -(pdfHeight * 2), pdfWidth, contentHeightMm, undefined, 'FAST');
-        }
       }
 
-      const safeName = (safePersonalInfo.fullName || 'Mr_R').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
-      const filename = `${safeName}_${resume.styling.templateId}_CV.pdf`;
+      const safeName = (safePersonalInfo.fullName || 'Finance_Candidate').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+      const filename = `${safeName}_${activeTemplateMeta.code}_CV.pdf`;
       pdf.save(filename);
 
       try {
@@ -887,19 +519,19 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       setTimeout(() => setToastMessage(null), 3500);
     } catch (err) {
       console.error('PDF export error, falling back to Vector Print:', err);
-      setToastMessage('Switching to Vector Print engine for 100% crisp PDF export...');
+      setToastMessage('Switching to Vector Print engine for crisp PDF export...');
       handlePrintResume();
     } finally {
       setIsGeneratingPdf(false);
     }
   };
 
-  // Quick JSON download
+  // Export & Import JSON
   const handleExportJson = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(resume, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `${safePersonalInfo.fullName.replace(/\s+/g, '_')}_CA_Resume.json`);
+    downloadAnchor.setAttribute('download', `${safePersonalInfo.fullName.replace(/\s+/g, '_')}_Finance_Resume.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -907,7 +539,6 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Import JSON
   const handleImportJson = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -926,6 +557,771 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
     reader.readAsText(file);
   };
 
+  // RENDER FORM SECTIONS
+  const renderIdentitySection = () => (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+            <User className="w-4 h-4 text-amber-400" />
+            <span>Candidate Identity & Career Pitch</span>
+          </h2>
+          <p className="text-[11px] text-slate-400">Personal identification, primary contacts, and executive summary</p>
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Section 1</span>
+      </div>
+
+      {/* Headshot Photo */}
+      <div className="flex items-center gap-4 p-3 bg-slate-950/80 border border-slate-800 rounded-2xl">
+        <img
+          src={resume.avatarUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%230f172a'/%3E%3Ccircle cx='80' cy='60' r='28' fill='%23cbd5e1'/%3E%3Cpath d='M30 138 c0 -28 22 -50 50 -50 s50 22 50 50' fill='%23cbd5e1'/%3E%3C/svg%3E"}
+          alt="Avatar"
+          className="w-13 h-13 rounded-full object-cover border-2 border-amber-500/50 shrink-0"
+        />
+        <div className="space-y-1">
+          <div className="text-xs font-bold text-white">Candidate Headshot Photo</div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold cursor-pointer"
+            >
+              Upload Photo
+            </button>
+            <button
+              type="button"
+              onClick={() => updateResume({ ...resume, avatarUrl: undefined })}
+              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] cursor-pointer"
+            >
+              Remove
+            </button>
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={e => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                  updateResume({ ...resume, avatarUrl: ev.target?.result as string });
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Full Legal Name *</label>
+          <input
+            type="text"
+            value={safePersonalInfo.fullName}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, fullName: e.target.value },
+              })
+            }
+            placeholder="e.g. Devon S. Hawthorne"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Target Professional Role *</label>
+          <input
+            type="text"
+            value={safePersonalInfo.jobTitle}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, jobTitle: e.target.value },
+              })
+            }
+            placeholder="e.g. Senior Audit & Assurance Associate"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Email Address *</label>
+          <input
+            type="email"
+            value={safePersonalInfo.email}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, email: e.target.value },
+              })
+            }
+            placeholder="candidate.audit@firmpartners.com"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Contact Phone / International *</label>
+          <input
+            type="text"
+            value={safePersonalInfo.phone}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, phone: e.target.value },
+              })
+            }
+            placeholder="+44 20 7946 0912 / +1 212 555 0192"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Location / Residential City & Country</label>
+          <input
+            type="text"
+            value={resume.address || safePersonalInfo.location || ''}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                address: e.target.value,
+                personalInfo: { ...safePersonalInfo, location: e.target.value },
+              })
+            }
+            placeholder="e.g. London, United Kingdom / New York, NY"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">LinkedIn Profile Handle</label>
+          <input
+            type="text"
+            value={safePersonalInfo.linkedin}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, linkedin: e.target.value },
+              })
+            }
+            placeholder="linkedin.com/in/candidate-finance"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Professional Portfolio / Credential Link</label>
+          <input
+            type="text"
+            value={safePersonalInfo.website || ''}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                personalInfo: { ...safePersonalInfo, website: e.target.value },
+              })
+            }
+            placeholder="candidate.credentials.org"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      {/* Career Vision / Executive Summary */}
+      <div className="pt-2">
+        <div className="flex items-center justify-between mb-1.5">
+          <label className="block text-[11px] font-bold text-slate-300">Executive Profile & Career Vision</label>
+          <div className="flex items-center gap-1 text-[10px] text-slate-400">
+            <span>Power verbs:</span>
+            {SUMMARY_VERBS.slice(0, 4).map(v => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => {
+                  const curr = resume.objective || safePersonalInfo.summary || '';
+                  const updated = curr ? `${curr} ${v}` : `${v}`;
+                  updateResume({
+                    ...resume,
+                    objective: updated,
+                    personalInfo: { ...safePersonalInfo, summary: updated },
+                  });
+                }}
+                className="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-[9px] cursor-pointer"
+              >
+                +{v}
+              </button>
+            ))}
+          </div>
+        </div>
+        <textarea
+          rows={4}
+          value={resume.objective || safePersonalInfo.summary || ''}
+          onChange={e =>
+            updateResume({
+              ...resume,
+              objective: e.target.value,
+              personalInfo: { ...safePersonalInfo, summary: e.target.value },
+            })
+          }
+          placeholder="Articulate your accounting mandate, assurance exposure, audit leadership, or controllership philosophy..."
+          className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-800 text-white text-xs leading-relaxed focus:border-amber-500 focus:outline-none"
+        />
+      </div>
+    </div>
+  );
+
+  const renderCredentialsSection = () => (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+            <Award className="w-4 h-4 text-emerald-400" />
+            <span>Professional Registry & Education</span>
+          </h2>
+          <p className="text-[11px] text-slate-400">Accounting registration, examination track, and university degrees</p>
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Section 2</span>
+      </div>
+
+      {/* Accounting Registry ID / Roll No */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Candidate Roll / Registration Number</label>
+          <input
+            type="text"
+            value={resume.crn || safePersonalInfo.regNumber || ''}
+            onChange={e =>
+              updateResume({
+                ...resume,
+                crn: e.target.value,
+                personalInfo: { ...safePersonalInfo, regNumber: e.target.value },
+              })
+            }
+            placeholder="e.g. ACA-94821 / ACCA-2849102 / CPA-58210"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-emerald-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] font-bold text-slate-300 mb-1">Batch / Cohort / Session Reference</label>
+          <input
+            type="text"
+            value={resume.ftsBatch || ''}
+            onChange={e => updateResume({ ...resume, ftsBatch: e.target.value })}
+            placeholder="e.g. Senior Professional Cohort 2025"
+            className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:border-emerald-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      {/* Accounting Exam Stages */}
+      <div className="space-y-3 pt-2">
+        <div className="flex items-center justify-between">
+          <span className="font-bold text-white text-xs">Professional Examination Stages & Modules</span>
+          <button
+            type="button"
+            onClick={() => {
+              const newQ = {
+                id: `qual-${Date.now()}`,
+                course: 'Advanced Strategic Professional Stage',
+                body: 'Chartered Accounting Institute',
+                year: '2025',
+                attempt: 'Passed on 1st Attempt',
+                marks: 'High Distinction',
+              };
+              updateResume({
+                ...resume,
+                qualifications: [...(resume.qualifications || []), newQ],
+              });
+            }}
+            className="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Exam Stage</span>
+          </button>
+        </div>
+
+        {resume.qualifications?.map((q, idx) => (
+          <div key={q.id} className="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <input
+                type="text"
+                value={q.course}
+                onChange={e => {
+                  const updated = [...(resume.qualifications || [])];
+                  updated[idx].course = e.target.value;
+                  updateResume({ ...resume, qualifications: updated });
+                }}
+                placeholder="Stage Name (e.g. Applied Skills / Final Stage)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <input
+                type="text"
+                value={q.attempt || ''}
+                onChange={e => {
+                  const updated = [...(resume.qualifications || [])];
+                  updated[idx].attempt = e.target.value;
+                  updateResume({ ...resume, qualifications: updated });
+                }}
+                placeholder="Status (e.g. First Attempt Pass)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={q.marks || ''}
+                  onChange={e => {
+                    const updated = [...(resume.qualifications || [])];
+                    updated[idx].marks = e.target.value;
+                    updateResume({ ...resume, qualifications: updated });
+                  }}
+                  placeholder="Honors / Result Note"
+                  className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = resume.qualifications?.filter((_, i) => i !== idx);
+                    updateResume({ ...resume, qualifications: updated });
+                  }}
+                  className="p-1.5 text-rose-400 hover:text-rose-300 cursor-pointer"
+                  title="Remove stage"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* University & School Background */}
+      <div className="space-y-3 pt-2">
+        <div className="flex items-center justify-between">
+          <span className="font-bold text-white text-xs">Academic Degrees & Higher Education</span>
+          <button
+            type="button"
+            onClick={() => {
+              const newEdu = {
+                id: `edu-${Date.now()}`,
+                institution: 'School of Economics & Finance',
+                degree: 'B.Sc. (Hons) in Accounting & Finance',
+                field: 'Accountancy',
+                location: 'London',
+                startDate: '2020',
+                endDate: '2023',
+                gpa: 'First Class Honours',
+              };
+              updateResume({
+                ...resume,
+                education: [...(resume.education || []), newEdu],
+              });
+            }}
+            className="px-2.5 py-1 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Degree</span>
+          </button>
+        </div>
+
+        {resume.education?.map((edu, idx) => (
+          <div key={edu.id} className="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input
+                type="text"
+                value={edu.degree}
+                onChange={e => {
+                  const updated = [...(resume.education || [])];
+                  updated[idx].degree = e.target.value;
+                  updateResume({ ...resume, education: updated });
+                }}
+                placeholder="Degree (e.g. B.Sc. in Accounting & Finance)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <input
+                type="text"
+                value={edu.institution}
+                onChange={e => {
+                  const updated = [...(resume.education || [])];
+                  updated[idx].institution = e.target.value;
+                  updateResume({ ...resume, education: updated });
+                }}
+                placeholder="University / College Name"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <input
+                type="text"
+                value={edu.gpa || ''}
+                onChange={e => {
+                  const updated = [...(resume.education || [])];
+                  updated[idx].gpa = e.target.value;
+                  updateResume({ ...resume, education: updated });
+                }}
+                placeholder="Grade / GPA / Honors (e.g. 3.92 / 4.00)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={edu.endDate || ''}
+                  onChange={e => {
+                    const updated = [...(resume.education || [])];
+                    updated[idx].endDate = e.target.value;
+                    updateResume({ ...resume, education: updated });
+                  }}
+                  placeholder="Graduation Year (e.g. 2024)"
+                  className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = resume.education?.filter((_, i) => i !== idx);
+                    updateResume({ ...resume, education: updated });
+                  }}
+                  className="p-1.5 text-rose-400 hover:text-rose-300 cursor-pointer"
+                  title="Remove degree"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderExperienceSection = () => (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+            <Briefcase className="w-4 h-4 text-sky-400" />
+            <span>Assurance Engagements & Tech Skills</span>
+          </h2>
+          <p className="text-[11px] text-slate-400">Articleship, firm audits, accounting standards, and financial software</p>
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Section 3</span>
+      </div>
+
+      {/* Articleship & Audit Experience */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="font-bold text-white text-xs">Articleship & Firm Engagements</span>
+          <button
+            type="button"
+            onClick={() => {
+              const newArt = {
+                id: `art-${Date.now()}`,
+                role: 'Audit & Assurance Associate',
+                firmName: 'Kearney & Sterling LLP',
+                location: 'London / New York',
+                department: 'Statutory Assurance & Risk Advisory',
+                startDate: '2023',
+                endDate: 'Present',
+                current: true,
+                industriesAudited: 'Energy, Manufacturing, Commercial Banking',
+                highlights: [
+                  'Conducted statutory year-end audit closures for 8 commercial clients with collective revenue over $350M.',
+                  'Executed substantive testing on revenue recognition under IFRS 15 and audited IFRS 16 lease schedules.',
+                  'Evaluated internal control deficiencies over financial reporting (ICFR) under ISA 315.'
+                ]
+              };
+              updateResume({
+                ...resume,
+                articleship: [...(resume.articleship || []), newArt],
+              });
+            }}
+            className="px-2.5 py-1 bg-sky-600/30 hover:bg-sky-600/50 text-sky-300 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Engagement</span>
+          </button>
+        </div>
+
+        {resume.articleship?.map((art, idx) => (
+          <div key={art.id} className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl space-y-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input
+                type="text"
+                value={art.role}
+                onChange={e => {
+                  const updated = [...(resume.articleship || [])];
+                  updated[idx].role = e.target.value;
+                  updateResume({ ...resume, articleship: updated });
+                }}
+                placeholder="Role / Title (e.g. Audit Trainee / Associate)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <input
+                type="text"
+                value={art.firmName}
+                onChange={e => {
+                  const updated = [...(resume.articleship || [])];
+                  updated[idx].firmName = e.target.value;
+                  updateResume({ ...resume, articleship: updated });
+                }}
+                placeholder="Firm Name (e.g. Kearney & Sterling LLP / PwC)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <input
+                type="text"
+                value={art.department || ''}
+                onChange={e => {
+                  const updated = [...(resume.articleship || [])];
+                  updated[idx].department = e.target.value;
+                  updateResume({ ...resume, articleship: updated });
+                }}
+                placeholder="Department (e.g. Statutory Audit & Assurance)"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={art.industriesAudited || ''}
+                  onChange={e => {
+                    const updated = [...(resume.articleship || [])];
+                    updated[idx].industriesAudited = e.target.value;
+                    updateResume({ ...resume, articleship: updated });
+                  }}
+                  placeholder="Industries Audited (e.g. Banking, FMCG, Energy)"
+                  className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = resume.articleship?.filter((_, i) => i !== idx);
+                    updateResume({ ...resume, articleship: updated });
+                  }}
+                  className="p-1.5 text-rose-400 hover:text-rose-300 cursor-pointer"
+                  title="Remove engagement"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Highlights bullet points */}
+            <div>
+              <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Key Engagements & Quantified Metrics</label>
+              <textarea
+                rows={3}
+                value={art.highlights?.join('\n') || ''}
+                onChange={e => {
+                  const updated = [...(resume.articleship || [])];
+                  updated[idx].highlights = e.target.value.split('\n');
+                  updateResume({ ...resume, articleship: updated });
+                }}
+                placeholder="Enter 1 key accomplishment per line..."
+                className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white leading-relaxed focus:outline-none"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Accounting Standards & Assertions */}
+      <div className="space-y-2 pt-2">
+        <label className="block text-xs font-bold text-slate-300">Technical Standards & Assertions (IFRS, ISA, SOX)</label>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {SUGGESTED_STANDARDS.map(std => {
+            const isAdded = resume.standards?.includes(std);
+            return (
+              <button
+                key={std}
+                type="button"
+                onClick={() => {
+                  const current = resume.standards || [];
+                  const updated = isAdded ? current.filter(s => s !== std) : [...current, std];
+                  updateResume({ ...resume, standards: updated });
+                }}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
+                  isAdded
+                    ? 'bg-emerald-600 text-white font-bold'
+                    : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                {isAdded ? `✓ ${std}` : `+ ${std}`}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Software & IT Systems */}
+      <div className="space-y-2 pt-2">
+        <label className="block text-xs font-bold text-slate-300">Software & Financial ERP Tools</label>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {SUGGESTED_SOFTWARE.map(sw => {
+            const isAdded = resume.software?.includes(sw);
+            return (
+              <button
+                key={sw}
+                type="button"
+                onClick={() => {
+                  const current = resume.software || [];
+                  const updated = isAdded ? current.filter(s => s !== sw) : [...current, sw];
+                  updateResume({ ...resume, software: updated });
+                }}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
+                  isAdded
+                    ? 'bg-blue-600 text-white font-bold'
+                    : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                {isAdded ? `✓ ${sw}` : `+ ${sw}`}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderStylingSection = () => (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+            <Palette className="w-4 h-4 text-purple-400" />
+            <span>Architecture Design & Presentation</span>
+          </h2>
+          <p className="text-[11px] text-slate-400">Select your specialized architecture, corporate palette, and extra credentials</p>
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">Section 4</span>
+      </div>
+
+      {/* Current Architecture Card */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 flex items-center justify-between gap-3">
+        <div>
+          <span className="text-[10px] uppercase font-bold text-blue-400">Active Layout Architecture</span>
+          <h3 className="text-sm font-black text-white mt-0.5">
+            [{activeTemplateMeta.code}] – {activeTemplateMeta.name}
+          </h3>
+          <p className="text-[11px] text-slate-300">{activeTemplateMeta.desc}</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsGalleryOpen(true)}
+          className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-600/30 whitespace-nowrap active:scale-95 cursor-pointer"
+        >
+          <Palette className="w-3.5 h-3.5" />
+          <span>Browse 8 Architectures</span>
+        </button>
+      </div>
+
+      {/* 8 Specialized Architectures Grid */}
+      <div>
+        <label className="block text-xs font-bold text-white mb-2">8 Curated Architecture Presets</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          {TEMPLATES_47_CATALOG.map(t => {
+            const isCurrent = resume.styling.templateId === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => {
+                  updateResume({
+                    ...resume,
+                    styling: { ...resume.styling, templateId: t.id },
+                  });
+                  setToastMessage(`Switched to [${t.code}] – ${t.name}!`);
+                  setTimeout(() => setToastMessage(null), 3000);
+                }}
+                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  isCurrent
+                    ? 'bg-blue-950/70 border-blue-500 ring-1 ring-blue-500 shadow-lg'
+                    : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">
+                    {t.code}
+                  </span>
+                  {t.badge && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold">
+                      {t.badge}
+                    </span>
+                  )}
+                </div>
+                <div className="text-xs font-bold text-white">{t.name}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-1">{t.desc}</div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Color Palette Switcher */}
+      <div>
+        <label className="block text-xs font-bold text-white mb-2">Executive Color Scheme</label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {COLOR_THEMES.map(theme => (
+            <button
+              key={theme.id}
+              type="button"
+              onClick={() => updateResume({ ...resume, styling: { ...resume.styling, colorTheme: theme.id } })}
+              className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
+                resume.styling.colorTheme === theme.id
+                  ? 'bg-slate-950 border-blue-500 ring-1 ring-blue-500'
+                  : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+              }`}
+            >
+              <div className="w-4 h-4 rounded-full shadow" style={{ backgroundColor: theme.primary }} />
+              <span className="text-xs text-white font-medium truncate">{theme.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Typography Toggle */}
+      <div>
+        <label className="block text-xs font-bold text-white mb-2">Typography Family</label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => updateResume({ ...resume, styling: { ...resume.styling, fontFamily: 'sans' } })}
+            className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+              resume.styling.fontFamily === 'sans'
+                ? 'bg-blue-950/60 border-blue-500 text-white font-bold'
+                : 'bg-slate-950 border-slate-800 text-slate-400'
+            }`}
+          >
+            <div className="text-xs font-sans">Modern Clean Sans-Serif</div>
+            <div className="text-[10px] text-slate-400">High clarity, Big-4 digital consulting</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => updateResume({ ...resume, styling: { ...resume.styling, fontFamily: 'serif' } })}
+            className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+              resume.styling.fontFamily === 'serif'
+                ? 'bg-blue-950/60 border-blue-500 text-white font-bold'
+                : 'bg-slate-950 border-slate-800 text-slate-400'
+            }`}
+          >
+            <div className="text-xs font-serif font-bold">Prestigious Wall-Street Serif</div>
+            <div className="text-[10px] text-slate-400">Classic investment banking & legal advisory</div>
+          </button>
+        </div>
+      </div>
+
+      {/* Additional Activities & References */}
+      <div className="space-y-3 pt-2 border-t border-slate-800">
+        <label className="block text-xs font-bold text-white">Leadership, Governance & Extra-Curricular</label>
+        <input
+          type="text"
+          value={resume.activities || ''}
+          onChange={e => updateResume({ ...resume, activities: e.target.value })}
+          placeholder="e.g. Student Council President • University Debating Champion • Corporate Governance Fellow"
+          className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full max-w-[1720px] mx-auto px-3 sm:px-6 py-6 font-sans">
       {/* Toast Notification */}
@@ -943,66 +1339,59 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>ICAP & ACCA Articleship Induction Ready</span>
+                <span>Professional Audit & Corporate Finance Standard</span>
               </span>
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                47 Full Architecture Templates
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                8 Specialized Architectures
               </span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2">
-              <span>CA & ACCA Professional CV Studio</span>
+              <span>Chartered & Finance Executive CV Studio</span>
               <Sparkles className="w-5 h-5 text-amber-400" />
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-              Tailored for 3.5-Year Articleship Induction, Audit Trainees, and Finance Executives.
-              Select from all 47 architectures with zero blank pages and instant live preview switching.
+              Precision workstation for Audit Associates, ACCA Candidates, Corporate Controllers, and CFOs.
+              Select from 8 specialized architectures with instant live rendering and 100% vector PDF export.
             </p>
           </div>
 
           {/* Action Buttons Toolbar */}
           <div className="flex flex-wrap items-center gap-2">
+            {/* Randomize Everything Button */}
+            <button
+              onClick={handleRandomizeEverything}
+              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-amber-600/30 active:scale-95 cursor-pointer transition-all"
+              title="Generate a completely random realistic profile with names, credentials, and schools"
+            >
+              <Shuffle className="w-3.5 h-3.5 text-amber-200" />
+              <span>🎲 Randomize Profile</span>
+            </button>
+
+            {/* Clear All Fields Button */}
+            <button
+              onClick={handleClearAllFields}
+              className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-rose-950/60 hover:border-rose-500/50 border border-slate-700 text-slate-300 hover:text-rose-200 text-xs font-semibold flex items-center gap-1.5 active:scale-95 cursor-pointer transition-all"
+              title="Clear all fields to type a completely blank resume"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+              <span>🧹 Clear All</span>
+            </button>
+
             <button
               onClick={() => setIsGalleryOpen(true)}
               className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-blue-600/30 active:scale-95 cursor-pointer transition-all"
             >
               <Palette className="w-4 h-4 text-emerald-300" />
-              <span>Change Template ({resume.styling.templateId})</span>
-            </button>
-
-            <button
-              onClick={handleUndo}
-              disabled={historyIndex <= 0}
-              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs disabled:opacity-40 cursor-pointer"
-              title="Undo"
-            >
-              <Undo2 className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={handleRedo}
-              disabled={historyIndex >= history.length - 1}
-              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs disabled:opacity-40 cursor-pointer"
-              title="Redo"
-            >
-              <Redo2 className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={handleSurpriseMe}
-              className="px-3 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-purple-200 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
-              title="Randomize Template"
-            >
-              <Shuffle className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Surprise Me</span>
+              <span>Architecture ({activeTemplateMeta.code})</span>
             </button>
 
             <button
               onClick={handleExportPdf}
               disabled={isGeneratingPdf}
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30 active:scale-95 cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30 active:scale-95 cursor-pointer transition-all disabled:opacity-50"
             >
-              {isGeneratingPdf ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <Download className="w-4 h-4" />
               <span>{isGeneratingPdf ? 'Compiling PDF...' : 'Download PDF'}</span>
             </button>
 
@@ -1020,13 +1409,13 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                 className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium cursor-pointer"
                 title="Switch to General ATS Resume Mode"
               >
-                <span>General Resume Mode</span>
+                <span>General ATS Mode</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* View Mode Switcher: Sath Sath (Split), Edit Form, Live A4 */}
+        {/* View Mode Switcher: Split View, Edit Form, Live A4 */}
         <div className="mt-5 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950/80 border border-slate-800">
             <button
@@ -1037,8 +1426,8 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Sath Sath View (Split)</span>
+              <Columns className="w-3.5 h-3.5" />
+              <span>Split View (Side-by-Side)</span>
             </button>
 
             <button
@@ -1069,7 +1458,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={handleExportJson}
-              className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1"
+              className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Backup JSON</span>
@@ -1086,708 +1475,143 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
 
       {/* WORKSPACE MAIN BODY */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* LEFT COLUMN: 10-STEP WIZARD FORM (visible in split or form mode) */}
+        {/* LEFT COLUMN: THE USER-FRIENDLY FILLING AREA */}
         {(viewMode === 'split' || viewMode === 'form') && (
           <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} min-w-0 space-y-4`}>
-            {/* Template Quick Chip */}
-            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono text-xs font-bold">
-                  {resume.styling.templateId}
+            {/* Header Hub Card: Active Architecture & Readiness Score */}
+            <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+              <div className="flex items-center gap-3">
+                <span className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-300 font-mono text-xs font-black border border-blue-500/30">
+                  {activeTemplateMeta.code}
                 </span>
                 <div>
-                  <div className="text-xs font-bold text-white">{activeTemplateMeta.name}</div>
+                  <div className="text-xs font-black text-white">{activeTemplateMeta.name}</div>
                   <div className="text-[10px] text-slate-400">
-                    {activeTemplateMeta.atsFriendly ? 'ATS Friendly • ATS Optimized' : 'Modern Visual Design'}
+                    {activeTemplateMeta.atsFriendly ? '100% Parser Compliant • ATS Safe' : 'Executive Visual Architecture'}
                   </div>
                 </div>
               </div>
 
-              <button
-                onClick={() => setIsGalleryOpen(true)}
-                className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 cursor-pointer"
-              >
-                <span>Browse All (47)</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* 10 Step Header Navigation */}
-            <div className="p-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-x-auto flex gap-1 scrollbar-thin">
-              {STEPS.map(step => {
-                const Icon = step.icon;
-                const isActive = activeStep === step.num;
-                return (
-                  <button
-                    key={step.num}
-                    onClick={() => setActiveStep(step.num)}
-                    className={`px-3 py-2 rounded-xl text-left whitespace-nowrap transition-all flex items-center gap-2 text-xs cursor-pointer ${
-                      isActive
-                        ? 'bg-emerald-600 text-white font-bold shadow-lg shadow-emerald-600/30'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-medium'
-                    }`}
-                  >
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{step.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* WIZARD CARD CONTAINER */}
-            <div className="p-5 sm:p-6 bg-slate-900/90 border border-slate-800 rounded-3xl shadow-xl space-y-5">
-              {/* STEP 1: PERSONAL & CONTACT */}
-              {activeStep === 1 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Personal & Induction Details</h2>
-                      <p className="text-[11px] text-slate-400">Basic identification, target role & contact data</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 1 of 10</span>
-                  </div>
-
-                  {/* Profile Picture Uploader */}
-                  <div className="flex items-center gap-4 p-3 bg-slate-950 border border-slate-800 rounded-2xl">
-                    <img
-                      src={resume.avatarUrl || DEFAULT_AVATAR_DATA_URI}
-                      alt="Avatar"
-                      className="w-14 h-14 rounded-full object-cover border-2 border-emerald-500/50"
-                    />
-                    <div className="space-y-1">
-                      <div className="text-xs font-bold text-white">Candidate Headshot Photo</div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => fileInputRef.current?.click()}
-                          className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold cursor-pointer"
-                        >
-                          Upload Photo
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => updateResume({ ...resume, avatarUrl: undefined })}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] cursor-pointer"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={e => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onload = ev => {
-                              updateResume({ ...resume, avatarUrl: ev.target?.result as string });
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Full Name *</label>
-                      <input
-                        type="text"
-                        value={safePersonalInfo.fullName}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, fullName: e.target.value },
-                          })
-                        }
-                        placeholder="Mr. R"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Target Role / Sub-title *</label>
-                      <input
-                        type="text"
-                        value={safePersonalInfo.jobTitle}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, jobTitle: e.target.value },
-                          })
-                        }
-                        placeholder="Chartered Accountant Trainee (Articleship)"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Email Address *</label>
-                      <input
-                        type="email"
-                        value={safePersonalInfo.email}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, email: e.target.value },
-                          })
-                        }
-                        placeholder="mr.r.audit@example.com"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Phone / WhatsApp *</label>
-                      <input
-                        type="text"
-                        value={safePersonalInfo.phone}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, phone: e.target.value },
-                          })
-                        }
-                        placeholder="+92 300 1234567"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Residential Address / City</label>
-                      <input
-                        type="text"
-                        value={resume.address || ''}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            address: e.target.value,
-                            personalInfo: { ...safePersonalInfo, location: e.target.value },
-                          })
-                        }
-                        placeholder="Model Town, Block C, Lahore, Pakistan"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">LinkedIn Profile</label>
-                      <input
-                        type="text"
-                        value={safePersonalInfo.linkedin}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, linkedin: e.target.value },
-                          })
-                        }
-                        placeholder="linkedin.com/in/mr-r-finance"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">Portfolio / Website (Optional)</label>
-                      <input
-                        type="text"
-                        value={safePersonalInfo.website || ''}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            personalInfo: { ...safePersonalInfo, website: e.target.value },
-                          })
-                        }
-                        placeholder="mr-r-portfolio.com"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-                  </div>
+              {/* Progress & Completeness */}
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <div className="text-[10px] font-bold text-slate-400">Readiness Score</div>
+                  <div className="text-xs font-black text-emerald-400">{completeness}% Complete</div>
                 </div>
-              )}
-
-              {/* STEP 2: CA / ACCA REGISTRATION & EXAM TRACK */}
-              {activeStep === 2 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">CA / ACCA Examination Track</h2>
-                      <p className="text-[11px] text-slate-400">Track CRN, FTS Batch, and papers passed or awaited</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 2 of 10</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">FTS Batch No.</label>
-                      <input
-                        type="text"
-                        value={resume.ftsBatch || ''}
-                        onChange={e => updateResume({ ...resume, ftsBatch: e.target.value })}
-                        placeholder="FTS - 48"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1">ICAP CRN / ACCA Reg No.</label>
-                      <input
-                        type="text"
-                        value={resume.crn || ''}
-                        onChange={e =>
-                          updateResume({
-                            ...resume,
-                            crn: e.target.value,
-                            personalInfo: { ...safePersonalInfo, regNumber: e.target.value },
-                          })
-                        }
-                        placeholder="CRN - 98421"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:border-blue-500 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 pt-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-white text-xs">Qualification Stages & Attempts</span>
-                      <button
-                        onClick={() => {
-                          const newQ = {
-                            id: `q${Date.now()}`,
-                            course: 'Certificate in Accounting and Finance (CAF)',
-                            body: 'ICAP',
-                            year: '2024',
-                            attempt: 'qualified in 3 attempts',
-                            marks: 'Passed',
-                          };
-                          updateResume({
-                            ...resume,
-                            qualifications: [...(resume.qualifications || []), newQ],
-                          });
-                        }}
-                        className="px-2.5 py-1 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Add Stage</span>
-                      </button>
-                    </div>
-
-                    {resume.qualifications?.map((q, idx) => (
-                      <div key={q.id} className="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          <input
-                            type="text"
-                            value={q.course}
-                            onChange={e => {
-                              const updated = [...(resume.qualifications || [])];
-                              updated[idx].course = e.target.value;
-                              updateResume({ ...resume, qualifications: updated });
-                            }}
-                            placeholder="Stage Name"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <input
-                            type="text"
-                            value={q.attempt || ''}
-                            onChange={e => {
-                              const updated = [...(resume.qualifications || [])];
-                              updated[idx].attempt = e.target.value;
-                              updateResume({ ...resume, qualifications: updated });
-                            }}
-                            placeholder="Attempts / Status"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="text"
-                              value={q.marks || ''}
-                              onChange={e => {
-                                const updated = [...(resume.qualifications || [])];
-                                updated[idx].marks = e.target.value;
-                                updateResume({ ...resume, qualifications: updated });
-                              }}
-                              placeholder="Marks / Result note"
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white flex-1"
-                            />
-                            <button
-                              onClick={() => {
-                                const updated = resume.qualifications?.filter((_, i) => i !== idx);
-                                updateResume({ ...resume, qualifications: updated });
-                              }}
-                              className="p-2 text-rose-400 hover:text-rose-300"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 3: CAREER OBJECTIVE */}
-              {activeStep === 3 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Career Objective & Induction Pitch</h2>
-                      <p className="text-[11px] text-slate-400">Formal 3.5-Year Articleship Statement</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 3 of 10</span>
-                  </div>
-
-                  <textarea
-                    rows={6}
-                    value={resume.objective || safePersonalInfo.summary}
-                    onChange={e =>
-                      updateResume({
-                        ...resume,
-                        objective: e.target.value,
-                        personalInfo: { ...safePersonalInfo, summary: e.target.value },
-                      })
-                    }
-                    className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-800 text-white text-xs leading-relaxed focus:border-blue-500 focus:outline-none"
+                <div className="w-16 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-500"
+                    style={{ width: `${completeness}%` }}
                   />
                 </div>
-              )}
+              </div>
+            </div>
 
-              {/* STEP 4: ACADEMIC BACKGROUND */}
-              {activeStep === 4 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Academic Background</h2>
-                      <p className="text-[11px] text-slate-400">Intermediate & Matriculation Records</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 4 of 10</span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {resume.education?.map((edu, idx) => (
-                      <div key={edu.id} className="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="text"
-                            value={edu.degree}
-                            onChange={e => {
-                              const updated = [...(resume.education || [])];
-                              updated[idx].degree = e.target.value;
-                              updateResume({ ...resume, education: updated });
-                            }}
-                            placeholder="Level (e.g. INTERMEDIATE)"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <input
-                            type="text"
-                            value={edu.institution}
-                            onChange={e => {
-                              const updated = [...(resume.education || [])];
-                              updated[idx].institution = e.target.value;
-                              updateResume({ ...resume, education: updated });
-                            }}
-                            placeholder="College / School Name"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <input
-                            type="text"
-                            value={edu.gpa || ''}
-                            onChange={e => {
-                              const updated = [...(resume.education || [])];
-                              updated[idx].gpa = e.target.value;
-                              updateResume({ ...resume, education: updated });
-                            }}
-                            placeholder="Grade / Score (e.g. 84.5% A+)"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <input
-                            type="text"
-                            value={edu.endDate || ''}
-                            onChange={e => {
-                              const updated = [...(resume.education || [])];
-                              updated[idx].endDate = e.target.value;
-                              updateResume({ ...resume, education: updated });
-                            }}
-                            placeholder="Passing Year"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 5: ARTICLESHIP / EXPERIENCE */}
-              {activeStep === 5 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Practical Experience & Articleship</h2>
-                      <p className="text-[11px] text-slate-400">Freelance, bookkeeping, or firm audit engagements</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 5 of 10</span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {resume.articleship?.map((art, idx) => (
-                      <div key={art.id} className="p-3 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="text"
-                            value={art.role}
-                            onChange={e => {
-                              const updated = [...(resume.articleship || [])];
-                              updated[idx].role = e.target.value;
-                              updateResume({ ...resume, articleship: updated });
-                            }}
-                            placeholder="Role / Title"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                          <input
-                            type="text"
-                            value={art.firmName}
-                            onChange={e => {
-                              const updated = [...(resume.articleship || [])];
-                              updated[idx].firmName = e.target.value;
-                              updateResume({ ...resume, articleship: updated });
-                            }}
-                            placeholder="Firm / Organization"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 6: COMPETENCIES & IFRS */}
-              {activeStep === 6 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Standards & Core Competencies</h2>
-                      <p className="text-[11px] text-slate-400">IFRS, ISA, Taxation & Audit Quality</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 6 of 10</span>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-xs font-bold text-slate-300">Technical Standards & Assertions</label>
-                    <div className="flex flex-wrap gap-1.5">
-                      {resume.standards?.map((std, i) => (
-                        <span key={i} className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white">
-                          {std}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 7: SOFTWARE & TOOLS */}
-              {activeStep === 7 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Software & IT Skills</h2>
-                      <p className="text-[11px] text-slate-400">Excel, ERPs & Accounting Packages</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 7 of 10</span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {resume.software?.map((sw, i) => (
-                      <span key={i} className="px-3 py-1.5 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-bold">
-                        {sw}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 8: COURSES & CERTIFICATIONS */}
-              {activeStep === 8 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Courses & PPEC Certifications</h2>
-                      <p className="text-[11px] text-slate-400">Hands-on Workshops & FMVA</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 8 of 10</span>
-                  </div>
-
-                  <div className="space-y-2">
-                    {resume.courses?.map((c, i) => (
-                      <div key={c.id} className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white flex justify-between">
-                        <span>{c.name}</span>
-                        <span className="text-slate-400">{c.institute}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 9: REFERENCES & ACTIVITIES */}
-              {activeStep === 9 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">References & Extra-Curricular</h2>
-                      <p className="text-[11px] text-slate-400">Mentors, Partners & Leadership Roles</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 9 of 10</span>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1">Reference Person</label>
-                      <input
-                        type="text"
-                        value={resume.references?.[0]?.name || ''}
-                        onChange={e => {
-                          const ref = {
-                            ...(resume.references?.[0] || { id: 'r1', name: '', role: '' }),
-                            name: e.target.value,
-                          };
-                          updateResume({ ...resume, references: [ref] });
-                        }}
-                        placeholder="Muhammad Rashid FCA"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1">Activities & Sports</label>
-                      <input
-                        type="text"
-                        value={resume.activities || ''}
-                        onChange={e => updateResume({ ...resume, activities: e.target.value })}
-                        placeholder="Debate Team Captain • Inter-College Badminton Champion"
-                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 10: APPEARANCE & TEMPLATE */}
-              {activeStep === 10 && (
-                <div className="space-y-5">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <h2 className="text-sm font-bold text-white">Template Layout & Styling</h2>
-                      <p className="text-[11px] text-slate-400">Choose from all 47 architectures</p>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">Step 10 of 10</span>
-                  </div>
-
-                  {/* Template Launcher Card */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 flex items-center justify-between gap-3">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold text-blue-400">Current Architecture</span>
-                      <h3 className="text-sm font-black text-white mt-0.5">
-                        {activeTemplateMeta.id} – {activeTemplateMeta.name}
-                      </h3>
-                      <p className="text-[11px] text-slate-300">{activeTemplateMeta.desc}</p>
-                    </div>
-
-                    <button
-                      onClick={() => setIsGalleryOpen(true)}
-                      className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-600/30 whitespace-nowrap active:scale-95 cursor-pointer"
-                    >
-                      <Palette className="w-4 h-4" />
-                      <span>Open 47 Gallery</span>
-                    </button>
-                  </div>
-
-                  {/* Quick Template Switcher Grid in Step 10 */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-xs font-bold text-white">Popular Articleship Layouts</label>
-                      <button
-                        onClick={() => setIsGalleryOpen(true)}
-                        className="text-xs text-blue-400 hover:text-blue-300 font-bold"
-                      >
-                        View All 47 →
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {TEMPLATES_47_CATALOG.slice(0, 6).map(t => {
-                        const isCurrent = resume.styling.templateId === t.id;
-                        return (
-                          <button
-                            key={t.id}
-                            onClick={() => {
-                              updateResume({
-                                ...resume,
-                                styling: { ...resume.styling, templateId: t.id },
-                              });
-                              setToastMessage(`Switched to ${t.id} – ${t.name}!`);
-                              setTimeout(() => setToastMessage(null), 3000);
-                            }}
-                            className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                              isCurrent
-                                ? 'bg-blue-950/70 border-blue-500 ring-1 ring-blue-500'
-                                : 'bg-slate-950 border-slate-800 hover:border-slate-700'
-                            }`}
-                          >
-                            <span className="font-mono text-[10px] text-blue-400 font-bold">{t.id}</span>
-                            <div className="text-xs font-bold text-white truncate">{t.name}</div>
-                            <div className="text-[9.5px] text-slate-400 truncate">{t.category}</div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Color Palette Switcher */}
-                  <div>
-                    <label className="block text-xs font-bold text-white mb-2">Executive Color Scheme</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {COLOR_THEMES.map(theme => (
-                        <button
-                          key={theme.id}
-                          onClick={() => updateResume({ ...resume, styling: { ...resume.styling, colorTheme: theme.id } })}
-                          className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
-                            resume.styling.colorTheme === theme.id
-                              ? 'bg-slate-950 border-blue-500 ring-1 ring-blue-500'
-                              : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
-                          }`}
-                        >
-                          <div className="w-4 h-4 rounded-full shadow" style={{ backgroundColor: theme.primary }} />
-                          <span className="text-xs text-white font-medium truncate">{theme.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Wizard Bottom Prev / Next Navigators */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+            {/* Layout Mode Selector: Section Tabs vs Continuous Single-Page */}
+            <div className="flex items-center justify-between gap-2 px-1">
+              <div className="text-xs font-bold text-slate-300">Resume Filling Mode:</div>
+              <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px]">
                 <button
-                  disabled={activeStep === 1}
-                  onClick={() => setActiveStep(prev => Math.max(1, prev - 1))}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs disabled:opacity-40 flex items-center gap-1 cursor-pointer"
+                  type="button"
+                  onClick={() => setFillLayoutMode('tabs')}
+                  className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+                    fillLayoutMode === 'tabs' ? 'bg-blue-600 text-white font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                  <span>Previous</span>
+                  Focused Sections
                 </button>
-
-                <span className="text-[11px] font-mono text-slate-400">Step {activeStep} of 10</span>
-
                 <button
-                  disabled={activeStep === 10}
-                  onClick={() => setActiveStep(prev => Math.min(10, prev + 1))}
-                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs disabled:opacity-40 flex items-center gap-1 cursor-pointer shadow-md shadow-emerald-600/30"
+                  type="button"
+                  onClick={() => setFillLayoutMode('continuous')}
+                  className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+                    fillLayoutMode === 'continuous' ? 'bg-blue-600 text-white font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <span>Next: {STEPS[activeStep]?.name || 'Appearance'}</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  Continuous Scroll (All)
                 </button>
               </div>
+            </div>
+
+            {/* Section Tab Navigation Pills (When in focused tabs mode) */}
+            {fillLayoutMode === 'tabs' && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {CORE_SECTIONS.map(sec => {
+                  const Icon = sec.icon;
+                  const isActive = activeSection === sec.id;
+                  return (
+                    <button
+                      key={sec.id}
+                      type="button"
+                      onClick={() => setActiveSection(sec.id)}
+                      className={`p-2.5 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
+                        isActive
+                          ? 'bg-gradient-to-br from-blue-950/80 to-slate-900 border-blue-500 text-white shadow-lg ring-1 ring-blue-500'
+                          : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-amber-400' : 'text-slate-400'}`} />
+                        <span className="text-[9px] font-mono px-1 rounded bg-slate-800 text-slate-300">
+                          {sec.id === 'identity' ? '1' : sec.id === 'credentials' ? '2' : sec.id === 'experience' ? '3' : '4'}
+                        </span>
+                      </div>
+                      <div className="text-xs font-bold leading-tight truncate">{sec.name}</div>
+                      <div className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{sec.desc}</div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* MAIN FORM CARD CONTAINER */}
+            <div className="p-5 sm:p-6 bg-slate-900/90 border border-slate-800 rounded-3xl shadow-xl space-y-6">
+              {fillLayoutMode === 'tabs' ? (
+                <>
+                  {activeSection === 'identity' && renderIdentitySection()}
+                  {activeSection === 'credentials' && renderCredentialsSection()}
+                  {activeSection === 'experience' && renderExperienceSection()}
+                  {activeSection === 'styling' && renderStylingSection()}
+
+                  {/* Wizard Bottom Prev / Next Navigators */}
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+                    <button
+                      disabled={activeSection === 'identity'}
+                      onClick={() => {
+                        const idx = CORE_SECTIONS.findIndex(s => s.id === activeSection);
+                        if (idx > 0) setActiveSection(CORE_SECTIONS[idx - 1].id);
+                      }}
+                      className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs disabled:opacity-40 flex items-center gap-1 cursor-pointer"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      <span>Previous</span>
+                    </button>
+
+                    <span className="text-[11px] font-mono text-slate-400">
+                      Section {CORE_SECTIONS.findIndex(s => s.id === activeSection) + 1} of 4
+                    </span>
+
+                    <button
+                      disabled={activeSection === 'styling'}
+                      onClick={() => {
+                        const idx = CORE_SECTIONS.findIndex(s => s.id === activeSection);
+                        if (idx < CORE_SECTIONS.length - 1) setActiveSection(CORE_SECTIONS[idx + 1].id);
+                      }}
+                      className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs disabled:opacity-40 flex items-center gap-1 cursor-pointer shadow-md shadow-emerald-600/30"
+                    >
+                      <span>Next Section</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </>
+              ) : (
+                /* Continuous Scroll Mode */
+                <div className="space-y-8 divide-y divide-slate-800">
+                  <div className="pt-2">{renderIdentitySection()}</div>
+                  <div className="pt-6">{renderCredentialsSection()}</div>
+                  <div className="pt-6">{renderExperienceSection()}</div>
+                  <div className="pt-6">{renderStylingSection()}</div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1795,112 +1619,74 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
         {/* RIGHT COLUMN: LIVE A4 PREVIEW (visible in split or preview mode) */}
         {(viewMode === 'split' || viewMode === 'preview') && (
           <div className={`${viewMode === 'split' ? 'lg:col-span-6' : 'lg:col-span-12'} min-w-0 space-y-3`}>
-            {/* Live A4 Toolbar */}
-            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+            {/* Live Preview Control Bar */}
+            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-md">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
-                  LIVE A4 PREVIEW: {resume.styling.templateId} – {activeTemplateMeta.name}
+                <span className="text-xs font-bold text-white">Live A4 Canvas Preview</span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-300 font-semibold">
+                  [{activeTemplateMeta.code}]
                 </span>
               </div>
 
+              {/* Zoom and PDF Actions */}
               <div className="flex items-center gap-2">
-                {/* Responsive View Controls */}
-                <div className="flex items-center rounded-xl bg-slate-950 border border-slate-800 p-0.5">
+                <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800 text-slate-300 text-xs">
                   <button
-                    onClick={() => setZoomMode('fit')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      zoomMode === 'fit' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="Fit page width to container (no horizontal cut-off)"
-                  >
-                    Fit Width
-                  </button>
-                  <button
-                    onClick={() => {
-                      setZoomMode('100');
-                      setCustomZoom(100);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      zoomMode === '100' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="Actual print 100% scale"
-                  >
-                    100%
-                  </button>
-                  <div className="h-4 w-px bg-slate-800 mx-1" />
-                  <button
-                    onClick={() => {
-                      setZoomMode('custom');
-                      setCustomZoom(prev => Math.max(40, Math.round(currentScale * 100) - 10));
-                    }}
-                    className="p-1 text-slate-400 hover:text-white cursor-pointer"
+                    onClick={() => setZoomScale(prev => Math.max(0.5, prev - 0.05))}
+                    className="p-1 hover:text-white cursor-pointer"
                     title="Zoom Out"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-[11px] font-mono text-slate-300 px-1 min-w-[36px] text-center">
-                    {Math.round(currentScale * 100)}%
-                  </span>
+                  <span className="font-mono text-[11px] w-10 text-center">{Math.round(zoomScale * 100)}%</span>
                   <button
-                    onClick={() => {
-                      setZoomMode('custom');
-                      setCustomZoom(prev => Math.min(150, Math.round(currentScale * 100) + 10));
-                    }}
-                    className="p-1 text-slate-400 hover:text-white cursor-pointer"
+                    onClick={() => setZoomScale(prev => Math.min(1.25, prev + 0.05))}
+                    className="p-1 hover:text-white cursor-pointer"
                     title="Zoom In"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />
                   </button>
+                  <button
+                    onClick={() => setZoomScale(0.84)}
+                    className="text-[10px] text-blue-400 hover:text-blue-300 ml-1 px-1 cursor-pointer"
+                    title="Reset Zoom"
+                  >
+                    Fit
+                  </button>
                 </div>
-
-                <button
-                  onClick={handlePrintResume}
-                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
-                  title="Print directly or save crisp vector PDF via browser"
-                >
-                  <Printer className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Vector Print / PDF</span>
-                </button>
 
                 <button
                   onClick={handleExportPdf}
                   disabled={isGeneratingPdf}
-                  className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-md shadow-emerald-600/25 active:scale-95 transition-all"
-                  title="Download instant high-resolution PDF file"
+                  className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-600/30 cursor-pointer disabled:opacity-50"
                 >
-                  {isGeneratingPdf ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-                  <span>{isGeneratingPdf ? 'Compiling...' : 'Download PDF'}</span>
+                  <Download className="w-3.5 h-3.5" />
+                  <span>{isGeneratingPdf ? 'Compiling...' : 'PDF'}</span>
                 </button>
               </div>
             </div>
 
-            {/* A4 Canvas Container with Proportional Sizing and Zero Cut-off */}
-            <div
-              ref={previewContainerRef}
-              className="p-3 sm:p-5 bg-slate-950/90 border border-slate-800/80 rounded-3xl shadow-2xl overflow-x-auto overflow-y-auto block"
-            >
-              {/* Outer sizing box matches exact scaled dimensions to prevent horizontal cut-off */}
+            {/* A4 Canvas Container with Zoom Transform */}
+            <div className="w-full bg-slate-950 border border-slate-800/90 rounded-3xl p-3 sm:p-6 overflow-x-auto flex justify-center shadow-inner min-h-[850px]">
               <div
                 style={{
-                  width: `${Math.round(A4_WIDTH_PX * currentScale)}px`,
-                  minHeight: `${Math.round(A4_HEIGHT_PX * currentScale)}px`,
-                  height: `${Math.round(docHeight * currentScale)}px`,
-                  transition: 'width 0.15s ease, height 0.15s ease',
+                  width: `${A4_WIDTH_PX * zoomScale}px`,
+                  minHeight: `${A4_HEIGHT_PX * zoomScale}px`,
+                  transition: 'all 0.15s ease-out',
                 }}
-                className="relative mx-auto shrink-0"
+                className="relative shrink-0 flex justify-center"
               >
-                {/* Inner document has standard 794px width, scaled from top left */}
                 <div
                   style={{
                     width: `${A4_WIDTH_PX}px`,
                     minHeight: `${A4_HEIGHT_PX}px`,
-                    transform: `scale(${currentScale})`,
-                    transformOrigin: 'top left',
-                    transition: 'transform 0.15s ease',
+                    transform: `scale(${zoomScale})`,
+                    transformOrigin: 'top center',
                   }}
-                  className="bg-white text-zinc-900 shadow-2xl relative select-text"
+                  className="bg-white shadow-2xl rounded-sm border border-slate-300 overflow-hidden shrink-0 select-text"
                 >
+                  {/* Print Target */}
                   <div id="printable-resume" ref={resumePrintRef} className="w-full h-full bg-white text-zinc-900">
                     <CaAccaTemplateRenderer
                       resume={resume}
@@ -1915,7 +1701,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* 47 TEMPLATES INTERACTIVE MODAL GALLERY (RICH THUMBNAIL GRID) */}
+      {/* 8 SPECIALIZED ARCHITECTURES INTERACTIVE MODAL GALLERY */}
       {/* ========================================================================= */}
       {isGalleryOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in">
@@ -1926,14 +1712,14 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                 <div className="flex items-center gap-2">
                   <Palette className="w-5 h-5 text-emerald-400" />
                   <h3 className="text-lg font-black text-white">
-                    47 Template Architectures for CA & ACCA
+                    8 Specialized Architectures for CA, ACCA & Finance
                   </h3>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-300 font-bold">
                     {filteredTemplates.length} Available
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Click any template to immediately apply it to your live A4 document with authentic layout and styling.
+                  Click any architecture to immediately apply it to your live document with authentic styling.
                 </p>
               </div>
 
@@ -1953,7 +1739,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                   type="text"
                   value={gallerySearch}
                   onChange={e => setGallerySearch(e.target.value)}
-                  placeholder="Search templates, roles, or styles (e.g. T-03, Big 4, Executive)..."
+                  placeholder="Search architecture styles, roles, or sectors (e.g. Audit, Tax, Controller, Treasury)..."
                   className="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -1974,7 +1760,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
 
             {/* Category Filter Pills */}
             <div className="px-5 py-2.5 bg-slate-950 border-b border-slate-800 flex gap-2 overflow-x-auto scrollbar-thin">
-              {['All', 'Professional', 'Modern', 'Minimal', 'Executive', 'Student', 'CA / ACCA', 'Finance / Audit', 'Creative'].map(cat => (
+              {['All', 'Finance / Audit', 'CA / ACCA', 'Executive', 'Modern', 'Minimal'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setGalleryFilter(cat)}
@@ -1989,7 +1775,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
               ))}
             </div>
 
-            {/* 47 Templates Grid */}
+            {/* 8 Architectures Grid */}
             <div className="p-5 overflow-y-auto flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredTemplates.map(tpl => {
                 const isCurrent = resume.styling.templateId === tpl.id;
@@ -2002,7 +1788,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                         styling: { ...resume.styling, templateId: tpl.id },
                       });
                       setIsGalleryOpen(false);
-                      setToastMessage(`Template switched to ${tpl.id} – ${tpl.name}!`);
+                      setToastMessage(`Architecture switched to [${tpl.code}] – ${tpl.name}!`);
                       setTimeout(() => setToastMessage(null), 3000);
                     }}
                     className={`rounded-2xl border p-3.5 flex flex-col justify-between transition-all cursor-pointer relative group ${
@@ -2014,7 +1800,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                     <div>
                       {/* Header Row */}
                       <div className="flex items-center justify-between gap-1 mb-2">
-                        <span className="font-mono font-bold text-xs text-blue-400">{tpl.id}</span>
+                        <span className="font-mono font-bold text-xs text-blue-400">[{tpl.code}]</span>
                         <div className="flex items-center gap-1">
                           {tpl.atsFriendly && (
                             <span className="px-1.5 py-0.5 rounded text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">
@@ -2049,7 +1835,7 @@ export const CaAccaResumeStudio: React.FC<CaAccaResumeStudioProps> = ({
                           : 'bg-slate-800 text-slate-300 group-hover:bg-blue-600 group-hover:text-white'
                       }`}
                     >
-                      {isCurrent ? 'Active Template ✓' : 'Use Template →'}
+                      {isCurrent ? 'Active Architecture ✓' : 'Use Architecture →'}
                     </button>
                   </div>
                 );

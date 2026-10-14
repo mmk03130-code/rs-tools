@@ -17,6 +17,7 @@ import { CommandPalette } from './components/CommandPalette';
 import { Logo } from './components/Logo';
 import { IconRenderer } from './components/IconRenderer';
 import { AmbientMotionBackdrop } from './components/AmbientMotionBackdrop';
+import { SiteProtection } from './components/security/SiteProtection';
 import { triggerConfetti } from './utils/confetti';
 
 // Category visual themes for inner pages
@@ -397,6 +398,9 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] light:bg-[#faf8f5] text-slate-100 light:text-slate-900 flex flex-col font-sans transition-colors duration-200">
+      {/* Anti-copy & Developer Inspection Protection */}
+      <SiteProtection />
+
       {/* Accessible Skip Navigation Link */}
       <a
         href="#main-content"
